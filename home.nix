@@ -15,8 +15,8 @@
   #
   # You need to change these to match your username and home directory
   # path:
-  home.username = "$USER";
-  home.homeDirectory = "$HOME";
+  home.username = "ldeck";
+  home.homeDirectory = "/Users/ldeck";
 
   # If you use non-standard XDG locations, set these options to the
   # appropriate paths:
@@ -48,6 +48,15 @@
       nix-mode
       magit
     ];
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "Lachlan Deck";
+    userEmail = "lachlan.deck@gmail.com";
+    aliases = {
+      st = "status";
+    };
   };
 
   programs.zsh = {
