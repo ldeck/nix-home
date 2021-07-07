@@ -57,9 +57,20 @@ can load a version of nixpkgs that suffers from clang errors.
    ```
    nix-shell --run "niv update" [shell.nix]
    ```
+2. Optionally stay informed about home-manager news:
 
-2. Edit `./home.nix` to be how you want it.
-3. Create, if missing, ~/.me.d/ personalisation files:
+   ```sh
+   ./news.sh
+   ```
+
+   which is just shorthand for:
+
+   ```sh
+   nix-shell --run "home-manager news" [shell.nix]
+   ```
+
+3. Edit `./home.nix` to be how you want it.
+4. Create, if missing, ~/.me.d/ personalisation files:
 
    mkdir -p ~/.me.d
    cat > ~/.me.d/git.nix
@@ -68,7 +79,7 @@ can load a version of nixpkgs that suffers from clang errors.
      name = "Your Name";
    }
 
-4. Run the switch script to switch to your configuration:
+5. Run the switch script to switch to your configuration:
 
     ```sh
     ./switch.sh
