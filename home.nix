@@ -42,9 +42,33 @@
     enable = true;
   };
 
-  home.packages = [
-    pkgs.htop
-    pkgs.fortune
+  programs.emacs = {
+    enable = true;
+    extraPackages = epkgs: with epkgs; [
+      nix-mode
+      magit
+    ];
+  };
+
+  programs.zsh = {
+    enable = true;
+  };
+
+  home.packages = with pkgs; [
+    # example packages
+    htop
+    fortune
+
+    # vcs
+    git
+
+    # nix basics
+    niv
+    nixfmt
+    nix-prefetch-github
+    nix-prefetch-scripts
+    undmg
+    styx
   ];
 
 }
