@@ -143,9 +143,6 @@ in
     htop
     fortune
 
-    # vcs
-    git
-
     # nix basics
     niv
     nixfmt
@@ -153,6 +150,23 @@ in
     nix-prefetch-scripts
     undmg
     styx
+
+    # basics
+    aspell
+    bc
+    clang
+    coreutils
+    fd
+    ffmpeg
+    gdb
+    gnupg
+    jq
+    nox
+    perl
+    ripgrep
+    silver-searcher
+    taskwarrior
+    tree
   ];
 
 }
