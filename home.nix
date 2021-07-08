@@ -11,10 +11,20 @@ let
      then builtins.getAttr key set
      else throw msg;
 
+  optImport = path: default:
+    if builtins.pathExists path
+    then import path
+    else default;
+
   tryImport = path:
     if builtins.pathExists path
     then import path
     else throw "${path} does not exist";
+
+  mePath = name: "${homedir}/.me.d/${name}.nix";
+
+  meOptConfig = name: default:
+    optImport (mePath name) default;
 
   # ---------------------------------------------------------
   # VARIABLES
@@ -23,11 +33,16 @@ let
   homedir = builtins.getEnv "HOME";
   username = builtins.getEnv "USER";
 
-  __gitpath = "${homedir}/.me.d/git.nix";
-  __gitinfo = tryImport __gitpath;
+  fullname = tryGetAttr "name"
+                        (tryImport (mePath "git"))
+                        "${mePath "git"} not found";
 
-  fullname = tryGetAttr "name" __gitinfo ''${__gitpath} missing attribute 'name'. e.g., name = "Lachlan Deck";'';
-  email = tryGetAttr "email" __gitinfo "${__gitpath} missing attribute 'email'.";
+  email = tryGetAttr "email"
+                     (tryImport (mePath "git"))
+                     "${mePath "git"} not found";
+
+  shellAliases = meOptConfig "aliases" {};
+  sessionVars = meOptConfig "sessionVariables" {};
 
 in
 {
@@ -47,6 +62,7 @@ in
   # path:
   home.username = username;
   home.homeDirectory = homedir;
+  home.sessionVariables = sessionVars;
 
   # If you use non-standard XDG locations, set these options to the
   # appropriate paths:
@@ -74,6 +90,7 @@ in
   # manage your shell, otherwise it will not be able to add its hooks
   # to your profile.
   programs.bash.enable = true;
+  programs.bash.shellAliases = shellAliases;
   programs.direnv.enable = true;
 
   programs.emacs = {
@@ -118,6 +135,7 @@ in
 
   programs.zsh = {
     enable = true;
+    shellAliases = shellAliases;
   };
 
   home.packages = with pkgs; [
