@@ -54,7 +54,7 @@ let
   };
 
   defaultHome = with helpers; optCallPackage (defaultPath "home") functionArgs {};
-  defaultPrograms = with helpers; optCallPackage (defaultPath "home")  functionArgs {};
+  defaultPrograms = with helpers; optCallPackage (defaultPath "programs")  functionArgs {};
 
   customHomeArgs = { defaults = defaultHome; } // functionArgs;
   customHome = with helpers; optCallPackage (mePath "home") customHomeArgs {};
