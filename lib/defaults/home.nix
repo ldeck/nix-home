@@ -1,4 +1,4 @@
-{ lib, stdenv, pkgs, env, helpers, ... }:
+{ lib, pkgs, env, helpers, ... }:
 
 let
   #
@@ -166,7 +166,7 @@ let
     markdown
     nix-system
   ]
-  ++ lib.optionals stdenv.isDarwin ([
+  ++ lib.optionals pkgs.stdenv.isDarwin ([
     app-path
     idownload
     nix-link-macapps

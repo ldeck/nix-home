@@ -1,4 +1,4 @@
-{ pkgs, stdenv, lib, ... }:
+{ pkgs, lib, ... }:
 
 let
 
@@ -50,7 +50,6 @@ let
 
   functionArgs = {
     pkgs = pkgs;
-    stdenv = stdenv;
     lib = lib;
     env = env;
     helpers = helpers;
