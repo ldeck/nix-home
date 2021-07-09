@@ -33,7 +33,7 @@ let
       then import path
       else throw "${path} does not exist";
 
-    defaultPath = name: "${env.baseDir}/defaults}/${name}.nix";
+    defaultPath = name: "${env.baseDir}/lib/defaults/${name}.nix";
     mePath = name: "${env.meDir}/${name}.nix";
 
     optCallPackage = package: args: default:
