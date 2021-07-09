@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, stdenv, lib, ... }:
 
 let
 
@@ -38,7 +38,8 @@ let
 
     optCallPackage = package: args: default:
       if builtins.pathExists package
-      then pkgs.callPackage package args
+      then import package args
+      #then pkgs.callPackage package args
       else default;
   };
 
@@ -49,6 +50,8 @@ let
 
   functionArgs = {
     pkgs = pkgs;
+    stdenv = stdenv;
+    lib = lib;
     env = env;
     helpers = helpers;
   };
