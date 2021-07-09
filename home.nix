@@ -53,14 +53,19 @@ let
     helpers = helpers;
   };
 
-  defaultHome = with helpers; optCallPackage (defaultPath "home") functionArgs {};
-  defaultPrograms = with helpers; optCallPackage (defaultPath "programs")  functionArgs {};
+  mkFunctionArgs = args:
+    functionArgs // { defaults = args; };
 
-  customHomeArgs = { defaults = defaultHome; } // functionArgs;
-  customHome = with helpers; optCallPackage (mePath "home") customHomeArgs {};
+in
 
-  customProgramsArgs = { defaults = defaultPrograms; } // functionArgs;
-  customPrograms = with helpers; optCallPackage (mePath "programs") customProgramsArgs {};
+ with helpers;
+ let
+
+  defaultHome = optCallPackage (defaultPath "home") functionArgs {};
+  customHome = optCallPackage (mePath "home") (mkFunctionArgs defaultHome) {};
+
+  defaultPrograms = optCallPackage (defaultPath "programs")  functionArgs {};
+  customPrograms = optCallPackage (mePath "programs") (mkFunctionArgs defaultPrograms) {};
 
 in
 {
