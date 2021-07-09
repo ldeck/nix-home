@@ -61,13 +61,16 @@ in
  with helpers;
  let
 
-  defaultHome = optCallPackage (defaultPath "home") functionArgs {};
-  customHome = optCallPackage (mePath "home") (mkFunctionArgs defaultHome) {};
+   defaultHome = optCallPackage (defaultPath "home") functionArgs {};
+   customHome = optCallPackage (mePath "home") (mkFunctionArgs defaultHome) {};
 
-  defaultPrograms = optCallPackage (defaultPath "programs")  functionArgs {};
-  customPrograms = optCallPackage (mePath "programs") (mkFunctionArgs defaultPrograms) {};
+   defaultPrograms = optCallPackage (defaultPath "programs")  functionArgs {};
+   customPrograms = optCallPackage (mePath "programs") (mkFunctionArgs defaultPrograms) {};
 
-in
+   homeManagement = defaultHome // customHome // { stateVersion = "20.09"; };
+   programsManagement = defaultPrograms // customPrograms;
+
+ in
 {
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -77,7 +80,7 @@ in
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home = defaultHome // customHome // { stateVersion = "20.09"; };
+  home = homeManagement;
 
   # If you use non-standard XDG locations, set these options to the
   # appropriate paths:
@@ -100,6 +103,6 @@ in
   # You need to change these to match your username and home directory
   # path:
 
-  programs = defaultPrograms // customPrograms;
+  programs = programsManagement;
 
 }
