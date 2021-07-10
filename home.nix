@@ -1,6 +1,7 @@
 { pkgs, lib, ... }:
 
 let
+  debugCallPackage = false;
 
   # ---------------------------------------------------------
   # ENV
@@ -38,8 +39,9 @@ let
 
     optCallPackage = package: args: default:
       if builtins.pathExists package
-      then import package args
-      #then pkgs.callPackage package args
+      then (if debugCallPackage
+            then pkgs.callPackage package args
+            else import package args)
       else default;
   };
 
@@ -49,11 +51,12 @@ let
   # ---------------------------------------------------------
 
   functionArgs = {
-    pkgs = pkgs;
-    lib = lib;
     env = env;
     helpers = helpers;
-  };
+  } // (if !debugCallPackage then {
+    pkgs = pkgs;
+    lib = lib;
+  } else {});
 
   mkFunctionArgs = args:
     functionArgs // { defaults = args; };
