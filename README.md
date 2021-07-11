@@ -1,9 +1,10 @@
-# home-manager template
+# home-manager team template
 
 This provides a quick-start template for using
 [home-manager](https://github.com/rycee/home-manager) in a more
-reproducible way. You don't have to install home-manager, and it uses
-pinning.
+reproducible way for multiple team members.
+
+NB: You don't have to install home-manager, and it uses pinning.
 
 # Why?
 
@@ -70,16 +71,7 @@ can load a version of nixpkgs that suffers from clang errors.
    ```
 
 3. Edit your [home configuration](#Home configuration) to be how you want it.
-4. Create, if missing, ~/.me.d/ personalisation files:
-
-   mkdir -p ~/.me.d
-   cat > ~/.me.d/git.nix
-   {
-     email = "your.email@example.com";
-     name = "Your Name";
-   }
-
-5. Run the switch script to switch to your configuration:
+4. Run the switch script to switch to your configuration:
 
     ```sh
     ./switch.sh
@@ -100,12 +92,9 @@ This home-manager configuration is intended as a baseline for shared configurati
 The 'default' configuration provided by this configuration is in [home.nix](home.nix)
 which imports all modules from [lib/defaults](lib/defaults).
 
-## Personalisation ##
+## Required ##
 
-All personalised configuration is loaded from all your `~/.me.d/*.nix` files. You can
-split out your personalised configuration in any .nix files you like in that directory.
-
-At a minimum you will want to configure git with your userName and userEmail.
+At a minimum you should configure git with your userName and userEmail.
 
 Example `~/.me.d/git.nix` module:
 
@@ -114,6 +103,11 @@ Example `~/.me.d/git.nix` module:
       programs.git.userEmail = "your.email@example.com";
       programs.git.userName = "Your Name";
     }
+
+## Personalisation ##
+
+All personalised configuration is loaded from all your `~/.me.d/*.nix` files. You can
+split out your personalised configuration in any .nix files you like in that directory.
 
 # Caveats
 
