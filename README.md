@@ -70,7 +70,7 @@ can load a version of nixpkgs that suffers from clang errors.
    nix-shell --run "home-manager news" [shell.nix]
    ```
 
-3. Edit your [home configuration](#Home configuration) to be how you want it.
+3. Edit your [home configuration](#home-configuration) to be how you want it.
 4. Run the switch script to switch to your configuration:
 
     ```sh
