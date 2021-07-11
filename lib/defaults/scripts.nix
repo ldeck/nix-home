@@ -1,8 +1,6 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, ...}:
 
 let
-  homeDir = builtins.getEnv "HOME";
-  userName = builtins.getEnv "USER";
 
   #
   # CUSTOM GENERIC PACKAGES
@@ -162,8 +160,9 @@ let
     fi
   '';
 
-
-  customPackages = [
+in
+{
+  home.packages = [
     future-git
     jqo
     markdown
@@ -177,48 +176,4 @@ let
     nix-reopen
     sudo-with-touch
   ]);
-
-in
-{
-  home = {
-
-    homeDirectory = homeDir;
-    username = userName;
-
-    packages = with pkgs; [
-      # EXAMPLES
-      htop
-      fortune
-
-      # NIX BASICS
-      niv
-      nixfmt
-      nix-prefetch-github
-      nix-prefetch-scripts
-      undmg
-      styx
-
-      # TOOLS
-      aspell
-      bc
-      clang
-      coreutils
-      fd
-      ffmpeg
-      gdb
-      gnupg
-      jq
-      nox
-      perl
-      ripgrep
-      silver-searcher
-      taskwarrior
-      tree
-      python38Packages.yamllint
-
-      # CLOUD
-      awscli2
-    ]
-    ++ customPackages;
-  };
 }
