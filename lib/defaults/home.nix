@@ -1,6 +1,9 @@
-{ lib, pkgs, env, helpers, ... }:
+{ lib, pkgs, ... }:
 
 let
+  homeDir = builtins.getEnv "HOME";
+  userName = builtins.getEnv "USER";
+
   #
   # CUSTOM GENERIC PACKAGES
   #
@@ -177,54 +180,45 @@ let
 
 in
 {
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  #stateVersion = "20.09";
+  home = {
 
-  username = env.username;
-  homeDirectory = env.homedir;
+    homeDirectory = homeDir;
+    username = userName;
 
-  sessionVariables = helpers.meOptConfig "sessionVariables" {};
+    packages = with pkgs; [
+      # EXAMPLES
+      htop
+      fortune
 
-  packages = with pkgs; [
-    # EXAMPLES
-    htop
-    fortune
+      # NIX BASICS
+      niv
+      nixfmt
+      nix-prefetch-github
+      nix-prefetch-scripts
+      undmg
+      styx
 
-    # NIX BASICS
-    niv
-    nixfmt
-    nix-prefetch-github
-    nix-prefetch-scripts
-    undmg
-    styx
+      # TOOLS
+      aspell
+      bc
+      clang
+      coreutils
+      fd
+      ffmpeg
+      gdb
+      gnupg
+      jq
+      nox
+      perl
+      ripgrep
+      silver-searcher
+      taskwarrior
+      tree
+      python38Packages.yamllint
 
-    # TOOLS
-    aspell
-    bc
-    clang
-    coreutils
-    fd
-    ffmpeg
-    gdb
-    gnupg
-    jq
-    nox
-    perl
-    ripgrep
-    silver-searcher
-    taskwarrior
-    tree
-    python38Packages.yamllint
-
-    # CLOUD
-    awscli2
-  ]
-  ++ customPackages;
+      # CLOUD
+      awscli2
+    ]
+    ++ customPackages;
+  };
 }

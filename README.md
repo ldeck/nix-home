@@ -27,7 +27,7 @@ curl -L https://nixos.org/nix/install | sh
 
 # Setup
 
-1. Click the "Use this template" button on GitHub
+1. Click the "Use this template" or "Code" button on GitHub
 1. Clone your repository onto the computer you want to configure
 1. Initialise pinned dependencies (home-manager and nixpkgs) with the latest version:
 
@@ -69,7 +69,7 @@ can load a version of nixpkgs that suffers from clang errors.
    nix-shell --run "home-manager news" [shell.nix]
    ```
 
-3. Edit `./home.nix` to be how you want it.
+3. Edit your [home configuration](#Home configuration) to be how you want it.
 4. Create, if missing, ~/.me.d/ personalisation files:
 
    mkdir -p ~/.me.d
@@ -91,6 +91,30 @@ can load a version of nixpkgs that suffers from clang errors.
     nix-shell --run "home-manager switch"
     ```
 
+# Home configuration
+
+This home-manager configuration is intended as a baseline for shared configurations for a team.
+
+## Defaults ##
+
+The 'default' configuration provided by this configuration is in [home.nix](home.nix)
+which imports all modules from [lib/defaults](lib/defaults).
+
+## Personalisation ##
+
+All personalised configuration is loaded from all your `~/.me.d/*.nix` files. You can
+split out your personalised configuration in any .nix files you like in that directory.
+
+At a minimum you will want to configure git with your userName and userEmail.
+
+Example `~/.me.d/git.nix` module:
+
+    {}:
+    {
+      programs.git.userEmail = "your.email@example.com";
+      programs.git.userName = "Your Name";
+    }
+
 # Caveats
 
 Since we do not install home-manager, you need to let home-manager
@@ -101,4 +125,3 @@ Please consult home-manager documentation for exact required steps.
 Also since we do not install home-manager, you cannot run the
 home-manager script from any directory and expect it to work. It must
 be run from within the nix-shell. (This is actually a feature!)
-
