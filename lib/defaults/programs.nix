@@ -51,6 +51,7 @@
         core.quotepath = true;
         merge.conflictstyle = "diff3";
         pull.rebase = true;
+        status.showUntrackedFiles = "all";
       };
     };
 
