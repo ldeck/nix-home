@@ -2,17 +2,6 @@
 
 {
   programs = {
-    autojump = {
-      enable = true;
-    };
-
-    # Since we do not install home-manager, you need to let home-manager
-    # manage your shell, otherwise it will not be able to add its hooks
-    # to your profile.
-    bash = {
-      enable = true;
-    };
-
     emacs = {
       enable = true;
       extraPackages = epkgs: with epkgs; [
@@ -53,10 +42,6 @@
         pull.rebase = true;
         status.showUntrackedFiles = "all";
       };
-    };
-
-    zsh = {
-      enable = true;
     };
   };
 }
