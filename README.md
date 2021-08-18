@@ -109,6 +109,20 @@ Example `~/.me.d/git.nix` module:
 All personalised configuration is loaded from all your `~/.me.d/*.nix` files. You can
 split out your personalised configuration in any .nix files you like in that directory.
 
+### macOS apps ###
+
+A list of macOS desktop apps are available to enable in [lib/defaults/apps/macOS](lib/defaults/apps/macOS).
+
+An example of enabling or customising one:
+
+    #~/.me.d/apps.nix
+    {}:
+    {
+      macOS.apps.authy.enable = true;
+    }
+
+Other customisable options are available for the version and sha256, should you wish to manage the version updates separately.
+
 # Caveats
 
 Since we do not install home-manager, you need to let home-manager
