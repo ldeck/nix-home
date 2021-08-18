@@ -1,9 +1,11 @@
-{ pkgs, ...}:
+{ pkgs, lib, ...}:
+
+with lib;
 
 {
   programs = {
     emacs = {
-      enable = true;
+      enable = mkDefault true;
       extraPackages = epkgs: with epkgs; [
         nix-mode
         magit
