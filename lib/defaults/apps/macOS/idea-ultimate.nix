@@ -21,7 +21,7 @@ in {
         description = "The version of the app";
       };
       sha256 = mkOption {
-        default = "0nw2xjbc4g8wan0zjsf6240vnbqxwpnixkmj536mvkwi9jgcnb9y";
+        default = "1m2yrydlpxw6cvr35yvx1q5n2snvbh8gjampq39vciawmq95yvqm";
         description = "The sha256 for the defined version";
       };
     };
