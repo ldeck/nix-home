@@ -31,11 +31,12 @@ in {
     home.packages = lib.optionals cfg.enable
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Firefox";
-        sourceRoot = "${name}.app";
+        sourceRoot = "Firefox.app";
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-US/Firefox+${version}.dmg";
           sha256 = cfg.sha256;
+          name = "Firefox-${version}.dmg";
         };
         description = "The Firefox web browser";
         homepage = https://www.mozilla.org/en-US/firefox/;
