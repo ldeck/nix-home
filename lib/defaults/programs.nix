@@ -33,6 +33,8 @@
       ignores = [
         ".DS_Store"
         ".com.apple.backupd*"
+        ".project"
+        ".settings"
         "*~"
         "*.swp"
       ];
