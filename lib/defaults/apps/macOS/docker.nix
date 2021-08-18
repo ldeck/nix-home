@@ -17,11 +17,11 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "3.4.0";
+        default = "3.6.0";
         description = "The version of this app";
       };
       revision = mkOption {
-        default = "65384";
+        default = "67351";
         description = "The revision of this app";
       };
       arch = mkOption {
@@ -29,7 +29,7 @@ in {
         description = "The architecture for the app";
       };
       sha256 = mkOption {
-        default = "f6bed5976d1ee223b42986b185626fbc758d5f918aff27d3d7b0c2212406cba9";
+        default = "1fvpxbn602qwinbyxc1bh45iw07clyifxxi8gdkipi44yzl1pj88";
         description = "The sha256 for the defined version";
       };
     };
