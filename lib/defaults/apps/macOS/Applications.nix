@@ -7,12 +7,12 @@
 with lib;
 
 let
-  cfg = config.macOS.apps.symlinks;
+  cfg = config.macOS.apps.aliases;
 
 in
 {
   options = {
-    macOS.apps.symlinks = {
+    macOS.apps.aliases = {
       enable = mkOption {
         default = false;
         description = "Whether to enable ~/Applications symlinking.";

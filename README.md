@@ -113,6 +113,8 @@ split out your personalised configuration in any .nix files you like in that dir
 
 A list of macOS desktop apps are available to enable in [lib/defaults/apps/macOS](lib/defaults/apps/macOS).
 
+#### Enabling Apps ####
+
 An example of enabling or customising one:
 
     #~/.me.d/apps.nix
@@ -122,6 +124,17 @@ An example of enabling or customising one:
     }
 
 Other customisable options are available for the version and sha256, should you wish to manage the version updates separately.
+
+#### Spotlight Integration ####
+
+To ensure the apps installed via nix are seen by spotlight, you can enable the following flag which will by default add aliases for the apps into ~/Applications/Nix.
+
+    #~/.me.d/apps.nix
+    {}:
+    {
+      ...
+      macOS.apps.aliases.enable = true;
+    }
 
 # Caveats
 
