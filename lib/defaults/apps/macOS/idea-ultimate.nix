@@ -33,7 +33,7 @@ in {
         name = "IntelliJIDEA";
         sourceRoot = "IntelliJ IDEA.app";
         version = cfg.version;
-        arch = if stdenv.isAarch64 then "-aarch64" else "";
+        arch = if pkgs.stdenv.isAarch64 then "-aarch64" else "";
         src = pkgs.fetchurl {
           url = "https://download.jetbrains.com/idea/ideaIU-${version}${arch}.dmg";
           sha256 = cfg.sha256;
