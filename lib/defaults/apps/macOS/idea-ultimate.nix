@@ -17,11 +17,11 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "2021.1.3";
+        default = "2021.2";
         description = "The version of the app";
       };
       sha256 = mkOption {
-        default = "1m2yrydlpxw6cvr35yvx1q5n2snvbh8gjampq39vciawmq95yvqm";
+        default = "c23ee9f68abbd503e5019c745cc5bf2a308f81e8c2bbd210ccfafbc1124c1e59";
         description = "The sha256 for the defined version";
       };
     };
@@ -33,8 +33,9 @@ in {
         name = "IntelliJIDEA";
         sourceRoot = "IntelliJ IDEA.app";
         version = cfg.version;
+        arch = if stdenv.isAarch64 then "-aarch64" else "";
         src = pkgs.fetchurl {
-          url = "https://download.jetbrains.com/idea/ideaIU-${version}.dmg";
+          url = "https://download.jetbrains.com/idea/ideaIU-${version}${arch}.dmg";
           sha256 = cfg.sha256;
         };
         description = "The most intelligent JVM IDE";
