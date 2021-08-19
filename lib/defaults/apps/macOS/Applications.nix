@@ -25,7 +25,7 @@ in
   };
 
   config = {
-    home.activation = lib.optionals cfg.enable {
+    home.activation = lib.mkIf cfg.enable {
       aliasApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         app_folder=$(echo ${cfg.path});
         mkdir -p $app_folder
