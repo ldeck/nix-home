@@ -9,6 +9,7 @@ with lib;
       extraPackages = epkgs: with epkgs; [
         nix-mode
         magit
+        projectile
       ];
     };
   };
