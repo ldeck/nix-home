@@ -17,15 +17,15 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "2.10.22";
+        default = "2.10.24";
         description = "The version of the app";
       };
       arch = mkOption {
-        default = "x68_64";
+        default = "x86_64";
         description = "The arch for the app";
       };
       sha256 = mkOption {
-        default = "102jm60bgnymm9xsdggg6bsfvqd3m81jxpy7q4j562cwmpw2nfwf";
+        default = "d835afd64b4a617516a432a4ff78454594f5147786b4b900371a9fa68252567a";
         description = "The sha256 for the defined version";
       };
     };
@@ -35,11 +35,11 @@ in {
     home.packages = lib.optionals cfg.enable
       (pkgs.callPackage ./lib/app.nix rec {
         name = "GIMP";
-        majorMinorVersion = lib.majorMinor cfg.version;
-        sourceRoot = "GIMP-${majorMinorVersion}.app";
+        sourceRoot = "GIMP-${mainVersion}.app";
         version = cfg.version;
+        mainVersion = lib.versions.majorMinor cfg.version;
         src = pkgs.fetchurl {
-          url = "https://download.gimp.org/pub/gimp/v${majorMinorVersion}/osx/gimp-${version}-${cfg.arch}.dmg";
+          url = "https://download.gimp.org/pub/gimp/v${mainVersion}/osx/gimp-${version}-${cfg.arch}.dmg";
           sha256 = cfg.sha256;
         };
         description = "The Free & Open Source Image Editor";
