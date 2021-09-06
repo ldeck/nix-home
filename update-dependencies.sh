@@ -8,8 +8,7 @@ function usage {
 while [[ "$#" -gt 0 ]]; do
   case "$1" in
     -h|--help) usage 0;;
-    -i|--init)
-       NIXSHELL=init.nix
+    -i|--init) NIXSHELL=init.nix;;
     *) usage 1;;
   esac
   shift

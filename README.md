@@ -98,7 +98,7 @@ At a minimum you should configure git with your userName and userEmail.
 
 Example `~/.me.d/git.nix` module:
 
-    {}:
+    {...}:
     {
       programs.git.userEmail = "your.email@example.com";
       programs.git.userName = "Your Name";
@@ -118,7 +118,7 @@ A list of macOS desktop apps are available to enable in [lib/defaults/apps/macOS
 An example of enabling or customising one:
 
     #~/.me.d/apps.nix
-    {}:
+    {...}:
     {
       macOS.apps.authy.enable = true;
     }
@@ -130,7 +130,7 @@ Other customisable options are available for the version and sha256, should you 
 To ensure the apps installed via nix are seen by spotlight, you can enable the following flag which will by default add aliases for the apps into ~/Applications/Nix.
 
     #~/.me.d/apps.nix
-    {}:
+    {...}:
     {
       ...
       macOS.apps.aliases.enable = true;
