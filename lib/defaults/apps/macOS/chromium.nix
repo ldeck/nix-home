@@ -17,7 +17,7 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "841414";
+        default = "918450";
         description = "The version of this app";
       };
       sha256 = mkOption {
