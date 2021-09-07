@@ -32,7 +32,7 @@ in
 
         IFS=$'\n'
         old_paths=($(mdfind kMDItemKind="Alias" -onlyin "$app_folder"))
-        new_paths=($(find "$genProfilePath/home-path/Applications" -name '*.app' -type l))
+        new_paths=($(find "$newGenPath/home-path/Applications" -name '*.app' -type l))
         unset IFS
 
         old_size="''${#old_paths[@]}"
