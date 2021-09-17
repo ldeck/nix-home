@@ -27,8 +27,8 @@ in {
     };
   };
 
-  config = {
-    home.packages = lib.optionals cfg.enable
+  config = mkIf cfg.enable {
+    home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "NetNewsWire";
         sourceRoot = "NetNewsWire.app";

@@ -31,8 +31,8 @@ in {
     };
   };
 
-  config = {
-    home.packages = lib.optionals cfg.enable
+  config = mkIf cfg.enable {
+    home.packages =
       (pkgs.callPackage ./lib/eclipseApp.nix rec {
         name = "MAT";
         sourceRoot = "mat.app";

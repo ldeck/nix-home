@@ -31,8 +31,8 @@ in {
     };
   };
 
-  config = {
-    home.packages = lib.optionals cfg.enable
+  config = mkIf cfg.enable {
+    home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "TibcoJaspersoftStudio";
         appname = "Tibco Jaspersoft Studio";
