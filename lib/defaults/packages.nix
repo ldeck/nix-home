@@ -32,9 +32,6 @@
       taskwarrior
       tree
       python38Packages.yamllint
-
-      # CLOUD
-      awscli2
     ];
   };
 }
