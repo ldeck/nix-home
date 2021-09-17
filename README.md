@@ -87,10 +87,23 @@ can load a version of nixpkgs that suffers from clang errors.
 
 This home-manager configuration is intended as a baseline for shared configurations for a team.
 
+See both the [home-manager](https://github.com/rycee/home-manager) documentation and the following for additional options specific to this configuration.
+
 ## Defaults ##
 
 The 'default' configuration provided by this configuration is in [home.nix](home.nix)
 which imports all modules from [lib/defaults](lib/defaults).
+
+These include:
+- [lib/defaults/apps.nix](lib/defaults/apps.nix)
+- [lib/defaults/aws.nix](lib/defaults/aws.nix)
+- [lib/defaults/direnv.nix](lib/defaults/direnv.nix)
+- [lib/defaults/emacs.nix](lib/defaults/emacs.nix)
+- [lib/defaults/git.nix](lib/defaults/git.nix)
+- [lib/defaults/packages.nix](lib/defaults/packages.nix)
+- [lib/defaults/scripts.nix](lib/defaults/scripts.nix)
+- [lib/defaults/shell.nix](lib/defaults/shell.nix)
+- [lib/defaults/user.nix](lib/defaults/user.nix)
 
 ## Required ##
 
@@ -120,7 +133,11 @@ An example of enabling or customising one:
     #~/.me.d/apps.nix
     {...}:
     {
-      macOS.apps.authy.enable = true;
+      macOS.apps = {
+        authy.enable = true;
+        docker.enable = true;
+        firefox.enable = true;
+      };
     }
 
 Other customisable options are available for the version and sha256, should you wish to manage the version updates separately.
@@ -133,7 +150,31 @@ To ensure the apps installed via nix are seen by spotlight, you can enable the f
     {...}:
     {
       ...
-      macOS.apps.aliases.enable = true;
+      macOS.apps = {
+        aliases.enable = true;
+      };
+    }
+
+NB: see https://github.com/nix-community/home-manager/issues/1341#issuecomment-901513436 for further discussion and details.
+
+#### AWS ####
+
+Enabling the inclusion of awscli can be done in two ways:
+
+    #~/.me.d/aws.nix
+    {...}:
+    {
+      cloud.aws.enable = true;
+    }
+
+Which at this time is equivalent to:
+
+    #~/.me.d/programs.nix
+    {pkgs, ...}:
+    {
+      home.packages = with pkgs; [
+        awscli2
+      ];
     }
 
 # Caveats
