@@ -17,11 +17,11 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "3.6.0";
+        default = "4.0.1";
         description = "The version of this app";
       };
       revision = mkOption {
-        default = "67351";
+        default = "68347";
         description = "The revision of this app";
       };
       arch = mkOption {
@@ -29,7 +29,7 @@ in {
         description = "The architecture for the app";
       };
       sha256 = mkOption {
-        default = "1fvpxbn602qwinbyxc1bh45iw07clyifxxi8gdkipi44yzl1pj88";
+        default = "ea068a64a7230eff7e5bbcb215d1eadc5c921c05a2824dc082d4f51352b17523";
         description = "The sha256 for the defined version";
       };
     };
@@ -42,7 +42,7 @@ in {
         sourceRoot = "${name}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://desktop.docker.com/mac/stable/${cfg.arch}/${cfg.revision}/${name}.dmg";
+          url = "https://desktop.docker.com/mac/main/${cfg.arch}/${cfg.revision}/${name}.dmg";
           sha256 = cfg.sha256;
         };
         description = ''
@@ -50,7 +50,7 @@ in {
           debugging, and testing Dockerized apps on a Mac
         '';
         homepage = https://store.docker.com/editions/community/docker-ce-desktop-mac;
-        appcast = https://download.docker.com/mac/stable/appcast.xml;
+        appcast = https://desktop.docker.com/mac/main/amd64/appcast.xml;
         postInstall = ''
           mkdir -p $out/bin
           ln -fs $out/Applications/${name}.app/Contents/Resources/bin/docker* $out/bin/
