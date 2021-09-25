@@ -9,6 +9,8 @@ let
 
     ll = "ls -lAFG";
     l = "ls -laFG";
+
+    reload = "unset __HM_SESS_VARS_SOURCED && exec $0";
   };
 
 in
@@ -24,11 +26,11 @@ in
 
     bash = {
       enable = true;
-      shellAliases = essentialShellAliases // { reload = "exec bash"; };
+      shellAliases = essentialShellAliases;
     };
     zsh = {
       enable = true;
-      shellAliases = essentialShellAliases // { reload = "exec zsh"; };
+      shellAliases = essentialShellAliases;
     };
   };
 }
