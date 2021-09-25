@@ -98,23 +98,6 @@ let
       while read file; do brctl download "$file"; done
   '';
 
-  nix-link-macapps = pkgs.writeShellScriptBin "nix-link-macapps" ''
-    #see https://raw.githubusercontent.com/matthewbauer/macNixOS/master/link-apps.sh
-    NIX_APPS="$HOME"/.nix-profile/Applications
-    APP_DIR="$HOME"/Applications
-
-    # ensure ~/Applications exists
-    mkdir -p $APP_DIR
-
-    # create links
-    pushd "$APP_DIR" > /dev/null
-    find "$NIX_APPS" -type l -exec ln -fs {} . ';'
-    popd > /dev/null
-
-    # remove broken links
-    find -L "$APP_DIR" -type l -exec rm -- {} +
-  '';
-
   nix-open = pkgs.writeShellScriptBin "nix-open" ''
     function usage {
       echo "Usage: nix-open application [args...]"
@@ -171,7 +154,6 @@ in
   ++ lib.optionals pkgs.stdenv.isDarwin ([
     app-path
     idownload
-    nix-link-macapps
     nix-open
     nix-reopen
     sudo-with-touch
