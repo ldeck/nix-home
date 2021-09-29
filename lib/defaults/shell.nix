@@ -30,6 +30,8 @@ in
     };
     zsh = {
       enable = true;
+      enableAutosuggestions = true;
+      enableSyntaxHighlighting = true;
       shellAliases = essentialShellAliases // {
         reload = "unset __HM_SESS_VARS_SOURCED && exec zsh";
       };
