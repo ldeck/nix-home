@@ -100,7 +100,7 @@ let
 
   nix-allow = pkgs.writeShellScriptBin "nix-allow" ''
     function usage {
-      echo "Usage $(basename $0) fuzzyname
+      echo "Usage $(basename $0) fuzzyname"
       exit 1
     }
 
