@@ -98,6 +98,23 @@ let
       while read file; do brctl download "$file"; done
   '';
 
+  nix-allow = pkgs.writeShellScriptBin "nix-allow" ''
+    function usage {
+      echo "Usage $(basename $0) fuzzyname
+      exit 1
+    }
+
+    [[ $# -lt 1 ]] && usage
+    NAME=$1; shift
+    APP=$(${app-path}/bin/app-path "$NAME")
+    if [ -z "$APP" ]; then
+      usage 1
+    else
+      realapp=$(realpath "$APP")
+      codesign --force --deep --sign - "$realapp"
+    fi
+  '';
+
   nix-open = pkgs.writeShellScriptBin "nix-open" ''
     function usage {
       echo "Usage: nix-open application [args...]"
@@ -154,6 +171,7 @@ in
   ++ lib.optionals pkgs.stdenv.isDarwin ([
     app-path
     idownload
+    nix-allow
     nix-open
     nix-reopen
     sudo-with-touch
