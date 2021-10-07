@@ -17,11 +17,11 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "92.0";
+        default = "92.0.1";
         description = "The version of the app";
       };
       sha256 = mkOption {
-        default = "0kln28330jhmpdvsdsnrqnl0fkpb18i9vi1n98v99aq61ncqr5v8";
+        default = "1sy856rbfavzbyhrb7kii0k32v674nv67vqr7a6211db2nii297q";
         description = "The sha256 for the defined version";
       };
     };
