@@ -104,6 +104,7 @@ These include:
 - [lib/defaults/scripts.nix](lib/defaults/scripts.nix)
 - [lib/defaults/shell.nix](lib/defaults/shell.nix)
 - [lib/defaults/user.nix](lib/defaults/user.nix)
+- [lib/defaults/utils.nix](lib/defaults/utils.nix)
 
 ## Required ##
 
@@ -121,6 +122,18 @@ Example `~/.me.d/git.nix` module:
 
 All personalised configuration is loaded from all your `~/.me.d/*.nix` files. You can
 split out your personalised configuration in any .nix files you like in that directory.
+
+### kryptco.kr (ssh integration) ###
+
+See https://krypt.co
+
+To enable version 2.4.15:
+
+    #~/.me.d/utils.nix
+    {...}:
+    {
+      utils.security.kryptco.kr.enable = true;
+    }
 
 ### macOS apps ###
 
