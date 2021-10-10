@@ -44,6 +44,10 @@ let
     nix-shell -p nix-info --run "nix-info -m"
   '';
 
+  nix-version = pkgs.writeShellScriptBin "nix-version" ''
+    nix-instantiate --eval -A 'lib.version' '<nixpkgs>' | xargs
+  '';
+
   #
   # CUSTOM DARWIN PACKAGES
   #
@@ -167,6 +171,7 @@ in
     jqo
     markdown
     nix-system
+    nix-version
   ]
   ++ lib.optionals pkgs.stdenv.isDarwin ([
     app-path
