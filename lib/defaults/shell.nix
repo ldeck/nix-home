@@ -11,6 +11,17 @@ let
     l = "ls -laFG";
   };
 
+  shellFunctions = ''
+    function cdmkdir() {
+      if [[ $# -ne 1 ]]; then
+        echo "Usage: cdmkdir <dir>"
+        exit 1
+      fi
+      mkdir -p $1
+      cd $1
+    }
+  '';
+
 in
 {
   programs = {
@@ -27,6 +38,7 @@ in
       shellAliases = essentialShellAliases // {
         reload = "unset __HM_SESS_VARS_SOURCED && exec bash";
       };
+      initExtra = shellFunctions;
     };
     zsh = {
       enable = true;
@@ -35,6 +47,7 @@ in
       shellAliases = essentialShellAliases // {
         reload = "unset __HM_SESS_VARS_SOURCED && exec zsh";
       };
+      initExtra = shellFunctions;
     };
   };
 }
