@@ -9,7 +9,7 @@ let
   homeDir = builtins.getEnv "HOME";
   userName = builtins.getEnv "USER";
 
-  libDir = ./lib/defaults;
+  libDir = toString ./lib/defaults;
   meDir = "${homeDir}/.me.d";
 
   # ---------------------------------------------------------
