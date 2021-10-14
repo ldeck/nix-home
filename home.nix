@@ -33,12 +33,6 @@ let
 
 in
 {
-  # TODO: auto import attributes from sources.
-  _module.args.sources = {
-    nur = import (import ./nix/sources.nix).nur { };
-    emacs-overlay = import (import ./nix/sources.nix).emacs-overlay { };
-  };
-
   imports = modules;
 
   nixpkgs.config = {
