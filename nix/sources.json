@@ -1,4 +1,16 @@
 {
+    "emacs-overlay": {
+        "branch": "master",
+        "description": "Bleeding edge emacs overlay [maintainer=@adisbladis] ",
+        "homepage": "",
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "rev": "c4cf7abf9adb68a6513f98e35f98795dc5bb8bc4",
+        "sha256": "14pz17xmm47v8fm26brnrk5cs1ssk6qavjak09483y5blvcnjd7j",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/c4cf7abf9adb68a6513f98e35f98795dc5bb8bc4.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "home-manager": {
         "branch": "master",
         "description": "Manage a user environment using Nix",
@@ -9,6 +21,18 @@
         "sha256": "1h24illqvxymyjxr4bym11g3bgwd5ni7dhniisq829phbq11xbl6",
         "type": "tarball",
         "url": "https://github.com/nix-community/home-manager/archive/97d183e2e466808f5d7cd1c838815bedd88f37fe.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "ligature.el": {
+        "branch": "master",
+        "description": "Display typographical ligatures in Emacs",
+        "homepage": null,
+        "owner": "mickeynp",
+        "repo": "ligature.el",
+        "rev": "d3426509cc5436a12484d91e48abd7b62429b7ef",
+        "sha256": "1a1sff38mwhpwz7dg9swp6q9zi1qwy9k48b4bcc66cqbyj8l78bd",
+        "type": "tarball",
+        "url": "https://github.com/mickeynp/ligature.el/archive/d3426509cc5436a12484d91e48abd7b62429b7ef.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
@@ -33,6 +57,18 @@
         "sha256": "16l1576d5km2847z4hmc6kr03qzwmi1w45njj9y7my666xkwwqrz",
         "type": "tarball",
         "url": "https://github.com/nixos/nixpkgs/archive/3e0ce8c5d478d06b37a4faa7a4cc8642c6bb97de.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nur": {
+        "branch": "master",
+        "description": "Nix User Repository: User contributed nix packages [maintainer=@Mic92]",
+        "homepage": "https://nur.nix-community.org/",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "a5c2481557aa2eddd802bbd731786b0ce99b68f9",
+        "sha256": "0n4nbmghhq6lnz6m31h92lrvwz4i9lc31qcgb0j5dma8dxbv5w5j",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/NUR/archive/a5c2481557aa2eddd802bbd731786b0ce99b68f9.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
