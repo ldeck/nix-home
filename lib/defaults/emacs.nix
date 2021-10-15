@@ -1613,7 +1613,7 @@ in
       };
 
       sv-kalender = {
-        enable = true;
+        enable = false;
         defer = 5;
       };
 
