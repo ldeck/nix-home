@@ -498,6 +498,11 @@ in
         '';
       };
 
+      mode-line-bell = {
+        enable = true;
+        config = "(mode-line-bell-mode)";
+      };
+
       notifications = {
         enable = true;
         command = [ "notifications-notify" ];
