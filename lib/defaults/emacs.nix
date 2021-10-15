@@ -34,11 +34,11 @@ in
       ;; Set up fonts early.
       (set-face-attribute 'default
                           nil
-                          :height 80
-                          :family "Fantasque Sans Mono")
+                          :height 120
+                          :family "FiraCode Nerd Font Mono")
       (set-face-attribute 'variable-pitch
                           nil
-                          :family "DejaVu Sans")
+                          :family "FiraCode Nerd Font")
 
       ;; Configure color theme and modeline in early init to avoid flashing
       ;; during start.
