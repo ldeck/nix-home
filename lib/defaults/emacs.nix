@@ -74,6 +74,9 @@ in
       ;; Accept 'y' and 'n' rather than 'yes' and 'no'.
       (defalias 'yes-or-no-p 'y-or-n-p)
 
+      ;; default to insert replace
+      (delete-selection-mode 1)
+
       ;; Don't want to move based on visual line.
       (setq line-move-visual nil)
 
