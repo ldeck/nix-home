@@ -131,7 +131,8 @@ in
       (put 'downcase-region 'disabled nil)
 
       (setq custom-file (locate-user-emacs-file "custom.el"))
-      (load custom-file)
+      (when (file-exists-p custom-file)
+       (load custom-file))
 
       ;; When finding file in non-existing directory, offer to create the
       ;; parent directory.
