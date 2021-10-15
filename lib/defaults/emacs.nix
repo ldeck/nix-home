@@ -19,12 +19,12 @@ in
   nixpkgs.overlays = [ (import sources.emacs-overlay) ];
 
   programs.emacs.init = {
-    enable = mkDefault true;
+    enable = true;
     packageQuickstart = false;
     recommendedGcSettings = true;
     usePackageVerbose = false;
 
-    earlyInit = mkDefault ''
+    earlyInit = ''
       ;; Disable some GUI distractions. We set these manually to avoid starting
       ;; the corresponding minor modes.
       (push '(menu-bar-lines . 0) default-frame-alist)
@@ -50,7 +50,7 @@ in
       (doom-modeline-mode)
     '';
 
-    prelude = mkDefault ''
+    prelude = ''
       ;; Disable startup message.
       (setq inhibit-startup-screen t
             inhibit-startup-echo-area-message (user-login-name))
