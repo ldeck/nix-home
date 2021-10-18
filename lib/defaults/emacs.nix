@@ -1363,6 +1363,10 @@ in
       plantuml-mode = {
         enable = true;
         mode = [ ''"\\.puml\\'"'' ];
+        init = ''
+          (setq plantuml-executable-path (locate-file "plantuml" exec-path))
+          (setq plantuml-default-exec-mode 'executable)
+        '';
       };
 
       ace-window = {
