@@ -1443,6 +1443,14 @@ in
           "C-a" = "crux-move-beginning-of-line";
         };
       };
+
+      editorconfig = {
+        enable = true;
+        config = ''
+          (editorconfig-mode 1)
+        '';
+      };
+
       forge = {
         enable = true;
         after = [ "magit" ];
