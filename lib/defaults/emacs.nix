@@ -72,6 +72,7 @@ in
 
       ;; Make sure the mouse cursor is visible at all times.
       (set-face-background 'mouse "#ffffff")
+      (set-cursor-color "#ffffff")
 
       ;; Accept 'y' and 'n' rather than 'yes' and 'no'.
       (defalias 'yes-or-no-p 'y-or-n-p)
@@ -121,6 +122,7 @@ in
 
       ;; Enable highlighting of current line.
       (global-hl-line-mode 1)
+      (set-face-underline 'highlight nil)
 
       ;; Improved handling of clipboard in GNU/Linux and otherwise.
       (setq select-enable-clipboard t
