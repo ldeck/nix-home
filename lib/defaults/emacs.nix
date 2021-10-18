@@ -43,7 +43,9 @@ in
       ;; Configure color theme and modeline in early init to avoid flashing
       ;; during start.
       (require 'base16-theme)
-      (load-theme 'base16-tomorrow-night t)
+      (require 'nord-theme)
+      ;;(load-theme 'base16-tomorrow-night t)
+      (load-theme 'wombat t)
 
       (require 'doom-modeline)
       (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
