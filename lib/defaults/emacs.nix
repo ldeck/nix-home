@@ -928,6 +928,9 @@ in
         enable = true;
         after = [ "lsp-mode" ];
         command = [ "lsp-treemacs-errors-list" ];
+        config = ''
+          (lsp-treemacs-sync-mode 1)
+        '';
       };
 
       dap-mode = {
