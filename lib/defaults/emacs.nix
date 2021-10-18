@@ -272,6 +272,11 @@ in
         extraConfig = ":disabled";
       };
 
+      nord-theme = {
+        enable = true;
+        extraConfig = ":disabled";
+      };
+
       calc = {
         enable = true;
         command = [ "calc" ];
