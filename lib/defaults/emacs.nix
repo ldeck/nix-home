@@ -1473,6 +1473,10 @@ in
         after = [ "forge" ];
       };
 
+      format-all = {
+        enable = true;
+      };
+
       php-mode = { hook = [ "ggtags-mode" ]; };
 
       # Needed by Flycheck.
