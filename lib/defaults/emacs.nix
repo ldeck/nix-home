@@ -1360,6 +1360,21 @@ in
         '';
       };
 
+      projectile = {
+        enable = true;
+        command = [ "projectile-mode" ];
+        bindKeyMap = { "C-c p" = "projectile-command-map"; };
+        config = ''
+          (projectile-mode)
+          (setq projectile-switch-project-action 'projectile-find-file)
+          (projectile-register-project-type 'yarn '("package.json" "yarn.lock")
+                                            :compile "yarn install"
+                                            :test "yarn test"
+                                            :run "yarn start"
+                                            :test-suffix ".test")
+        '';
+      };
+
       plantuml-mode = {
         enable = true;
         mode = [ ''"\\.puml\\'"'' ];
