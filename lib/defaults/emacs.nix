@@ -50,6 +50,9 @@ in
       (require 'doom-modeline)
       (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
       (doom-modeline-mode)
+
+      ;;forge load-path
+      (add-to-list 'load-path "~/.config/custom/")
     '';
 
     prelude = ''
@@ -1428,6 +1431,28 @@ in
         config = ''
           (add-to-list 'company-backends 'company-cabal)
         '';
+      };
+
+      forge = {
+        enable = true;
+        after = [ "magit" ];
+        config = ''
+          (setq forge-owned-accounts '())
+          (let ((accounts (remove nil
+                                  (list
+                                  (getenv "FORGE_OWNED_ACCOUNTS")
+                                  (getenv "USER")))))
+           (if accounts
+             (progn
+             (message "Configuring forge-owned-accounts: %s" accounts)
+             (add-to-list 'forge-owned-accounts accounts)
+             )))
+        '';
+      };
+
+      forge-custom = {
+        enable = pathExists (toString ~/.config/custom/forge-custom.el);
+        after = [ "forge" ];
       };
 
       php-mode = { hook = [ "ggtags-mode" ]; };
