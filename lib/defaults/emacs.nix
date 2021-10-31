@@ -111,6 +111,7 @@ in
 
       ;; Trailing white space are banned!
       (setq-default show-trailing-whitespace t)
+      (add-hook 'before-save-hook 'whitespace-cleanup)
 
       ;; Use one space to end sentences.
       (setq sentence-end-double-space nil)
