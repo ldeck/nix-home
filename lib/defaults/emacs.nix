@@ -1646,6 +1646,13 @@ in
         '';
       };
 
+      direnv = {
+        enable = true;
+        config = ''
+          (direnv-mode)
+        '';
+      };
+
       recentf = {
         enable = true;
         command = [ "recentf-mode" ];
