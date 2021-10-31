@@ -1499,7 +1499,7 @@ in
       };
 
       editorconfig = {
-        enable = true;
+        enable = false;
         config = ''
           (editorconfig-mode 1)
         '';
