@@ -386,13 +386,25 @@ in
         '';
       };
 
+      exec-path-from-shell = {
+        enable = true;
+        config = ''
+          (exec-path-from-shell-initialize)
+        '';
+      };
+
       lsp-dhall = {
         enable = true;
         defer = true;
         hook = [ "(dhall-mode . rah-lsp)" ];
       };
 
+      docker = {
+        enable = true;
+        bind = { "C-c D" = "docker"; };
+      };
       dockerfile-mode.enable = true;
+      docker-compose-mode.enable = true;
 
       doom-modeline = {
         enable = true;
