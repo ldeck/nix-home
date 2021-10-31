@@ -90,6 +90,9 @@ in
       (setq make-backup-files nil
             auto-save-default nil)
 
+      ;; Acknowledge filesystem changes
+      (global-auto-revert-mode t)
+
       ;; Default is 4k, which is too low for LSP.
       (setq read-process-output-max (* 1024 1024))
 
