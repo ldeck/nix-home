@@ -711,6 +711,21 @@ in
         enable = true;
         command = [ "magit-project-status" ];
         bind = { "C-c g" = "magit-status"; };
+        hook = [''
+          (magit-mode . (lambda ()
+            (interactive)
+            (transient-append-suffix 'magit-commit "a"
+              '("n" "Reshelve commit" magit-commit-reshelve))
+            (transient-append-suffix 'magit-rebase "s"
+              '("t" "Reshelve since" magit-reshelve-since))
+            (transient-append-suffix 'magit-push "-n"
+              '("=O" "Set extra push option #1" "--push-option=" read-from-minibuffer))
+            (transient-append-suffix 'magit-push "-n"
+              '("=P" "Set extra push option #2" "--push-option=" read-from-minibuffer))
+            (transient-append-suffix 'magit-push "-n"
+              '("-S" "Skip gitlab pipeline creation" "--push-option=ci.skip"))
+          ))
+        ''];
         config = ''
           (add-to-list 'git-commit-style-convention-checks
                        'overlong-summary-line)
