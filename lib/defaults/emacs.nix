@@ -1490,6 +1490,7 @@ in
         enable = true;
         bind = {
           "C-S-k" = "crux-smart-kill-line";
+          "C-c D" = "crux-delete-file-and-buffer";
           "C-c d" = "crux-duplicate-current-line-or-region";
           "C-c n" = "crux-cleanup-buffer-or-region";
           "C-c r" = "crux-recentf-find-file";
