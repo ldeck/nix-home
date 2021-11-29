@@ -47,7 +47,31 @@ in
       shellAliases = essentialShellAliases // {
         reload = "unset __HM_SESS_VARS_SOURCED && exec zsh";
       };
-      initExtra = shellFunctions;
+      initExtra = ''
+        # autocompletion using arrow keys (based on history)
+        bindkey '\e[A' history-search-backward
+        bindkey '\e[B' history-search-forward
+
+        # https://superuser.com/questions/446594/separate-up-arrow-lookback-for-local-and-global-zsh-history
+
+        function up-line-or-history() {
+          zle set-local-history 1
+          zle .up-line-or-history
+          zle set-local-history 0
+        }
+
+        function down-line-or-history() {
+          zle set-local-history 1
+          zle .down-line-or-history
+          zle set-local-history 0
+        }
+
+        # Overwrite existing {up,down}-line-or-history widgets with the functions above.
+        zle -N up-line-or-history
+        zle -N down-line-or-history
+
+        ${shellFunctions}
+      '';
     };
   };
 }
