@@ -12,10 +12,10 @@ let
           JDK="${pkgs.jdk8_headless}"
           ;;
         11)
-          JDK="${pkgs.jdk11}"
+          JDK="${pkgs.jdk11_headless}"
           ;;
         *)
-          JDK="${pkgs.jdk16}"
+          JDK="${pkgs.jdk17_headless}"
           ;;
       esac
       JAVA_HOME=$(${pkgs.coreutils}/bin/realpath "$JDK/bin/..")
