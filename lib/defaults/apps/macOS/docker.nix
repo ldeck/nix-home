@@ -9,6 +9,23 @@ with lib;
 
 let
   cfg = config.macOS.apps.docker;
+  stdenv = pkgs.stdenv;
+
+  dockerSpecs = {
+    x86_64-darwin = {
+      version = "4.3.0";
+      revision = "71786";
+      arch = "amd64";
+      sha256 = "1c988f8df9be1bac6c2ec984aeadbc4b96c2e152ad51aa80af52e15f3e92c4eb";
+    };
+    aarch64-darwin = {
+      version = "4.3.0";
+      revision = "71786";
+      arch = "arm64";
+      sha256 = "b6c5736b277ecbf349319b818bf8bfa9a69b48ef0f0c0c05ffbd6761dc90cd80";
+    };
+  };
+
 in {
   options = {
     macOS.apps.docker = {
@@ -17,19 +34,19 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "4.1.1";
+        default = dockerSpecs.${stdenv.hostPlatform.system}.version;
         description = "The version of this app";
       };
       revision = mkOption {
-        default = "69879";
+        default = dockerSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The revision of this app";
       };
       arch = mkOption {
-        default = "amd64";
+        default = dockerSpecs.${stdenv.hostPlatform.system}.arch;
         description = "The architecture for the app";
       };
       sha256 = mkOption {
-        default = "1v5pcma1q3jhzf5fd9h77bj5crcnxwgrxjb706c42h617smrsiyy";
+        default = dockerSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the defined version";
       };
     };
