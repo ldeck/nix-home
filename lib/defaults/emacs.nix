@@ -19,7 +19,7 @@ in
   nixpkgs.overlays = [ (import sources.emacs-overlay) ];
 
   programs.emacs.init = {
-    enable = true;
+    enable = false;
     packageQuickstart = false;
     recommendedGcSettings = true;
     usePackageVerbose = false;
