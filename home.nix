@@ -37,9 +37,7 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [
-      "openssl-1.0.2u"
-    ];
+    permittedInsecurePackages = [];
   };
 
   # This value determines the Home Manager release that your
