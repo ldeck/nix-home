@@ -1,10 +1,13 @@
-# home-manager team template
+# nix home-manager team template
 
 This provides a quick-start template for using
-[home-manager](https://github.com/rycee/home-manager) in a more
-reproducible way for multiple team members.
+[home-manager](https://github.com/rycee/home-manager)'s
+[IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code "wikipedia: Infrastructure as Code")
+atop of the [nix](https://nixos.org) package manager
+in a more reproducible way for multiple team members.
 
-NB: You don't have to install home-manager, and it uses pinning.
+Reproducibility across systems is achieved by using pinned nix packages. This team template uses [niv](https://github.com/nmattia/niv) to do so.
+
 
 # Why?
 
@@ -22,9 +25,7 @@ on any computer.
 
 You must have [nix](https://nixos.org) installed on your machine.
 
-```sh
-curl -L https://nixos.org/nix/install | sh
-```
+NB: You do not need to install [home-manager](https://github.com/rycee/home-manager) itself. It is supplied via a nix shell when running the below scripts.
 
 # Setup
 
