@@ -10,7 +10,9 @@ let
   userName = builtins.getEnv "USER";
 
   libDir = toString ./lib/defaults;
-  meDir = "${homeDir}/.me.d";
+
+  meConfig = "${homeDir}/.me.nix";
+  defaultMeDir = "${homeDir}/.me.d";
 
   # ---------------------------------------------------------
   # FUNCTIONS
@@ -27,9 +29,19 @@ let
   # VARIABLES
   # ---------------------------------------------------------
 
-  modules = []
-    ++ nixFilesIn libDir
-    ++ nixFilesIn meDir;
+  libModules = nixFilesIn libDir;
+
+  meModules =
+    with builtins;
+    if pathExists meConfig then
+      concatMap (p: nixFilesIn p)(import meConfig)
+    else
+      if pathExists defaultMeDir then
+        nixFilesIn defaultMeDir
+      else
+        [];
+
+  modules = libModules ++ meModules;
 
 in
 {

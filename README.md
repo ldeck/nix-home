@@ -122,7 +122,15 @@ Example `~/.me.d/git.nix` module:
 ## Personalisation ##
 
 All personalised configuration is loaded from all your `~/.me.d/*.nix` files. You can
-split out your personalised configuration in any .nix files you like in that directory.
+split out your personalised configuration in any .nix files you like in that directory or use a monolithic nix file. It's your choice.
+
+NB: to configure multiple personalisation dirs (e.g., a personal one and a corporate one), define the following file:
+
+    #~/.me.nix
+    [
+      "~/.me.d"
+      "~/.foobar-corp.d"
+    ]
 
 ### kryptco.kr (ssh integration) ###
 
