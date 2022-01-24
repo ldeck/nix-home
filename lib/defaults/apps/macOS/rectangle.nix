@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
@@ -17,29 +11,29 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "0.49";
-        description = "The version of the app";
+        default = "0.50";
+        description = "The version of the app.";
       };
       sha256 = mkOption {
-        default = "60699a4f1700de0edb30668a2342840b8d62257ced73e7d9e9812eb62f009389";
-        description = "The sha256 for the defined version";
+        default = "b1323721795da2401736a60b300472d0d6c6727f5072992d27e794315556467c";
+        description = "The sha256 for the app.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Rectangle";
-        sourceRoot = "Rectangle.app";
+        description = "Move and resize windows using keyboard shortcuts or snap areas";
+        sourceRoot = "${name}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://github.com/rxhanson/Rectangle/releases/download/v${version}/Rectangle${version}.dmg";
+          url = "https://github.com/rxhanson/Rectangle/releases/download/v${cfg.version}/Rectangle${cfg.version}.dmg";
           sha256 = cfg.sha256;
+          name = "${name}-${version}.dmg";
         };
-        description = "Move and resize windows in macOS using keyboard shortcuts or snap areas.";
-        homepage = "https://rectangleapp.com";
-        appcast = "https://github.com/rxhanson/Rectangle/releases";
+        appcast = "https://formulae.brew.sh/api/cask/rectangle.json";
+        homepage = "https://rectangleapp.com/";
       });
   };
 }

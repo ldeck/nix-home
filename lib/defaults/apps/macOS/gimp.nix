@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
@@ -17,34 +11,29 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "2.10.28";
-        description = "The version of the app";
-      };
-      arch = mkOption {
-        default = "x86_64";
-        description = "The arch for the app";
+        default = "2.10.30";
+        description = "The version of the app.";
       };
       sha256 = mkOption {
-        default = "8cf0db374dcaba6fb0e1184ff8c6a3c585aa1814189ed4b97ba51780469f0805";
-        description = "The sha256 for the defined version";
+        default = "6f9e0384882bc176699e4f85950971c264c21328d98226f8c7fe9da7e55b932c";
+        description = "The sha256 for the app.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "GIMP";
-        sourceRoot = "GIMP-${mainVersion}.app";
+        name = "Gimp";
+        description = "Free and open-source image editor";
+        sourceRoot = "${name}.app";
         version = cfg.version;
-        mainVersion = lib.versions.majorMinor cfg.version;
         src = pkgs.fetchurl {
-          url = "https://download.gimp.org/pub/gimp/v${mainVersion}/osx/gimp-${version}-${cfg.arch}.dmg";
+          url = "https://download.gimp.org/pub/gimp/v${lib.versions.majorMinor cfg.version}/osx/gimp-${cfg.version}-x86_64.dmg";
           sha256 = cfg.sha256;
+          name = "${name}-${version}.dmg";
         };
-        description = "The Free & Open Source Image Editor";
-        homepage = "https://www.gimp.org";
-        appcast = "https://download.gimp.org/pub/gimp/v#{majorMinorVersion}/osx/";
+        appcast = "https://formulae.brew.sh/api/cask/gimp.json";
+        homepage = "https://www.gimp.org/";
       });
   };
 }

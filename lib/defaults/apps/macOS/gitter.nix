@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
@@ -18,28 +12,28 @@ in {
       };
       version = mkOption {
         default = "1.177";
-        description = "The version of the app";
+        description = "The version of the app.";
       };
       sha256 = mkOption {
         default = "0ca1c0d52c342548afbea8d3501282a4ccf494058aa2e23af27e09198a7a30a4";
-        description = "The sha256 for the defined version";
+        description = "The sha256 for the app.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Gitter";
-        sourceRoot = "Gitter.app";
+        description = "null";
+        sourceRoot = "${name}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://update.gitter.im/osx/Gitter-${version}.dmg";
+          url = "https://update.gitter.im/osx/Gitter-${cfg.version}.dmg";
           sha256 = cfg.sha256;
+          name = "${name}-${version}.dmg";
         };
-        description = "Gitter is a chat and networking platform that helps to manage, grow and connect communities through messaging, content and discovery.";
-        homepage = "https://gitter.im";
-        appcast = "https://update.gitter.im/osx/appcast.xml";
+        appcast = "https://formulae.brew.sh/api/cask/gitter.json";
+        homepage = "https://gitter.im/";
       });
   };
 }

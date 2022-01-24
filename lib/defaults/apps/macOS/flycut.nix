@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
@@ -18,28 +12,28 @@ in {
       };
       version = mkOption {
         default = "1.9.6";
-        description = "The version of the app";
+        description = "The version of the app.";
       };
       sha256 = mkOption {
         default = "bc1a73b9cb4b4d316fa11572f43383f0f02fc7e6ba88bbed046cc1b074336862";
-        description = "The sha256 for the defined version";
+        description = "The sha256 for the app.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Flycut";
-        sourceRoot = "Flycut.app";
+        description = "Clipboard manager for developers";
+        sourceRoot = "${name}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://github.com/TermiT/Flycut/releases/download/${version}/Flycut.${version}.zip";
+          url = "https://github.com/TermiT/Flycut/releases/download/${cfg.version}/Flycut.${cfg.version}.zip";
           sha256 = cfg.sha256;
+          name = "${name}-${version}.zip";
         };
-        description = "Clipboard manager for developers";
+        appcast = "https://formulae.brew.sh/api/cask/flycut.json";
         homepage = "https://github.com/TermiT/Flycut";
-        appcast = "https://github.com/TermiT/Flycut";
       });
   };
 }

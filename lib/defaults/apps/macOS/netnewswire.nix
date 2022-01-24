@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
@@ -18,29 +12,28 @@ in {
       };
       version = mkOption {
         default = "6.0.3";
-        description = "The version of the app";
+        description = "The version of the app.";
       };
       sha256 = mkOption {
-        default = "0z3p16kg3k76bxa1ph2ar1rbbcvcixdvs57s1hkasxfcdmvz7sni";
-        description = "The sha256 for the defined version";
+        default = "d1eaf3776dcc75ad260cfa14bd5b8f6cb3b572c84ac01b545fe6ccf1a609777c";
+        description = "The sha256 for the app.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "NetNewsWire";
-        sourceRoot = "NetNewsWire.app";
+        name = "Netnewswire";
+        description = "Free and open-source RSS reader";
+        sourceRoot = "${name}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://github.com/Ranchero-Software/${name}/releases/download/mac-${version}/${name}${version}.zip";
+          url = "https://github.com/Ranchero-Software/NetNewsWire/releases/download/mac-${cfg.version}/NetNewsWire${cfg.version}.zip";
           sha256 = cfg.sha256;
           name = "${name}-${version}.zip";
         };
-        description = "Free and open-source RSS reader";
-        homepage = "https://netnewswire.com/";
         appcast = "https://formulae.brew.sh/api/cask/netnewswire.json";
+        homepage = "https://netnewswire.com/";
       });
   };
 }

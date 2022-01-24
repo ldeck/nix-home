@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
@@ -18,28 +12,28 @@ in {
       };
       version = mkOption {
         default = "2021.7.2";
-        description = "The version of the app";
+        description = "The version of the app.";
       };
       sha256 = mkOption {
         default = "6a50eebf632ac6416569e4addbcccdd05dcccdd1023e0008f8971b58d3f6d647";
-        description = "The sha256 for the defined version";
+        description = "The sha256 for the app.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Insomnia";
-        sourceRoot = "Insomnia.app";
+        description = "HTTP and GraphQL Client";
+        sourceRoot = "${name}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://github.com/Kong/insomnia/releases/download/core%40${version}/Insomnia.Core-${version}.dmg";
+          url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
           sha256 = cfg.sha256;
+          name = "${name}-${version}.dmg";
         };
-        description = "Cross-platform HTTP and GraphQL Client";
-        homepage = https://insomnia.rest;
-        appcast = "https://api.insomnia.rest/changelog.json?app=com.insomnia.app";
+        appcast = "https://formulae.brew.sh/api/cask/insomnia.json";
+        homepage = "https://insomnia.rest/";
       });
   };
 }

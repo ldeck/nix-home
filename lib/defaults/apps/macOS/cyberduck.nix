@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
@@ -17,30 +11,33 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "8.2.0,36680";
-        description = "The version of the app";
+        default = "8.2.1";
+        description = "The version of the app.";
+      };
+      buildNumber = mkOption {
+        default = "36773";
+        description = "The build number of the app (if applicable).";
       };
       sha256 = mkOption {
-        default = "c96c2b99dc5fede4bf3e4f84c7691bf3c2af8ec3db3820361e15f59694593e31";
-        description = "The sha256 for the defined version";
+        default = "052125fa4acfb4dc42b6e6849d9307d26ac543d723c088f3a1f86ffdb15fe8c9";
+        description = "The sha256 for the app.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Cyberduck";
-        sourceRoot = "Cyberduck.app";
-        version = (builtins.head (lib.splitString "," cfg.version));
-        fullVersion = (builtins.replaceStrings [","] ["."] cfg.version);
-        src = pkgs.fetchurl {
-          url = "https://update.cyberduck.io/Cyberduck-${fullVersion}.zip";
-          sha256 = cfg.sha256;
-        };
         description = "Server and cloud storage browser";
-        homepage = https://cyberduck.io/;
-        appcast = https://formulae.brew.sh/api/cask/cyberduck.json;
+        sourceRoot = "${name}.app";
+        version = cfg.version;
+        src = pkgs.fetchurl {
+          url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.buildNumber}.zip";
+          sha256 = cfg.sha256;
+          name = "${name}-${version}.zip";
+        };
+        appcast = "https://formulae.brew.sh/api/cask/cyberduck.json";
+        homepage = "https://cyberduck.io/";
       });
   };
 }
