@@ -133,7 +133,7 @@ in
 
       ;; Improved handling of clipboard in GNU/Linux and otherwise.
       (setq select-enable-clipboard t
-            select-enable-primary t
+            select-enable-primary nil
             save-interprogram-paste-before-kill t)
 
       ;; Pasting with middle click should insert at point, not where the
