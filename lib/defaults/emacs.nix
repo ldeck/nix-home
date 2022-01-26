@@ -187,6 +187,12 @@ in
       ;  (interactive)
       ;  (let ((sort-fold-case t))
       ;    (call-interactively 'sort-lines)))
+
+      ; work-around for recentf lock issue on refocus
+      ; see github.com/syl20bnr/spacemacs/issues/5554
+      (defun ask-user-about-lock (file other-user)
+       "A value of t says to grab the lock on the file"
+       t)
     '';
 
     usePackage = {
