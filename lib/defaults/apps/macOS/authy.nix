@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.authy;
+  inputChars = lib.strings.stringToCharacters "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+  outputChars = lib.strings.stringToCharacters "abcdefghijklmnopqrstuvwxyz-";
+  toHyphenedLower = str: builtins.replaceStrings inputChars outputChars str;
 in {
   options = {
     macOS.apps.authy = {
@@ -24,13 +27,14 @@ in {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Authy";
+        appName = "${name} Desktop";
         description = "Two-factor authentication software";
-        sourceRoot = "${name}.app";
+        sourceRoot = "${appName}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://authy-electron-repository-production.s3.amazonaws.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.dmg";
+          name = "${toHyphenedLower name}-${version}.dmg";
         };
         appcast = "https://formulae.brew.sh/api/cask/authy.json";
         homepage = "https://authy.com/";
