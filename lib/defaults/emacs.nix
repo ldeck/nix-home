@@ -732,8 +732,8 @@ in
               '("-S" "Skip gitlab pipeline creation" "--push-option=ci.skip"))
           ))
         ''];
-        custom = ''
-          (magit-git-executable (file-truename (locate-file "git" exec-path)))
+        init = ''
+          (setq magit-git-executable (file-truename (locate-file "git" exec-path)))
         '';
         config = ''
           (add-to-list 'git-commit-style-convention-checks
