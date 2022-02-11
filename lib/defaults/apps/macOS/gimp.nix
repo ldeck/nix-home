@@ -25,7 +25,7 @@ in {
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Gimp";
         description = "Free and open-source image editor";
-        sourceRoot = "${name}.app";
+        sourceRoot = "${name}-${lib.versions.majorMinor version}.app";
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://download.gimp.org/pub/gimp/v${lib.versions.majorMinor cfg.version}/osx/gimp-${cfg.version}-x86_64.dmg";
