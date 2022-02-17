@@ -1622,6 +1622,7 @@ in
 
           ;; Use the system trash can.
           (setq delete-by-moving-to-trash t)
+          (setq insert-directory-program "ls" dired-use-ls-dired t)
           (setq dired-listing-switches "-alvh --group-directories-first")
         '';
       };
