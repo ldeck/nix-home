@@ -47,6 +47,10 @@ in
       shellAliases = essentialShellAliases // {
         reload = "unset __HM_SESS_VARS_SOURCED && exec zsh";
       };
+      # Fix zsh for macos: https://gist.github.com/Linerre/f11ad4a6a934dcf01ee8415c9457e7b2
+      loginExtra = ''
+        [ -r $HOME/.zshenv ] && . $HOME/.zshenv
+      '';
       initExtra = ''
         # autocompletion using arrow keys (based on history)
         bindkey '\e[A' history-search-backward
