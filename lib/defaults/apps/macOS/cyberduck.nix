@@ -11,15 +11,15 @@ in {
         description = "Whether to enable this app.";
       };
       version = mkOption {
-        default = "8.2.1";
+        default = "8.2.3";
         description = "The version of the app.";
       };
       buildNumber = mkOption {
-        default = "36773";
+        default = "36880";
         description = "The build number of the app (if applicable).";
       };
       sha256 = mkOption {
-        default = "052125fa4acfb4dc42b6e6849d9307d26ac543d723c088f3a1f86ffdb15fe8c9";
+        default = "edac85691a21fee1c1d10fc72dfc7ca91230273bc31a37d0a7b8b1e8afa30d80";
         description = "The sha256 for the app.";
       };
     };
