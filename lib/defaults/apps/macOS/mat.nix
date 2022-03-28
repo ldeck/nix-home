@@ -10,6 +10,10 @@ in {
         default = false;
         description = "Whether to enable this app.";
       };
+      sourceRoot = mkOption {
+        default = "mat.app";
+        description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
+      };
       version = mkOption {
         default = "1.12.0";
         description = "The version of the app.";
@@ -29,7 +33,7 @@ in {
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Mat";
         description = "Java heap analyzer";
-        sourceRoot = "${name}.app";
+        sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://download.eclipse.org/mat/${cfg.version}/rcp/MemoryAnalyzer-${cfg.version}.${cfg.buildNumber}-macosx.cocoa.x86_64.dmg";

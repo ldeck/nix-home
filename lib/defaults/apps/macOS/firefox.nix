@@ -10,6 +10,10 @@ in {
         default = false;
         description = "Whether to enable this app.";
       };
+      sourceRoot = mkOption {
+        default = "Firefox.app";
+        description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
+      };
       version = mkOption {
         default = "98.0.2";
         description = "The version of the app.";
@@ -25,7 +29,7 @@ in {
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Firefox";
         description = "Web browser";
-        sourceRoot = "${name}.app";
+        sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${cfg.version}/mac/en-US/Firefox%20${cfg.version}.dmg";

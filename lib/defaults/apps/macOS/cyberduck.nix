@@ -10,6 +10,10 @@ in {
         default = false;
         description = "Whether to enable this app.";
       };
+      sourceRoot = mkOption {
+        default = "Cyberduck.app";
+        description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
+      };
       version = mkOption {
         default = "8.2.3";
         description = "The version of the app.";
@@ -29,7 +33,7 @@ in {
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Cyberduck";
         description = "Server and cloud storage browser";
-        sourceRoot = "${name}.app";
+        sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.buildNumber}.zip";

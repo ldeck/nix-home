@@ -10,6 +10,10 @@ in {
         default = false;
         description = "Whether to enable this app.";
       };
+      sourceRoot = mkOption {
+        default = "Signal.app";
+        description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
+      };
       version = mkOption {
         default = "5.36.0";
         description = "The version of the app.";
@@ -25,7 +29,7 @@ in {
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Signal";
         description = "Instant messaging application focusing on security";
-        sourceRoot = "${name}.app";
+        sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://updates.signal.org/desktop/signal-desktop-mac-x64-${cfg.version}.dmg";

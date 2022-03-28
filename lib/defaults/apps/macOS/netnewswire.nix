@@ -10,6 +10,10 @@ in {
         default = false;
         description = "Whether to enable this app.";
       };
+      sourceRoot = mkOption {
+        default = "NetNewsWire.app";
+        description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
+      };
       version = mkOption {
         default = "6.0.3";
         description = "The version of the app.";
@@ -25,7 +29,7 @@ in {
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Netnewswire";
         description = "Free and open-source RSS reader";
-        sourceRoot = "${name}.app";
+        sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://github.com/Ranchero-Software/NetNewsWire/releases/download/mac-${cfg.version}/NetNewsWire${cfg.version}.zip";

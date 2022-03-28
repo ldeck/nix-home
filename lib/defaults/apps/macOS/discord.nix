@@ -10,6 +10,10 @@ in {
         default = false;
         description = "Whether to enable this app.";
       };
+      sourceRoot = mkOption {
+        default = "Discord.app";
+        description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
+      };
       version = mkOption {
         default = "0.0.266";
         description = "The version of the app.";
@@ -25,7 +29,7 @@ in {
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Discord";
         description = "Voice and text chat software";
-        sourceRoot = "${name}.app";
+        sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
           url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
