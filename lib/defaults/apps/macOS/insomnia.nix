@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.insomnia;
+  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
   options = {
     macOS.apps.insomnia = {
@@ -34,7 +37,7 @@ in {
         src = pkgs.fetchurl {
           url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
         appcast = "https://formulae.brew.sh/api/cask/insomnia.json";
         homepage = "https://insomnia.rest/";

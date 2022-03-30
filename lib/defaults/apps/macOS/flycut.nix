@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.flycut;
+  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
   options = {
     macOS.apps.flycut = {
@@ -34,7 +37,7 @@ in {
         src = pkgs.fetchurl {
           url = "https://github.com/TermiT/Flycut/releases/download/${cfg.version}/Flycut.${cfg.version}.zip";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
         appcast = "https://formulae.brew.sh/api/cask/flycut.json";
         homepage = "https://github.com/TermiT/Flycut";

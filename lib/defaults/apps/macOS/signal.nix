@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.signal;
+  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
   options = {
     macOS.apps.signal = {
@@ -34,7 +37,7 @@ in {
         src = pkgs.fetchurl {
           url = "https://updates.signal.org/desktop/signal-desktop-mac-x64-${cfg.version}.dmg";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
         appcast = "https://formulae.brew.sh/api/cask/signal.json";
         homepage = "https://signal.org/";

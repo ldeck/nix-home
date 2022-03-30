@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.discord;
+  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
   options = {
     macOS.apps.discord = {
@@ -34,7 +37,7 @@ in {
         src = pkgs.fetchurl {
           url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
         appcast = "https://formulae.brew.sh/api/cask/discord.json";
         homepage = "https://discord.com/";

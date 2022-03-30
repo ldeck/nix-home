@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.gimp;
+  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
   options = {
     macOS.apps.gimp = {
@@ -34,7 +37,7 @@ in {
         src = pkgs.fetchurl {
           url = "https://download.gimp.org/pub/gimp/v${lib.versions.majorMinor cfg.version}/osx/gimp-${cfg.version}-x86_64.dmg";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
         appcast = "https://formulae.brew.sh/api/cask/gimp.json";
         homepage = "https://www.gimp.org/";

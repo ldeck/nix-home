@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.netnewswire;
+  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
   options = {
     macOS.apps.netnewswire = {
@@ -34,7 +37,7 @@ in {
         src = pkgs.fetchurl {
           url = "https://github.com/Ranchero-Software/NetNewsWire/releases/download/mac-${cfg.version}/NetNewsWire${cfg.version}.zip";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
         appcast = "https://formulae.brew.sh/api/cask/netnewswire.json";
         homepage = "https://netnewswire.com/";

@@ -3,6 +3,9 @@ with lib;
 
 let
   cfg = config.macOS.apps.firefox;
+  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
   options = {
     macOS.apps.firefox = {
@@ -34,7 +37,7 @@ in {
         src = pkgs.fetchurl {
           url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${cfg.version}/mac/en-US/Firefox%20${cfg.version}.dmg";
           sha256 = cfg.sha256;
-          name = "${name}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
         appcast = "https://formulae.brew.sh/api/cask/firefox.json";
         homepage = "https://www.mozilla.org/firefox/";
