@@ -3,7 +3,7 @@ with lib;
 
 let
   cfg = config.macOS.apps.flycut;
-  arch = if stdenv.isDarwin stdenv.hostPlatform.darwinArch else stdenv.system;
+  arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
   toHyphenedLower = str:
     (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 in {
