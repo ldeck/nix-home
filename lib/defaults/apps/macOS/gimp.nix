@@ -3,6 +3,7 @@ with lib;
 
 let
   cfg = config.macOS.apps.gimp;
+  stdenv = pkgs.stdenv;
   arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
   toHyphenedLower = str:
     (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
