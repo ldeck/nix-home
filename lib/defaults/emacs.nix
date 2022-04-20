@@ -1780,9 +1780,9 @@ in
         enable = true;
         command = [ "vertico-mode" "vertico-next" ];
         init = "(vertico-mode)";
-        config = ''
-          (setq vertico-cycle t)
-        '';
+        # config = ''
+        #   (setq vertico-cycle t)
+        # '';
       };
 
       visual-fill-column = {
