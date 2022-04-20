@@ -29,10 +29,10 @@
         "homepage": null,
         "owner": "mickeynp",
         "repo": "ligature.el",
-        "rev": "c0e696a88824be6afa1f33fad548d36f96801d8e",
-        "sha256": "10k7dwj0z0jckjla44icq1wcaw1jm4wnsvyzv8s1kf9nn6pb6gp8",
+        "rev": "9357156a917a021a87b33ee391567a5d8e44794a",
+        "sha256": "1jrlaa4k7rfc1lvfq124pp1mbd2f3h7w98cqjqi17lmibk0gj1h6",
         "type": "tarball",
-        "url": "https://github.com/mickeynp/ligature.el/archive/c0e696a88824be6afa1f33fad548d36f96801d8e.tar.gz",
+        "url": "https://github.com/mickeynp/ligature.el/archive/9357156a917a021a87b33ee391567a5d8e44794a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
