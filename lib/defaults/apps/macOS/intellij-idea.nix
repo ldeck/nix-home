@@ -9,7 +9,7 @@ with lib;
 
 let
   stdenv = pkgs.stdenv;
-  cfg = config.macOS.apps.idea-ultimate;
+  cfg = config.macOS.apps.intellij-idea;
 
   ideaSpecs = {
     x86_64-darwin = {
@@ -26,7 +26,7 @@ let
 
 in {
   options = {
-    macOS.apps.idea-ultimate = {
+    macOS.apps.intellij-idea = {
       enable = mkOption {
         default = false;
         description = "Whether to enable this app.";
