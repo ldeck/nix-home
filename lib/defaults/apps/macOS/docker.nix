@@ -13,16 +13,16 @@ let
 
   dockerSpecs = {
     x86_64-darwin = {
-      version = "4.3.0";
-      revision = "71786";
+      version = "4.7.1";
+      revision = "77678";
       arch = "amd64";
-      sha256 = "1c988f8df9be1bac6c2ec984aeadbc4b96c2e152ad51aa80af52e15f3e92c4eb";
+      sha256 = "194bb59c7015ddea680993be42ee572ccd1a7e4b7f8f00293fa398b98f2926aa";
     };
     aarch64-darwin = {
-      version = "4.3.0";
-      revision = "71786";
+      version = "4.7.1";
+      revision = "77678";
       arch = "arm64";
-      sha256 = "b6c5736b277ecbf349319b818bf8bfa9a69b48ef0f0c0c05ffbd6761dc90cd80";
+      sha256 = "ce5aea6a2c30c10a81b9768cfe09c24d4e33a36d355b3703d590ca6c4498e73f";
     };
   };
 
