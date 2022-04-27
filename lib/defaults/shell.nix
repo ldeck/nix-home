@@ -2,6 +2,9 @@
 let
 
   essentialShellAliases = {
+    bash-noprofile = "bash --noprofile";
+    zsh-noprofile = "zsh -d -f -i";
+
     e = "emacs -nw";
     ec = "emacsclient -nw -c";
 
