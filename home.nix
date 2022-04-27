@@ -47,10 +47,16 @@ in
 {
   imports = modules;
 
+  # Override this in ~/.me.d/
   nixpkgs.config = {
     allowUnfree = true;
     permittedInsecurePackages = [];
   };
+
+  # Override this in ~/.me.d/
+  home.file.".config/nix/nix.conf".text = ''
+    experimental-features = nix-command flakes
+  '';
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
