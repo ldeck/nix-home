@@ -13,7 +13,6 @@
       nix-prefetch-github
       nix-prefetch-scripts
       undmg
-      styx
 
       # TOOLS
       aspell
