@@ -35,6 +35,7 @@
         merge.conflictstyle = "diff3";
         pull.rebase = true;
         status.showUntrackedFiles = "all";
+        init.defaultBranch = "main";
       };
     };
   };
