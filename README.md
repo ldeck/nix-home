@@ -34,13 +34,13 @@ NB: You do not need to install [home-manager](https://github.com/rycee/home-mana
 1. Initialise pinned dependencies (home-manager and nixpkgs) with the latest version:
 
    ```sh
-   ./update-dependencies --init
+   ./dependencies.sh --init ...
    ```
 
    which is just shorthand for:
 
    ```sh
-   nix-shell --run "niv update" init.nix
+   nix-shell --run "niv update ..." init.nix
    ```
 
 NB: this last setup step was crucial on macOS 11.x Big Sur as otherwise shell.nix
@@ -51,13 +51,13 @@ can load a version of nixpkgs that suffers from clang errors.
 1. Optionally update dependencies (home-manager and nixpkgs) to the latest version:
 
    ```sh
-   ./update-dependencies.sh
+   ./update-dependencies.sh --update ...
    ```
 
    which is just shorthand for:
 
    ```
-   nix-shell --run "niv update" [shell.nix]
+   nix-shell --run "niv update ..." [shell.nix]
    ```
 2. Optionally stay informed about home-manager news:
 
@@ -75,13 +75,24 @@ can load a version of nixpkgs that suffers from clang errors.
 4. Run the switch script to switch to your configuration:
 
     ```sh
-    ./switch.sh
+    ./switch.sh ...
     ```
 
     which is just shorthand for:
 
     ```
-    nix-shell --run "home-manager switch"
+    nix-shell --run "home-manager switch ..."
+    ```
+5. List installed packages:
+
+    ```sh
+    ./dependencies.sh --list ...
+    ```
+
+    which is just shorthand for:
+
+    ```sh
+    nix-shell --run "home-manager packages ..."
     ```
 
 # Home configuration
