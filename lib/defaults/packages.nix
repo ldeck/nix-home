@@ -31,6 +31,7 @@
       taskwarrior
       tree
       python38Packages.yamllint
+      zlib
     ];
   };
 }
