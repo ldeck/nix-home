@@ -17,7 +17,7 @@
       # TOOLS
       aspell
       bc
-      clang
+      clang_13
       coreutils
       fd
       ffmpeg
