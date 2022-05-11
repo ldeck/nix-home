@@ -19,11 +19,19 @@ in {
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
-        default = "0.93.0";
+        default = "0.96.2";
         description = "The version of the app.";
       };
+      buildDate = mkOption {
+        default = "2022-04-14";
+        description = "The date of the release build.";
+      };
+      buildNumber = mkOption {
+        default = "68dcf1f46";
+        description = "The build number associated with the build.";
+      };
       sha256 = mkOption {
-        default = "24a45783ccf411ec7f8306f7172da5b3bd7c1ad4dd7243445ece6ce70056d001";
+        default = "MZMS2V0Hdr6HyL4tXokV4jDWvFS+1XxAvXa2fjl1faI=";
         description = "The sha256 for the app.";
       };
     };
@@ -36,7 +44,7 @@ in {
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-2022-01-06-81f1eeba.zip";
+          url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.buildDate}-${cfg.buildNumber}.zip";
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
