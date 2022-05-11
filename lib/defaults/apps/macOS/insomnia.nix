@@ -19,11 +19,11 @@ in {
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
-        default = "2022.2.1";
+        default = "2022.3.0";
         description = "The version of the app.";
       };
       sha256 = mkOption {
-        default = "bc7357e69b305fe11b2e10f486018323c772087b4433ed6526c84973ed3b779d";
+        default = "6d718ab33e97cca636d6edfbf83daa545741bf5b66023b16b2b27b8703ab0dca";
         description = "The sha256 for the app.";
       };
     };
