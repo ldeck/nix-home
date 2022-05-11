@@ -5,7 +5,8 @@ with lib;
 let
   cfg = config.programs.ruby-install;
   stdenv = pkgs.stdenv;
-
+  # can't get it to work on darwin purely yet
+  gcc = if stdenv.isDarwin then "/usr/bin/gcc" else "${pkgs.gcc}/bin/gcc";
 in
 {
   options = {
@@ -55,13 +56,28 @@ in
           };
 
           ruby-install-wrapper = pkgs.writeShellScriptBin "ruby-install" ''
-            export CC=${pkgs.gcc}/bin/gcc
-            export RUBY_CONFIGURE_OPTS="--with-openssl-dir=${pkgs.openssl_3_0} --with-readline-dir=${pkgs.readline}"
-            ${ruby-install}/bin/ruby-install $@
+            export CC=${gcc}
+
+            SOURCEDIR=" -s ~/.rubies/src "
+            OPENSSLDIR=" --with-openssl-dir=${pkgs.openssl.dev} "
+            READLINEDIR=" --with-readline-dir=${pkgs.readline.dev} "
+
+            for var in "$@"; do
+              case "$var" in
+                -s) SOURCEDIR="" ;;
+                --with-readline-dir=*) OPENSSLDIR="" ;;
+                --with-readline-dir=*) READLINEDIR="" ;;
+                *) ;;
+              esac
+            done
+
+            SWITCHES="$SOURCEDIR"
+            CONFIGS="$${OPENSSLDIR}$${READLINEDIR}"
+            [ ! -z "$CONFIGS" ] && CONFIGS="-- $CONFIGS"
+            ${ruby-install}/bin/ruby-install $SWITCHES $@ $CONFIGS
           '';
 
         in
-
           ruby-install-wrapper
       )
     ];
