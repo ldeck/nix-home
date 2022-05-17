@@ -39,8 +39,22 @@ in
           type = types.str;
           default = ''
             use_java() {
-              export JAVA_HOME=$(${java_home}/bin/java_home -v $1)
-              echo "JAVA_HOME=$JAVA_HOME"
+              # desired jdk version as first parameter?
+              local ver=$1
+
+              # if version not given as param, check for .java-version file
+              if [[ -z $ver ]] && [[ -f .java-version ]]; then
+                ver=$(cat .java-version)
+              fi
+
+              # if the version still isn't set, set warning
+              if [[ -z $ver ]]; then
+                echo Warning: This project does not specify a JDK version! Using 17.
+                ver='17'
+              fi
+
+              local jdk_home=$(${java_home}/bin/java_home -v $ver)
+              export JAVA_HOME=$jdk_home
               load_prefix "$JAVA_HOME"
               PATH_add "$JAVA_HOME/bin"
             }
