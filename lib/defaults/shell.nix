@@ -1,4 +1,4 @@
-{ pkgs, ...}:
+{ pkgs, lib, ...}:
 let
 
   essentialShellAliases = {
@@ -27,6 +27,10 @@ let
 
 in
 {
+  home.packages = [
+    pkgs.bash
+  ];
+
   programs = {
     autojump = {
       enable = true;
@@ -37,7 +41,7 @@ in
     # to your profile.
 
     bash = {
-      enable = true;
+      enable = lib.mkOverride 100 true;
       shellAliases = essentialShellAliases // {
         reload = "unset __HM_SESS_VARS_SOURCED && exec bash";
       };
