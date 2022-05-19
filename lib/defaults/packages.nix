@@ -19,6 +19,7 @@
       bc
       clang_13
       coreutils
+      coreutils-prefixed
       fd
       ffmpeg
       gdb
