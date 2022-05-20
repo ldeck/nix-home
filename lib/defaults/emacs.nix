@@ -271,12 +271,21 @@ in
                 builtins.filter isNotUcsUtils drv.propagatedUserEnvPkgs;
             });
         defer = 2;
+        bind = {
+          "C-x <left>" = "back-button-local";
+          "C-x <right>" = "back-button-local-foward";
+          "C-x C-<left>" = "back-button-global";
+          "C-x C-<right>" = "back-button-global-forward";
+        };
         command = [ "back-button-mode" ];
         config = ''
           (back-button-mode 1)
 
           ;; Make mark ring larger.
           (setq global-mark-ring-max 50)
+
+          ;; Don't clobber rectangle-mark-mode!!!
+          (unbind-key "C-x <SPC>" back-button-mode-map)
         '';
       };
 
