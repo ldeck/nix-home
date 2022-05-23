@@ -1575,7 +1575,7 @@ in
       };
 
       editorconfig = {
-        enable = false;
+        enable = true;
         config = ''
           (editorconfig-mode 1)
         '';
