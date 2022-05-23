@@ -911,7 +911,11 @@ in
         enable = true;
         command = [ "lsp" ];
         after = [ "company" "flycheck" ];
-        hook = [ "(lsp-mode . lsp-enable-which-key-integration)" ];
+        hook = [
+          "(lsp-mode . lsp-enable-which-key-integration)"
+          "(scala-mode . lsp)"
+          "(lsp-mode . lsp-lens-mode)"
+        ];
         bindLocal = {
           lsp-mode-map = {
             "C-c r r" = "lsp-rename";
@@ -931,6 +935,17 @@ in
                 lsp-modeline-code-actions-enable nil
                 lsp-modeline-diagnostics-enable nil
                 lsp-modeline-workspace-status-enable nil)
+
+          ;; scala metals suggested properties
+          ;; UNCOMMENT the following to tune lsp-mode performance as per
+          ;; ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
+          ;;       (setq gc-cons-threshold 100000000) ;; 100mb
+          ;;       (setq read-process-output-max (* 1024 1024)) ;; 1mb
+          ;;       (setq lsp-idle-delay 0.500)
+          ;;       (setq lsp-log-io nil)
+          ;;       (setq lsp-completion-provider :capf)
+          (setq lsp-prefer-flymake nil)
+
           (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
         '';
       };
@@ -955,6 +970,17 @@ in
                      "org.junit.jupiter.api.DynamicContainer.*"
                      "org.junit.jupiter.api.DynamicTest.*"
                      "org.mockito.ArgumentMatchers.*"])
+        '';
+      };
+
+      lsp-metals = {
+        enable = true;
+        hook = [ "(scala-mode . lsp)" ];
+        config = ''
+          ;; Metals claims to support range formatting by default, but it supports range
+          ;; formatting of multiline strings only. By disabling it emacs can use the
+          ;; indendation provided by scala-mode instead.
+          ;;(lsp-metals-server-args '("-J-Dmetals.allow-multiline-string-formatting=off"))
         '';
       };
 
@@ -983,23 +1009,32 @@ in
       };
 
       dap-mode = {
-        enable = false;
+        enable = true;
         after = [ "lsp-mode" ];
+        hook = [
+          "(lsp-mode . dap-mode)"
+          "(lsp-mode . dap-ui-mode)"
+        ];
       };
 
       dap-mouse = {
-        enable = false;
+        enable = true;
         hook = [ "(dap-mode . dap-tooltip-mode)" ];
       };
 
       dap-ui = {
-        enable = false;
+        enable = true;
         hook = [ "(dap-mode . dap-ui-mode)" ];
       };
 
       dap-java = {
-        enable = false;
+        enable = true;
         after = [ "dap-mode" "lsp-java" ];
+      };
+
+      # use the Debug Adapter Protocol for running tests and debugging
+      posframe = {
+        enable = true;
       };
 
       #  Setup RefTeX.
@@ -1292,6 +1327,27 @@ in
         hook = [ "(purescript-mode . purescript-indentation-mode)" ];
       };
 
+      scala-mode = {
+        enable = true;
+        mode = [ ''("\\.scala\\'" . scala-mode)'' ];
+      };
+
+      sbt-mode = {
+        enable = true;
+        command = [ "sbt-start" "sbt-command" ];
+        config = ''
+          ;; WORKARROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+          ;; allows using SPACE when in the minibuffer
+          (substitute-key-definition
+          'minibuffer-complete-word
+          'self-insert-command
+          minibuffer-local-completion-map)
+
+          ;; sbt-supershell kills sbt-mode: https://github.com/hvesalai/emacs-sbt-mode/issues/152
+          (setq sbt:program-options '("-Dsbt.supershell=false"))
+        '';
+      };
+
       # Set up yasnippet. Defer it for a while since I don't generally
       # need it immediately.
       yasnippet = {
@@ -1457,6 +1513,8 @@ in
                 company-tooltip-minimum-width 20
                 ; Allow me to keep typing even if company disapproves.
                 company-require-match nil)
+
+          (setq lsp-completion-provider :capf)
 
           (global-company-mode)
         '';
