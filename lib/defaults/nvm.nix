@@ -23,7 +23,16 @@ let
         mkdir -p $out/share/nvm;
         cp nvm.sh $out/share/nvm/nvm.sh;
       '';
-  };
+    };
+
+  initExtra = ''
+    mkdir -p $HOME/.nvm
+    export NVM_DIR=$HOME/.nvm
+    export NODE_VERSIONS=$NVM_DIR/versions/node
+    export NODE_VERSION_PREFIX=v
+    source $HOME/.nix-profile/share/nvm/nvm.sh;
+  '';
+
 
 in
 
@@ -53,19 +62,11 @@ in
     }
 
     (mkIf cfg.zsh.enable {
-      programs.zsh.initExtra = ''
-        mkdir -p $HOME/.nvm
-        export NVM_DIR=$HOME/.nvm
-        source $HOME/.nix-profile/share/nvm/nvm.sh;
-      '';
+      programs.zsh.initExtra = initExtra;
     })
 
     (mkIf cfg.bash.enable {
-      programs.bash.initExtra = ''
-        mkdir -p $HOME.nvm
-        export NVM_DIR="$HOME/.nvm"
-        source $HOME/.nix-profile/share/nvm/nvm.sh;
-      '';
+      programs.bash.initExtra = initExtra;
     })
   ]);
 }
