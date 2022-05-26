@@ -1694,6 +1694,14 @@ in
         '';
       };
 
+      dired-filter = {
+        enable = true;
+        config = ''
+          (define-key dired-mode-map (kbd "/") dired-filter-map)
+          (define-key dired-mode-map (kbd "M-/") dired-filter-mark-map)
+        '';
+      };
+
       all-the-icons-dired = {
         enable = true;
         hook = [ "(dired-mode . all-the-icons-dired-mode)" ];
