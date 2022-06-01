@@ -25,6 +25,7 @@
       gdb
       gnupg
       jq
+      jsonnet
       nox
       perl
       ripgrep

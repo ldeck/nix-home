@@ -31,6 +31,9 @@ in
       (push '(tool-bar-lines . nil) default-frame-alist)
       (push '(vertical-scroll-bars . nil) default-frame-alist)
 
+      ;; hide obsolete warnings like "package cl is deprecated"
+      (setq byte-compile-warnings '(not obsolete))
+
       ;; Set up fonts early.
       (set-face-attribute 'default
                           nil
@@ -378,6 +381,46 @@ in
         '';
       };
 
+      consult-ag = { enable = true; };
+      consult-dir = {
+        enable = true;
+        bind = {
+          "C-x C-d" = "consult-dir";
+        };
+        bindLocal = {
+          minibuffer-local-completion-map = {
+            "C-x C-d" = "consult-dir";
+            "C-x C-j" = "consult-dir-jump-file";
+          };
+        };
+      };
+      consult-flycheck = { enable = true; };
+      consult-flyspell = { enable = true; };
+      consult-ls-git = {
+        enable = true;
+        bind = {
+          "C-c g f" = "consult-ls-git";
+          "C-c g F" = "consult-ls-git-other-window";
+        };
+      };
+      consult-lsp = {
+        enable = true;
+        extraConfig = ''
+          :bind (:map lsp-mode-map
+                      ([remap xref-find-apropros] #'company-complete-common))
+        '';
+      };
+      consult-notmuch = { enable = true; };
+      consult-project-extra = {
+        enable = true;
+        bind = {
+          "C-c p f" = "consult-project-extra-find";
+          "C-c p o" = "consult-project-extra-find-other-window";
+        };
+      };
+      consult-projectile = { enable = true; };
+      consult-yasnippet = { enable = true; };
+
       consult-xref = {
         enable = true;
         after = [ "consult" "xref" ];
@@ -512,6 +555,10 @@ in
         config = ''
           (setq js-indent-level 2)
         '';
+      };
+
+      jsonnet-mode = {
+        enable = true;
       };
 
       # See https://github.com/mickeynp/ligature.el
