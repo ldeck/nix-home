@@ -59,27 +59,12 @@ in
         [ -r $HOME/.zshenv ] && . $HOME/.zshenv
       '';
       initExtra = ''
-        # autocompletion using arrow keys (based on history)
-        bindkey '\e[A' history-search-backward
-        bindkey '\e[B' history-search-forward
-
-        # https://superuser.com/questions/446594/separate-up-arrow-lookback-for-local-and-global-zsh-history
-
-        function up-line-or-history() {
-          zle set-local-history 1
-          zle .up-line-or-history
-          zle set-local-history 0
-        }
-
-        function down-line-or-history() {
-          zle set-local-history 1
-          zle .down-line-or-history
-          zle set-local-history 0
-        }
-
-        # Overwrite existing {up,down}-line-or-history widgets with the functions above.
-        zle -N up-line-or-history
-        zle -N down-line-or-history
+        autoload -U up-line-or-beginning-search
+        autoload -U down-line-or-beginning-search
+        zle -N up-line-or-beginning-search
+        zle -N down-line-or-beginning-search
+        bindkey '\e[A' up-line-or-beginning-search
+        bindkey '\e[B' down-line-or-beginning-search
 
         ${shellFunctions}
       '';
