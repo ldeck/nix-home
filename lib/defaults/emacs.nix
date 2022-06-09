@@ -277,8 +277,8 @@ in
         bind = {
           "C-x <left>" = "back-button-local";
           "C-x <right>" = "back-button-local-foward";
-          "C-x C-<left>" = "back-button-global";
-          "C-x C-<right>" = "back-button-global-forward";
+          "C-x x <left>" = "back-button-global";
+          "C-x x <right>" = "back-button-global-forward";
         };
         command = [ "back-button-mode" ];
         config = ''
@@ -348,6 +348,7 @@ in
         bind = {
           "C-s" = "consult-line";
           "C-x b" = "consult-buffer";
+          "C-x x l" = "consult-global-mark";
           "M-g M-g" = "consult-goto-line";
           "M-g g" = "consult-goto-line";
           "M-s f" = "consult-find";
