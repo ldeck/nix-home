@@ -1891,6 +1891,9 @@ in
           "C-c t f" = "treemacs-find-file";
           "C-c t t" = "treemacs";
         };
+        config = ''
+          (setq treemacs-project-follow-mode t)
+        '';
       };
 
       verb = {
