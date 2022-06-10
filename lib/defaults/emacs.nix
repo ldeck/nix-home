@@ -370,6 +370,9 @@ in
           (advice-add #'completing-read-multiple
                       :override #'consult-completing-read-multiple)
 
+          (advice-add #'project-find-regexp
+                      :override #'consult-ripgrep)
+
           (consult-customize
             consult-line
               :history t ;; disable history
