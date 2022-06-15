@@ -1891,12 +1891,31 @@ in
       treemacs = {
         enable = true;
         bind = {
+          "C-c t /" = "treemacs";
+          "C-c t B" = "treemacs-bookmark";
+          "C-c t 0" = "treemacs-select-window";
+          "C-c t 1" = "treemacs-delete-other-windows";
+          "C-c t d" = "treemacs-select-directory";
           "C-c t f" = "treemacs-find-file";
-          "C-c t t" = "treemacs";
+          "C-c t t" = "treemacs-find-tag";
         };
         config = ''
-          (setq treemacs-project-follow-mode t)
+          (setq treemacs-follow-after-init t)
+          (treemacs-project-follow-mode t)
+          (treemacs-follow-mode t)
+          (treemacs-filewatch-mode t)
+          (treemacs-fringe-indicator-mode 'always)
         '';
+      };
+
+      treemacs-icons-dired = {
+        hook = [ "(dired-mode . treemacs-icons-dired-enable-once)" ];
+        enable = true;
+      };
+
+      treemacs-magit = {
+        enable = true;
+        after = [ "treemacs" "magit" ];
       };
 
       verb = {
