@@ -45,10 +45,21 @@ in
 
       ;; Configure color theme and modeline in early init to avoid flashing
       ;; during start.
-      (require 'base16-theme)
-      (require 'nord-theme)
+      ;;(require 'base16-theme)
+      ;;(require 'nord-theme)
       ;;(load-theme 'base16-tomorrow-night t)
-      (load-theme 'wombat t)
+      ;;(require 'modus-vivendi)
+      ;; (load-theme 'modus-vivendi)
+      ;; (load-theme 'tango)
+
+      (require 'paganini-theme)
+      (load-theme 'paganini t)
+
+      ;; (require 'tsdh-dark)
+      ;; (load-theme 'tsdh-dark t)
+
+      ;;(load-theme 'wombat t)
+      ;;(set-face-background 'completions-common-part "white smoke")
 
       (require 'doom-modeline)
       (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
@@ -227,6 +238,10 @@ in
               ("ndr" "understand")
               ("tnk" "think")))
         '';
+      };
+
+      paganini-theme = {
+        enable = true;
       };
 
       adoc-mode = {
