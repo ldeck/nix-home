@@ -19,19 +19,19 @@ in {
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
-        default = "0.96.2";
+        default = "0.97.1";
         description = "The version of the app.";
       };
       buildDate = mkOption {
-        default = "2022-04-14";
+        default = "2022-05-23";
         description = "The date of the release build.";
       };
       buildNumber = mkOption {
-        default = "68dcf1f46";
+        default = "26d0b3467";
         description = "The build number associated with the build.";
       };
       sha256 = mkOption {
-        default = "MZMS2V0Hdr6HyL4tXokV4jDWvFS+1XxAvXa2fjl1faI=";
+        default = "fac60f2a902aaf5ef5b2c6d43c76f2bdb093233755d871971449bd0225f0defb";
         description = "The sha256 for the app.";
       };
     };
