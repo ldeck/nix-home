@@ -155,6 +155,23 @@ let
     fi
   '';
 
+  nix-update = pkgs.writeShellScriptBin "nix-update" ''
+    system="$(nix-instantiate --eval -A 'stdenv.hostPlatform.system' '<nixpkgs>' | xargs)"
+    if [[ "$system" == *"darwin"* ]]; then
+      if [ -z "$(${nix-system}/bin/nix-system 2>&1 | grep multi | grep yes)" ]; then
+        # multi user update
+        sudo -i sh -c 'nix-channel --update && nix-env -iA nixpkgs.nix && launchctl remove org.nixos.nix-daemon && launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist'
+      else
+        # single user update
+        nix-channel --update; nix-env -iA nixpkgs.nix nixpkgs.cacert
+      fi
+    elif [[ "$system" == *"linux"* ]]; then
+      nix-channel --update; nix-env -iA nixpkgs.nix nixpkgs.cacert; systemctl daemon-reload; systemctl restart nix-daemon
+    else
+      echo "Unknown system $system. No upgrade performed."
+    fi
+  '';
+
   sudo-with-touch = pkgs.writeShellScriptBin "sudo-with-touch" ''
     primary=$(cat /etc/pam.d/sudo | head -2 | tail -1 | awk '{$1=$1}1' OFS=",")
     if [ "auth,sufficient,pam_tid.so" != "$primary" ]; then
