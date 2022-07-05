@@ -55,6 +55,15 @@ in
       (require 'paganini-theme)
       (load-theme 'paganini t)
 
+      ;; linum
+      (setq linum-format "%4d \u2502 ")
+      (setq-default left-fringe-width  20)
+      (setq-default right-fringe-width  20)
+      (global-linum-mode t)
+      (set-face-foreground 'linum "lightgrey")
+      (set-face-background 'linum "grey20")
+      (set-face-attribute 'fringe nil :background "black")
+
       ;; (require 'tsdh-dark)
       ;; (load-theme 'tsdh-dark t)
 
