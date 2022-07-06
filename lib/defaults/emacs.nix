@@ -381,6 +381,9 @@ in
         };
         command = [ "consult-completing-read-multiple" ];
         config = ''
+          # to fit paganini theme
+          (set-face-attribute 'consult-file nil :inherit nil)
+
           (setq consult-project-root-function
                 (lambda ()
                   (let ((p (project-current)))
