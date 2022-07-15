@@ -1016,6 +1016,9 @@ in
                 lsp-modeline-diagnostics-enable nil
                 lsp-modeline-workspace-status-enable nil)
 
+          (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.Trash\\'")
+          (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.Trash\\'")
+
           ;; scala metals suggested properties
           ;; UNCOMMENT the following to tune lsp-mode performance as per
           ;; ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
