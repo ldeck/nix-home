@@ -152,7 +152,9 @@ in
 
       ;; Enable highlighting of current line.
       (global-hl-line-mode 1)
-      (set-face-underline 'highlight nil)
+      ;;(set-face-underline 'highlight nil)
+      ;;(set-face-attribute 'highlight nil :background "DarkSlateGrey")
+      (set-face-attribute 'highlight nil :background "#294F6E")
 
       ;; Improved handling of clipboard in GNU/Linux and otherwise.
       (setq select-enable-clipboard t
@@ -382,7 +384,7 @@ in
         command = [ "consult-completing-read-multiple" ];
         config = ''
           ;; to fit paganini theme
-          (set-face-attribute 'consult-file nil :inherit nil)
+          ;; (set-face-attribute 'consult-file nil :inherit nil)
 
           (setq consult-project-root-function
                 (lambda ()
