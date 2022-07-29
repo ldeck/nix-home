@@ -890,7 +890,10 @@ in
         config = ''
           (setq undo-tree-visualizer-relative-timestamps t
                 undo-tree-visualizer-timestamps t
-                undo-tree-enable-undo-in-region t)
+                undo-tree-enable-undo-in-region t
+                undo-tree-auto-save-history t
+                undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))
+          )
           (global-undo-tree-mode)
         '';
       };
