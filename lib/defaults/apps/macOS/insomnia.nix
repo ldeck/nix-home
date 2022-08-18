@@ -7,6 +7,22 @@ let
   arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
   toHyphenedLower = str:
     (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
+
+  archSpecs = {
+    x86_64-darwin = {
+      version = "2022.5.0";
+      revision = "";
+      arch = "amd64";
+      sha256 = "a9eb73fc4f12523d31ea3af03b72eedb88f966b3e5ccaf25f494574acbc93563";
+    };
+    aarch64-darwin = {
+      version = "2022.5.0";
+      revision = "";
+      arch = "arm64";
+      sha256 = "a9eb73fc4f12523d31ea3af03b72eedb88f966b3e5ccaf25f494574acbc93563";
+    };
+  };
+
 in {
   options = {
     macOS.apps.insomnia = {
@@ -19,11 +35,15 @@ in {
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
-        default = "2022.3.0";
+        default = archSpecs.${stdenv.hostPlatform.system}.version;
         description = "The version of the app.";
       };
+      revision = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.revision;
+        description = "The build number of the app (if applicable).";
+      };
       sha256 = mkOption {
-        default = "6d718ab33e97cca636d6edfbf83daa545741bf5b66023b16b2b27b8703ab0dca";
+        default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
     };

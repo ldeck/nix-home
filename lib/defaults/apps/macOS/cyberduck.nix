@@ -7,6 +7,22 @@ let
   arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
   toHyphenedLower = str:
     (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
+
+  archSpecs = {
+    x86_64-darwin = {
+      version = "8.4.2";
+      revision = "38090";
+      arch = "amd64";
+      sha256 = "b7c4011bcbd374c25e27148b452dbc2b0b72846bd993ffe6ac0ba922c2b5612f";
+    };
+    aarch64-darwin = {
+      version = "8.4.2";
+      revision = "38090";
+      arch = "arm64";
+      sha256 = "b7c4011bcbd374c25e27148b452dbc2b0b72846bd993ffe6ac0ba922c2b5612f";
+    };
+  };
+
 in {
   options = {
     macOS.apps.cyberduck = {
@@ -19,15 +35,15 @@ in {
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
-        default = "8.3.3";
+        default = archSpecs.${stdenv.hostPlatform.system}.version;
         description = "The version of the app.";
       };
-      buildNumber = mkOption {
-        default = "37544";
+      revision = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
       };
       sha256 = mkOption {
-        default = "668f158290632823dc1be6d831937fa81f874d7ffad932c01f3dadebad2fb1e7";
+        default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
     };
@@ -40,7 +56,7 @@ in {
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.buildNumber}.zip";
+          url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
