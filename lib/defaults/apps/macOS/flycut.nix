@@ -38,6 +38,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.version;
         description = "The version of the app.";
       };
+      date = mkOption {
+        default = "";
+        description = "The build date (if applicable).";
+      };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";

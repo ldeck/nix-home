@@ -7,6 +7,22 @@ let
   arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
   toHyphenedLower = str:
     (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
+
+  archSpecs = {
+    x86_64-darwin = {
+      version = "0.57";
+      revision = "63";
+      arch = "amd64";
+      sha256 = "cbf2f6c4bd600628fb908a73a648be177739f1fde11b27759105d503b039b35f";
+    };
+    aarch64-darwin = {
+      version = "0.57";
+      revision = "63";
+      arch = "arm64";
+      sha256 = "cbf2f6c4bd600628fb908a73a648be177739f1fde11b27759105d503b039b35f";
+    };
+  };
+
 in {
   options = {
     macOS.apps.rectangle = {
@@ -19,11 +35,19 @@ in {
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
-        default = "0.56";
+        default = archSpecs.${stdenv.hostPlatform.system}.version;
         description = "The version of the app.";
       };
+      date = mkOption {
+        default = "";
+        description = "The build date (if applicable).";
+      };
+      revision = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.revision;
+        description = "The build number of the app (if applicable).";
+      };
       sha256 = mkOption {
-        default = "5a7bcffd5754bcf58ffe1029a048d9d6da5691ec62fb2b003fdd072066dcceca";
+        default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
     };

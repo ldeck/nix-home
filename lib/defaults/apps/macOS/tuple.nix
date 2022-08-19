@@ -7,6 +7,22 @@ let
   arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
   toHyphenedLower = str:
     (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
+
+  archSpecs = {
+    x86_64-darwin = {
+      version = "0.98.2";
+      revision = "99364aa15";
+      arch = "amd64";
+      sha256 = "aadd3a9dd9a9ee3034ce33f96894d83448b1505913e10bdad60b56453298e774";
+    };
+    aarch64-darwin = {
+      version = "0.98.2";
+      revision = "99364aa15";
+      arch = "arm64";
+      sha256 = "aadd3a9dd9a9ee3034ce33f96894d83448b1505913e10bdad60b56453298e774";
+    };
+  };
+
 in {
   options = {
     macOS.apps.tuple = {
@@ -19,19 +35,19 @@ in {
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
-        default = "0.97.1";
+        default = archSpecs.${stdenv.hostPlatform.system}.version;
         description = "The version of the app.";
       };
-      buildDate = mkOption {
-        default = "2022-05-23";
-        description = "The date of the release build.";
+      date = mkOption {
+        default = "2022-07-27";
+        description = "The build date (if applicable).";
       };
-      buildNumber = mkOption {
-        default = "26d0b3467";
-        description = "The build number associated with the build.";
+      revision = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.revision;
+        description = "The build number of the app (if applicable).";
       };
       sha256 = mkOption {
-        default = "fac60f2a902aaf5ef5b2c6d43c76f2bdb093233755d871971449bd0225f0defb";
+        default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
     };
@@ -44,7 +60,7 @@ in {
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.buildDate}-${cfg.buildNumber}.zip";
+          url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.buildDate}-${cfg.revision}.zip";
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
