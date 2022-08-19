@@ -1101,6 +1101,13 @@ in
           "(lsp-mode . dap-mode)"
           "(lsp-mode . dap-ui-mode)"
         ];
+        config = ''
+          ;; Bind `C-c l d` to `dap-hydra` for easy access
+          (general-define-key
+            :keymaps 'lsp-mode-map
+            :prefix lsp-keymap-prefix
+            "d" '(dap-hydra t :wk "debugger"))
+        '';
       };
 
       dap-mouse = {
