@@ -60,7 +60,7 @@ in {
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.buildDate}-${cfg.revision}.zip";
+          url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
