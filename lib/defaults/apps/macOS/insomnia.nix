@@ -10,16 +10,16 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2022.5.0";
+      version = "2022.5.1";
       revision = "";
       arch = "amd64";
-      sha256 = "a9eb73fc4f12523d31ea3af03b72eedb88f966b3e5ccaf25f494574acbc93563";
+      sha256 = "d659cf1164bfbbc63836027d5b26b18d701256019121e3ac90d18c2e16a28f0d";
     };
     aarch64-darwin = {
-      version = "2022.5.0";
+      version = "2022.5.1";
       revision = "";
       arch = "arm64";
-      sha256 = "a9eb73fc4f12523d31ea3af03b72eedb88f966b3e5ccaf25f494574acbc93563";
+      sha256 = "d659cf1164bfbbc63836027d5b26b18d701256019121e3ac90d18c2e16a28f0d";
     };
   };
 
