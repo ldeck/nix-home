@@ -1001,6 +1001,12 @@ in
         ];
         bindLocal = {
           lsp-mode-map = {
+            "C-c l d c" = "dap-continue";
+            "C-c l d e" = "dap-eval";
+            "C-c l d n" = "dap-next";
+            "C-c l d i" = "dap-step-in";
+            "C-c l d o" = "dap-step-out";
+            "C-c l d Q" = "dap-disconnect";
             "C-c r r" = "lsp-rename";
             "C-c r f" = "lsp-format-buffer";
             "C-c r g" = "lsp-format-region";
@@ -1010,6 +1016,7 @@ in
         };
         init = ''
           (setq lsp-keymap-prefix "C-c l")
+          (which-key-add-key-based-replacements "C-c l d" "debugger")
         '';
         config = ''
           (setq lsp-diagnostics-provider :flycheck
@@ -1101,11 +1108,6 @@ in
           "(lsp-mode . dap-mode)"
           "(lsp-mode . dap-ui-mode)"
         ];
-        bindLocal = {
-          lsp-mode-map = {
-            "d" = '''(dap-hydra t :wk "debugger")'';
-          };
-        };
       };
 
       dap-mouse = {
