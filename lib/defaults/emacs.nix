@@ -1689,15 +1689,16 @@ in
         after = [ "magit" ];
         config = ''
           (setq forge-owned-accounts '())
-          (let ((accounts (remove nil
-                                  (list
-                                  (getenv "FORGE_OWNED_ACCOUNTS")
-                                  (getenv "USER")))))
-           (if accounts
-             (progn
-             (message "Configuring forge-owned-accounts: %s" accounts)
-             (add-to-list 'forge-owned-accounts accounts)
-             )))
+          (let ((forgeAccounts
+                (or
+                  (getenv "FORGE_OWNED_ACCOUNTS")
+                  (getenv "USER"))))
+            (if forgeAccounts
+                (let ((accountsList (list forgeAccounts)))
+                  (progn
+                    (message "Configuring forge-owned-accounts: %s" accountsList)
+                    (add-to-list 'forge-owned-accounts accountsList)
+                    ))))
         '';
       };
 
