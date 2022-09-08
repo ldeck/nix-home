@@ -1001,12 +1001,7 @@ in
         ];
         bindLocal = {
           lsp-mode-map = {
-            "C-c l d c" = "dap-continue";
-            "C-c l d e" = "dap-eval";
-            "C-c l d n" = "dap-next";
-            "C-c l d i" = "dap-step-in";
-            "C-c l d o" = "dap-step-out";
-            "C-c l d Q" = "dap-disconnect";
+            "C-c l d" = "dap-hydra";
             "C-c r r" = "lsp-rename";
             "C-c r f" = "lsp-format-buffer";
             "C-c r g" = "lsp-format-region";
@@ -1108,6 +1103,11 @@ in
           "(lsp-mode . dap-mode)"
           "(lsp-mode . dap-ui-mode)"
         ];
+        # extraConfig = ''
+        #   :bind (:map lsp-mode-map
+        #    ("<f5>" . dap-debug)
+        #    ("C-c l d" . dap-hydra))
+        # '';
       };
 
       dap-mouse = {
