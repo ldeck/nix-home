@@ -993,7 +993,7 @@ in
       lsp-mode = {
         enable = true;
         command = [ "lsp" ];
-        after = [ "company" "flycheck" ];
+        after = [ "company" "flycheck" "which-key" ];
         hook = [
           "(lsp-mode . lsp-enable-which-key-integration)"
           "(scala-mode . lsp)"
@@ -1011,7 +1011,7 @@ in
         };
         init = ''
           (setq lsp-keymap-prefix "C-c l")
-          (which-key-add-key-based-replacements "C-c l d" "debugger")
+          (which-key-add-keymap-based-replacements "C-c l d" "debugger")
         '';
         config = ''
           (setq lsp-diagnostics-provider :flycheck
