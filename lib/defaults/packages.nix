@@ -44,7 +44,7 @@
         '';
       })
       tree
-      python38Packages.yamllint
+      python310Packages.yamllint
       zlib
     ];
   };
