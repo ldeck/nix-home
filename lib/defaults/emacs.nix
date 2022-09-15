@@ -1680,6 +1680,8 @@ in
       editorconfig = {
         enable = true;
         config = ''
+          (set-variable 'editorconfig-get-properties-function
+                        #'editorconfig-get-properties-from-exec)
           (editorconfig-mode 1)
         '';
       };
