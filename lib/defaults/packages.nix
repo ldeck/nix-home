@@ -16,10 +16,12 @@
 
       # TOOLS
       aspell
+      aspellDicts.en
       bc
       clang_13
       coreutils
       coreutils-prefixed
+      editorconfig-core-c
       fd
       ffmpeg
       gdb
