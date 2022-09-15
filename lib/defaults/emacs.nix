@@ -9,6 +9,8 @@ let
 
   pcfg = config.programs.emacs.init.usePackage;
 
+  python3 = pkgs.python311;
+
 in
 {
   imports = [
@@ -1089,7 +1091,7 @@ in
 
       lsp-treemacs = {
         enable = true;
-        after = [ "lsp-mode" ];
+        after = [ "lsp-mode" "treemacs" ];
         command = [ "lsp-treemacs-errors-list" ];
         config = ''
           (lsp-treemacs-sync-mode 1)
@@ -1945,6 +1947,7 @@ in
 
       treemacs = {
         enable = true;
+        defer = true;
         bind = {
           "C-c t /" = "treemacs";
           "C-c t B" = "treemacs-bookmark";
@@ -1955,22 +1958,28 @@ in
           "C-c t t" = "treemacs-find-tag";
         };
         config = ''
-          (setq treemacs-follow-after-init t)
-          (treemacs-project-follow-mode t)
-          (treemacs-follow-mode t)
-          (treemacs-filewatch-mode t)
-          (treemacs-fringe-indicator-mode 'always)
+          (setq treemacs-python-executable "${python3}/bin/python3")
+          (setq treemacs-follow-after-init t
+                treemacs-project-follow-mode t
+                treemacs-follow-mode t
+                treemacs-filewatch-mode t
+                treemacs-fringe-indicator-mode 'always)
+          (treemacs-git-mode 'advanced)
+          (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
         '';
       };
 
       treemacs-icons-dired = {
         hook = [ "(dired-mode . treemacs-icons-dired-enable-once)" ];
         enable = true;
+        after = [ "treemacs" ];
+        defer = true;
       };
 
       treemacs-magit = {
         enable = true;
         after = [ "treemacs" "magit" ];
+        defer = true;
       };
 
       verb = {
