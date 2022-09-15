@@ -1011,7 +1011,7 @@ in
         };
         init = ''
           (setq lsp-keymap-prefix "C-c l")
-          (which-key-add-keymap-based-replacements "C-c l d" "debugger")
+          (which-key-add-key-based-replacements "C-c l d" "debugger")
         '';
         config = ''
           (setq lsp-diagnostics-provider :flycheck
