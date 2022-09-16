@@ -1424,7 +1424,10 @@ in
 
       scala-mode = {
         enable = true;
-        mode = [ ''("\\.scala\\'" . scala-mode)'' ];
+        mode = [
+          ''("\\.scala\\'" . scala-mode)''
+          ''("\\.sc\\'" . scala-mode)''
+        ];
       };
 
       sbt-mode = {
