@@ -32,6 +32,7 @@
       perl
       ripgrep
       silver-searcher
+      sqls
       #taskwarrior
       (symlinkJoin {
         inherit (taskwarrior) name meta;
