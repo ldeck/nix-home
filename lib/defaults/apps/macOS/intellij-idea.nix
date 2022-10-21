@@ -13,14 +13,14 @@ let
 
   ideaSpecs = {
     x86_64-darwin = {
-      version = "2022.2";
+      version = "2022.2.3";
       arch = "";
-      sha256 = "45b1ec724c8d72746d2b7f05fd229e6ef68fb82e38f420a1a0ae47faae1086a1";
+      sha256 = "df780c841398532e090adc2c6af35a7fbcdd29fddb37e5a68f33d61a9032d5a3";
     };
     aarch64-darwin = {
-      version = "2022.2";
+      version = "2022.2.3";
       arch = "-aarch64";
-      sha256 = "d790aec60c065725d704c834a0cb76fe7643c00186019990688f9a90b64fef3b";
+      sha256 = "9e5c32fffd17d651d8d875c2588a067902a9ebb9bf815d06aabfd75b9f4ee3cd";
     };
   };
 
