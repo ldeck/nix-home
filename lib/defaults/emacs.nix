@@ -220,6 +220,43 @@ in
       (defun ask-user-about-lock (file other-user)
        "A value of t says to grab the lock on the file"
        t)
+
+      ; Unfortunately scala-mode doesn't indent a highlighted region
+      ;  when hitting tab. But it does properly indent a single line.
+      ; The following function allows us to apply any arbitrary function
+      ; line by line to a selected region, such as indent.
+      ; See https://stackoverflow.com/a/6539916/1241878
+      (defun apply-function-to-region-lines (fn)
+        (interactive "aFunction to apply to lines in region: ")
+        (save-excursion
+          (goto-char (region-end))
+          (let ((end-marker (copy-marker (point-marker)))
+                next-line-marker)
+            (goto-char (region-beginning))
+            (if (not (bolp))
+                (forward-line 1))
+            (setq next-line-marker (point-marker))
+            (while (< next-line-marker end-marker)
+              (let ((start nil)
+                    (end nil))
+                (goto-char next-line-marker)
+                (save-excursion
+                  (setq start (point))
+                  (forward-line 1)
+                  (set-marker next-line-marker (point))
+                  (setq end (point)))
+                (save-excursion
+                  (let ((mark-active nil))
+                    (narrow-to-region start end)
+                    (funcall fn)
+                    (widen)))))
+            (set-marker end-marker nil)
+            (set-marker next-line-marker nil))))
+
+      ; indent line by line
+      (defun indent-for-tab-command-line-by-line ()
+        (interactive)
+        (funcall 'apply-function-to-region-lines 'indent-for-tab-command))
     '';
 
     usePackage = {
@@ -1428,6 +1465,9 @@ in
           ''("\\.scala\\'" . scala-mode)''
           ''("\\.sc\\'" . scala-mode)''
         ];
+        config = ''
+          (setq-local indent-region-function 'indent-for-tab-command-line-by-line)
+        '';
       };
 
       sbt-mode = {
