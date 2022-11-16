@@ -11,6 +11,8 @@ let
 
   python3 = pkgs.python311;
 
+  enableNotMuch = false && pcfg.notmuch.enable;
+
 in
 {
   imports = [
@@ -482,7 +484,7 @@ in
                       ([remap xref-find-apropros] #'company-complete-common))
         '';
       };
-      consult-notmuch = { enable = true; };
+      consult-notmuch = { enable = enableNotMuch; };
       consult-project-extra = {
         enable = true;
         bind = {
@@ -671,6 +673,7 @@ in
       };
 
       notmuch = {
+        enable = enableNotMuch;
         command = [
           "notmuch"
           "notmuch-show-tag"
@@ -1328,7 +1331,7 @@ in
       };
 
       ol-notmuch = {
-        enable = pcfg.org.enable && pcfg.notmuch.enable;
+        enable = pcfg.org.enable && enableNotMuch;
         after = [ "notmuch" "org" ];
       };
 
