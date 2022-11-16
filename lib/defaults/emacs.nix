@@ -1905,8 +1905,13 @@ in
                 recentf-max-saved-items 500
                 recentf-exclude '("COMMIT_MSG" "COMMIT_EDITMSG"))
 
-          ;; Save the file list every 10 minutes.
-          (run-at-time nil (* 10 60) 'recentf-save-list)
+          ;; Save the file list every 5 minutes silently.
+          ;; https://emacs.stackexchange.com/questions/45697/prevent-emacs-from-messaging-when-it-writes-recentf
+          (run-at-time nil (* 5 60)
+            (lambda ()
+              (let ((save-silently t)
+                    (inhibit-message t))
+                (recentf-save-list))))
 
           (recentf-mode)
         '';
