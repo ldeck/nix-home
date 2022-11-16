@@ -316,30 +316,30 @@ in
 
       back-button = {
         enable = true;
-        package = epkgs:
-          epkgs.back-button.overrideAttrs (drv:
-            let
-              isNotUcsUtils = p:
-                (builtins.parseDrvName p.name).name != "emacs-ucs-utils";
-            in {
-              patches = [
-                # ucs-utils makes Emacs shutdown very slow, remove its use through this patch.
-                (pkgs.fetchpatch {
-                  name = "remove-ucs-utils.patch";
-                  url =
-                    "https://github.com/rutger-eiq/back-button/commit/164cf6e2a536a8da6e45c0365922ea1887acde79.patch";
-                  sha256 =
-                    "0czii9hdk7l6j3palpb68377phms9jw9ldb51apjhbmscjyr55q3";
-                })
-              ];
+        # package = epkgs:
+        #   epkgs.back-button.overrideAttrs (drv:
+        #     let
+        #       isNotUcsUtils = p:
+        #         (builtins.parseDrvName p.name).name != "emacs-ucs-utils";
+        #     in {
+        #       patches = [
+        #         # ucs-utils makes Emacs shutdown very slow, remove its use through this patch.
+        #         (pkgs.fetchpatch {
+        #           name = "remove-ucs-utils.patch";
+        #           url =
+        #             "https://github.com/rutger-eiq/back-button/commit/164cf6e2a536a8da6e45c0365922ea1887acde79.patch";
+        #           sha256 =
+        #             "0czii9hdk7l6j3palpb68377phms9jw9ldb51apjhbmscjyr55q3";
+        #         })
+        #       ];
 
-              # Also need to remove ucs-utils from the various build inputs.
-              buildInputs = builtins.filter isNotUcsUtils drv.buildInputs;
-              propagatedBuildInputs =
-                builtins.filter isNotUcsUtils drv.propagatedBuildInputs;
-              propagatedUserEnvPkgs =
-                builtins.filter isNotUcsUtils drv.propagatedUserEnvPkgs;
-            });
+        #       # Also need to remove ucs-utils from the various build inputs.
+        #       buildInputs = builtins.filter isNotUcsUtils drv.buildInputs;
+        #       propagatedBuildInputs =
+        #         builtins.filter isNotUcsUtils drv.propagatedBuildInputs;
+        #       propagatedUserEnvPkgs =
+        #         builtins.filter isNotUcsUtils drv.propagatedUserEnvPkgs;
+        #     });
         defer = 2;
         bind = {
           "C-x <left>" = "back-button-local";
