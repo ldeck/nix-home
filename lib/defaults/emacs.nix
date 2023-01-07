@@ -427,6 +427,9 @@ in
               :preview-key '(:debounce 1 any)
           )
         '';
+	functions = [
+	  "consult-project-root-function"
+	];
       };
 
       consult-ag = { enable = true; };
@@ -1047,6 +1050,9 @@ in
 
           (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
         '';
+	defines = [
+	  "lsp-prefer-flymake"
+	];
       };
 
       lsp-java = {
@@ -1638,6 +1644,9 @@ in
               `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
               `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
         '';
+	defines = [
+	  "lsp-completion-provider"
+	];
       };
 
       company-box = {
@@ -1987,6 +1996,9 @@ in
           (treemacs-git-mode 'advanced)
           (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
         '';
+	defines = [
+	  "treemacs-project-follow-mode"
+	];
       };
 
       treemacs-icons-dired = {
