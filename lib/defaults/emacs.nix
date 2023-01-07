@@ -29,6 +29,8 @@ in
     usePackageVerbose = false;
 
     earlyInit = ''
+      (setq use-package-compute-statistics t)
+
       ;; Disable some GUI distractions. We set these manually to avoid starting
       ;; the corresponding minor modes.
       (push '(menu-bar-lines . 0) default-frame-alist)
