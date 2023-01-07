@@ -49,15 +49,7 @@ in
 
       ;; Configure color theme and modeline in early init to avoid flashing
       ;; during start.
-      ;;(require 'base16-theme)
-      ;;(require 'nord-theme)
-      ;;(load-theme 'base16-tomorrow-night t)
-      ;;(require 'modus-vivendi)
-      ;; (load-theme 'modus-vivendi)
-      ;; (load-theme 'tango)
-
-      (require 'paganini-theme)
-      (load-theme 'paganini t)
+      (load-theme 'modus-vivendi)
 
       ;; linum
       (setq linum-format "%4d \u2502 ")
@@ -68,15 +60,11 @@ in
       (set-face-background 'linum "grey20")
       (set-face-attribute 'fringe nil :background "black")
 
-      ;; (require 'tsdh-dark)
-      ;; (load-theme 'tsdh-dark t)
-
-      ;;(load-theme 'wombat t)
       ;;(set-face-background 'completions-common-part "white smoke")
 
-      (require 'doom-modeline)
-      (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
-      (doom-modeline-mode)
+      ;;(require 'doom-modeline)
+      ;;(setq doom-modeline-buffer-file-name-style 'truncate-except-project)
+      ;;(doom-modeline-mode)
 
       ;;forge load-path
       (add-to-list 'load-path "~/.config/custom/")
@@ -292,10 +280,6 @@ in
         '';
       };
 
-      paganini-theme = {
-        enable = true;
-      };
-
       adoc-mode = {
         enable = true;
         mode = [ ''"\\.adoc\\'"'' ];
@@ -357,16 +341,6 @@ in
           ;; Don't clobber rectangle-mark-mode!!!
           (unbind-key "C-x <SPC>" back-button-mode-map)
         '';
-      };
-
-      base16-theme = {
-        enable = true;
-        extraConfig = ":disabled";
-      };
-
-      nord-theme = {
-        enable = true;
-        extraConfig = ":disabled";
       };
 
       calc = {
@@ -537,11 +511,6 @@ in
       };
       dockerfile-mode.enable = true;
       docker-compose-mode.enable = true;
-
-      doom-modeline = {
-        enable = true;
-        extraConfig = ":disabled";
-      };
 
       drag-stuff = {
         enable = true;
