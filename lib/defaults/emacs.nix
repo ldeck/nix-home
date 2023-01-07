@@ -458,7 +458,7 @@ in
         enable = true;
         extraConfig = ''
           :bind (:map lsp-mode-map
-                      ([remap xref-find-apropros] #'company-complete-common))
+                      ([remap xref-find-apropros] . company-complete-common))
         '';
       };
       consult-notmuch = { enable = enableNotMuch; };
