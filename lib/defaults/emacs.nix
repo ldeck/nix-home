@@ -54,13 +54,13 @@ in
       (load-theme 'modus-vivendi)
 
       ;; linum
-      (setq linum-format "%4d \u2502 ")
-      (setq-default left-fringe-width  20)
-      (setq-default right-fringe-width  20)
+      ;;(setq linum-format "%4d \u2502 ")
+      ;;(setq-default left-fringe-width  20)
+      ;;(setq-default right-fringe-width  20)
       (global-linum-mode t)
-      (set-face-foreground 'linum "lightgrey")
-      (set-face-background 'linum "grey20")
-      (set-face-attribute 'fringe nil :background "black")
+      ;;(set-face-foreground 'linum "lightgrey")
+      ;;(set-face-background 'linum "grey20")
+      ;;(set-face-attribute 'fringe nil :background "black")
 
       ;;(set-face-background 'completions-common-part "white smoke")
 
@@ -91,8 +91,8 @@ in
                                         "%b"))))
 
       ;; Make sure the mouse cursor is visible at all times.
-      (set-face-background 'mouse "#ffffff")
-      (set-cursor-color "#ffffff")
+      ;;(set-face-background 'mouse "#ffffff")
+      ;;(set-cursor-color "#ffffff")
 
       ;; Accept 'y' and 'n' rather than 'yes' and 'no'.
       (defalias 'yes-or-no-p 'y-or-n-p)
@@ -148,7 +148,7 @@ in
       (global-hl-line-mode 1)
       ;;(set-face-underline 'highlight nil)
       ;;(set-face-attribute 'highlight nil :background "DarkSlateGrey")
-      (set-face-attribute 'highlight nil :background "#294F6E")
+      ;;(set-face-attribute 'highlight nil :background "#294F6E")
 
       ;; Improved handling of clipboard in GNU/Linux and otherwise.
       (setq select-enable-clipboard t
