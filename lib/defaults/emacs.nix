@@ -1807,6 +1807,7 @@ in
         mode = [
           ''"\\.html\\'"'' # \
           ''"\\.jsx?\\'"'' # \
+          ''"\\.tsx?\\'"'' # \
         ];
         config = ''
           (setq web-mode-attr-indent-offset 4
