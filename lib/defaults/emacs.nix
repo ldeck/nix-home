@@ -1009,7 +1009,10 @@ in
 
       lsp-mode = {
         enable = true;
-        command = [ "lsp" ];
+        demand = true;
+        command = [
+          "lsp"
+        ];
         after = [ "company" "flycheck" "which-key" ];
         hook = [
           "(lsp-mode . lsp-enable-which-key-integration)"
@@ -1032,11 +1035,12 @@ in
         '';
         config = ''
           (setq lsp-diagnostics-provider :flycheck
+                lsp-modeline-workspace-status-enable nil
+                lsp-modeline-diagnostics-enable nil
+                lsp-modeline-code-actions-enable nil
                 lsp-eldoc-render-all nil
                 lsp-headerline-breadcrumb-enable nil
-                lsp-modeline-code-actions-enable nil
-                lsp-modeline-diagnostics-enable nil
-                lsp-modeline-workspace-status-enable nil)
+          )
 
           (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.Trash\\'")
           (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.Trash\\'")
