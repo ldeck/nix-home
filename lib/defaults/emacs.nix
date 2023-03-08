@@ -2003,9 +2003,13 @@ in
           (treemacs-git-mode 'advanced)
           (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
         '';
-	defines = [
-	  "treemacs-project-follow-mode"
-	];
+        extraConfig = ''
+          :autoload treemacs-create-dir
+          :autoload treemacs-create-file
+        '';
+        defines = [
+          "treemacs-project-follow-mode"
+        ];
       };
 
       treemacs-icons-dired = {
