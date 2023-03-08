@@ -390,7 +390,9 @@ in
         enable = true;
         bind = {
           "C-s" = "consult-line";
-          "C-x b" = "consult-buffer";
+          "C-x b" = "my-consult-buffer";
+          "C-x 4 b" = "consult-buffer-other-window";
+          "C-x 5 b" = "consult-buffer-other-frame";
           "C-x x l" = "consult-global-mark";
           "M-g M-g" = "consult-goto-line";
           "M-g g" = "consult-goto-line";
@@ -400,13 +402,11 @@ in
         };
         command = [ "consult-completing-read-multiple" ];
         config = ''
-          ;; to fit paganini theme
-          ;; (set-face-attribute 'consult-file nil :inherit nil)
-
-          (setq consult-project-root-function
-                (lambda ()
-                  (let ((p (project-current)))
-                    (when p (project-root p)))))
+          (defun my-consult-buffer ()
+            "Variant of `consult-buffer' to fix some invalid key runtime bug."
+            (interactive)
+            (let ((consult--buffer-display #'switch-to-buffer))
+              (consult-buffer)))
 
           (defvar rah/consult-line-map
             (let ((map (make-sparse-keymap)))
