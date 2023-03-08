@@ -429,9 +429,10 @@ in
               :preview-key '(:debounce 1 any)
           )
         '';
-	functions = [
-	  "consult-project-root-function"
-	];
+        functions = [
+          "consult-project-root-function"
+          "my-consult-buffer"
+        ];
       };
 
       consult-ag = { enable = true; };
@@ -1052,9 +1053,9 @@ in
 
           (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
         '';
-	defines = [
-	  "lsp-prefer-flymake"
-	];
+        defines = [
+          "lsp-prefer-flymake"
+        ];
       };
 
       lsp-java = {
@@ -1273,7 +1274,7 @@ in
 
           ;; Unfortunately org-mode tends to take over keybindings that
           ;; start with C-c.
-          (unbind-key "C-c SPC" org-mode-map)
+          (unbind-key "C-c <SPC>" org-mode-map)
           (unbind-key "C-c w" org-mode-map)
           (unbind-key "C-'" org-mode-map)
         '';
@@ -1360,7 +1361,7 @@ in
           ''
         ];
         config = ''
-          (unbind-key "C-c SPC" orgtbl-mode-map)
+          (unbind-key "C-c <SPC>" orgtbl-mode-map)
           (unbind-key "C-c w" orgtbl-mode-map)
         '';
       };
@@ -1646,9 +1647,9 @@ in
               `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
               `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
         '';
-	defines = [
-	  "lsp-completion-provider"
-	];
+        defines = [
+          "lsp-completion-provider"
+        ];
       };
 
       company-box = {
