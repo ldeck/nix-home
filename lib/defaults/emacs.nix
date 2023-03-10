@@ -2006,6 +2006,7 @@ in
           (setq treemacs-python-executable "${python3}/bin/python3")
           (setq treemacs-follow-after-init t
                 treemacs-project-follow-mode t
+                treemacs-display-current-project-exclusively t
                 treemacs-follow-mode t
                 treemacs-filewatch-mode t
                 treemacs-fringe-indicator-mode 'always)
