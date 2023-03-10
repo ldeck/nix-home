@@ -2012,14 +2012,11 @@ in
                 treemacs-fringe-indicator-mode 'always)
           (treemacs-git-mode 'advanced)
           (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
+
+          ;; (autoload 'treemacs-create-dir "treemacs-file-management" nil t nil)
+          ;; (autoload 'treemacs-create-file "treemacs-file-management" nil t nil)
+          ;; (autoload 'treemacs-common-helpful-hydra "treemacs-hydras" nil t nil)
         '';
-        extraConfig = ''
-          :autoload treemacs-create-dir
-          :autoload treemacs-create-file
-        '';
-        defines = [
-          "treemacs-project-follow-mode"
-        ];
       };
 
       treemacs-icons-dired = {
