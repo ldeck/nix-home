@@ -1064,9 +1064,6 @@ in
 
           (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
         '';
-        defines = [
-          "lsp-prefer-flymake"
-        ];
       };
 
       lsp-java = {
@@ -1134,11 +1131,11 @@ in
           "(lsp-mode . dap-mode)"
           "(lsp-mode . dap-ui-mode)"
         ];
-        # extraConfig = ''
-        #   :bind (:map lsp-mode-map
-        #    ("<f5>" . dap-debug)
-        #    ("C-c l d" . dap-hydra))
-        # '';
+        extraConfig = ''
+          :bind (:map lsp-mode-map
+           ("<f5>" . dap-debug)
+           ("C-c l d" . dap-hydra))
+        '';
       };
 
       dap-mouse = {
