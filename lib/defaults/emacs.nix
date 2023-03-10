@@ -73,6 +73,14 @@ in
     '';
 
     prelude = ''
+      ;; See https://github.com/NixOS/nixpkgs/pull/168954#:~:text=around%20is%20here%3A-,nix%2Dcommunity/emacs%2Doverlay%23212,-Write
+      ;; See https://github.com/NixOS/nixpkgs/pull/168954
+      (dolist (path load-path)
+        (when (string-match-p "/nix/store/[a-z0-9]\\{32\\}-emacs-packages-deps.*" path)
+          (dolist (autoload-file (directory-files path t "-autoloads.el"))
+            (with-demoted-errors "init.el error: %s"
+              (load autoload-file nil t)))))
+
       ;; Disable startup message.
       (setq inhibit-startup-screen t
             inhibit-startup-echo-area-message (user-login-name))
