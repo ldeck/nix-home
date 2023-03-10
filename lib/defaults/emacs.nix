@@ -341,7 +341,7 @@ in
           (setq global-mark-ring-max 50)
 
           ;; Don't clobber rectangle-mark-mode!!!
-          (unbind-key "C-x <SPC>" back-button-mode-map)
+          (unbind-key "C-x SPC" back-button-mode-map)
         '';
       };
 
@@ -1279,7 +1279,7 @@ in
 
           ;; Unfortunately org-mode tends to take over keybindings that
           ;; start with C-c.
-          (unbind-key "C-c <SPC>" org-mode-map)
+          (unbind-key "C-c SPC" org-mode-map)
           (unbind-key "C-c w" org-mode-map)
           (unbind-key "C-'" org-mode-map)
         '';
@@ -1366,7 +1366,7 @@ in
           ''
         ];
         config = ''
-          (unbind-key "C-c <SPC>" orgtbl-mode-map)
+          (unbind-key "C-c SPC" orgtbl-mode-map)
           (unbind-key "C-c w" orgtbl-mode-map)
         '';
       };
