@@ -839,6 +839,18 @@ in
         config = ''
           (add-to-list 'git-commit-style-convention-checks
                        'overlong-summary-line)
+
+          ;; https://github.com/magit/magit/issues/4437#issuecomment-877839848
+          (defun opt-out-of-consult-crm (&rest args)
+            (if (advice-member-p #'consult-completing-read-multiple #'completing-read-multiple)
+              (unwind-protect
+                (progn
+                 (advice-remove #'completing-read-multiple #'consult-completing-read-multiple)
+                   (apply args))
+                 (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple))
+                   (apply args)))
+
+          (advice-add #'magit-completing-read-multiple* :around #'opt-out-of-consult-crm)
         '';
       };
 
