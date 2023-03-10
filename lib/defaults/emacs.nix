@@ -425,7 +425,7 @@ in
               :history t ;; disable history
               :keymap rah/consult-line-map
             consult-buffer consult-find consult-ripgrep
-              :preview-key (kbd "M-.")
+              :preview-key "M-."
             consult-theme
               :preview-key '(:debounce 1 any)
           )
