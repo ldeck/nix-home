@@ -391,7 +391,7 @@ in
         after = [ "recentf" ];
         bind = {
           "C-s" = "consult-line";
-          "C-x b" = "my-consult-buffer";
+          "C-x b" = "consult-buffer";
           "C-x 4 b" = "consult-buffer-other-window";
           "C-x 5 b" = "consult-buffer-other-frame";
           "C-x x l" = "consult-global-mark";
@@ -403,12 +403,6 @@ in
         };
         command = [ "consult-completing-read-multiple" ];
         config = ''
-          (defun my-consult-buffer ()
-            "Variant of `consult-buffer' to fix some invalid key runtime bug."
-            (interactive)
-            (let ((consult--buffer-display #'switch-to-buffer))
-              (consult-buffer)))
-
           (defvar rah/consult-line-map
             (let ((map (make-sparse-keymap)))
               (define-key map "\C-s" #'vertico-next)
@@ -736,7 +730,7 @@ in
         '';
       };
 
-      # Remember where we where in a previously visited file. Built-in.
+      # Remember where we were in a previously visited file. Built-in.
       saveplace = {
         enable = true;
         defer = 1;
