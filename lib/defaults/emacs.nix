@@ -388,6 +388,7 @@ in
 
       consult = {
         enable = true;
+        after = [ "recentf" ];
         bind = {
           "C-s" = "consult-line";
           "C-x b" = "my-consult-buffer";
@@ -1884,7 +1885,11 @@ in
 
       recentf = {
         enable = true;
+        demand = true;
         command = [ "recentf-mode" ];
+        hook = [
+          "(after-init . recentf-mode)"
+        ];
         config = ''
           (setq recentf-save-file (locate-user-emacs-file "recentf")
                 recentf-max-menu-items 20
