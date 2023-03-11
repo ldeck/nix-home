@@ -217,7 +217,7 @@ in
 
       ; work-around for recentf lock issue on refocus
       ; see github.com/syl20bnr/spacemacs/issues/5554
-      (defun ask-user-about-lock (file other-user)
+      (defun ask-user-about-lock (_file _other-user)
        "A value of t says to grab the lock on the file"
        t)
 
@@ -1068,7 +1068,6 @@ in
           ;;       (setq lsp-idle-delay 0.500)
           ;;       (setq lsp-log-io nil)
           ;;       (setq lsp-completion-provider :capf)
-          (setq lsp-prefer-flymake nil)
 
           (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
         '';
@@ -2014,12 +2013,21 @@ in
           (setq treemacs-python-executable "${python3}/bin/python3")
           (setq treemacs-follow-after-init t
                 treemacs-project-follow-mode t
-                treemacs-display-current-project-exclusively t
                 treemacs-follow-mode t
                 treemacs-filewatch-mode t
                 treemacs-fringe-indicator-mode 'always)
-          (treemacs-git-mode 'advanced)
-          (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
+
+
+          (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+            (`(t . t)
+              (treemacs-git-mode 'deferred))
+            (`(t . _)
+            (treemacs-git-mode 'simple)))
+
+          ;;(add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
+
+          (treemacs-display-current-project-exclusively)
 
           ;; (autoload 'treemacs-create-dir "treemacs-file-management" nil t nil)
           ;; (autoload 'treemacs-create-file "treemacs-file-management" nil t nil)
