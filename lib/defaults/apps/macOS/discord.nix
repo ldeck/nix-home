@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.0.268";
+      version = "0.0.273";
       revision = "";
+      date = "";
       arch = "amd64";
-      sha256 = "dfe12315b717ed06ac24d3eaacb700618e96cbb449ed63d2afadcdb70ad09c55";
+      url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
+      sha256 = "54794fbf4b29c9a56f6e8a736ff5445c75a1fd3cf49dce7b4d7aa6ff067ae2ef";
     };
     aarch64-darwin = {
-      version = "0.0.268";
+      version = "0.0.273";
       revision = "";
+      date = "";
       arch = "arm64";
-      sha256 = "dfe12315b717ed06ac24d3eaacb700618e96cbb449ed63d2afadcdb70ad09c55";
+      url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
+      sha256 = "54794fbf4b29c9a56f6e8a736ff5445c75a1fd3cf49dce7b4d7aa6ff067ae2ef";
     };
   };
 
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Discord";
+        name = "discord";
         description = "Voice and text chat software";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };

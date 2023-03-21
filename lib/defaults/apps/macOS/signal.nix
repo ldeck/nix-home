@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "5.55.0";
+      version = "6.10.1";
       revision = "";
+      date = "";
       arch = "amd64";
-      sha256 = "0997f557924dbffdc477bc8088b3512776a8382c5eae30e191d0e730012fbbd4";
+      url = "https://updates.signal.org/desktop/signal-desktop-mac-x64-${cfg.version}.dmg";
+      sha256 = "b8b1dcaab8f4e32505da9e65b4cfba75c4757755ce22982df18c846f51f5dfc0";
     };
     aarch64-darwin = {
-      version = "5.55.0";
+      version = "6.10.1";
       revision = "";
+      date = "";
       arch = "arm64";
-      sha256 = "18ee0df71f071d7c524d1273b8e93f04a4a479d20b753729a7c8bcf077636ed3";
+      url = "https://updates.signal.org/desktop/signal-desktop-mac-arm64-${cfg.version}.dmg";
+      sha256 = "405f1da035e23780843a6c95794cdb8cf3512360e7f9c6a7f298df419e8e41f1";
     };
   };
 
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Signal";
+        name = "signal";
         description = "Instant messaging application focusing on security";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://updates.signal.org/desktop/signal-desktop-mac-x64-${cfg.version}.dmg";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };

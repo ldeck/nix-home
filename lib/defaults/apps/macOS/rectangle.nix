@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.57";
-      revision = "63";
+      version = "0.67";
+      revision = "";
+      date = "";
       arch = "amd64";
-      sha256 = "cbf2f6c4bd600628fb908a73a648be177739f1fde11b27759105d503b039b35f";
+      url = "https://github.com/rxhanson/Rectangle/releases/download/v${cfg.version}/Rectangle${cfg.version}.dmg";
+      sha256 = "b6fc460dfa47bbcead66deccd39e5e8441bf94376674f999c2b0dcd85ff25239";
     };
     aarch64-darwin = {
-      version = "0.57";
-      revision = "63";
+      version = "0.67";
+      revision = "";
+      date = "";
       arch = "arm64";
-      sha256 = "cbf2f6c4bd600628fb908a73a648be177739f1fde11b27759105d503b039b35f";
+      url = "https://github.com/rxhanson/Rectangle/releases/download/v${cfg.version}/Rectangle${cfg.version}.dmg";
+      sha256 = "b6fc460dfa47bbcead66deccd39e5e8441bf94376674f999c2b0dcd85ff25239";
     };
   };
 
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Rectangle";
+        name = "rectangle";
         description = "Move and resize windows using keyboard shortcuts or snap areas";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://github.com/rxhanson/Rectangle/releases/download/v${cfg.version}/Rectangle${cfg.version}.dmg";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };

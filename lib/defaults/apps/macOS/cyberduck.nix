@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "8.4.3";
-      revision = "38269";
+      version = "8.5.6";
+      revision = "39394";
+      date = "";
       arch = "amd64";
-      sha256 = "8617959678916a95548b59e560bbc709260e435d678cad7a6599caf205431f18";
+      url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
+      sha256 = "62938e25c8b1b85a6a83f80972a15c0e5a830d01beac4c2f1ad20e67dec8ff1a";
     };
     aarch64-darwin = {
-      version = "8.4.3";
-      revision = "38269";
+      version = "8.5.6";
+      revision = "39394";
+      date = "";
       arch = "arm64";
-      sha256 = "8617959678916a95548b59e560bbc709260e435d678cad7a6599caf205431f18";
+      url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
+      sha256 = "62938e25c8b1b85a6a83f80972a15c0e5a830d01beac4c2f1ad20e67dec8ff1a";
     };
   };
 
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Cyberduck";
+        name = "cyberduck";
         description = "Server and cloud storage browser";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };

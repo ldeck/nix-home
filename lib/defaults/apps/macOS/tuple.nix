@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.98.2";
-      revision = "99364aa15";
+      version = "0.99.11";
+      revision = "f6677c368";
+      date = "2023-03-13";
       arch = "amd64";
-      sha256 = "aadd3a9dd9a9ee3034ce33f96894d83448b1505913e10bdad60b56453298e774";
+      url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
+      sha256 = "4f3d030df847ccda5b60d02a248b6573ed5998be0b1b1a5dba0b8011e5a0342f";
     };
     aarch64-darwin = {
-      version = "0.98.2";
-      revision = "99364aa15";
+      version = "0.99.11";
+      revision = "f6677c368";
+      date = "2023-03-13";
       arch = "arm64";
-      sha256 = "aadd3a9dd9a9ee3034ce33f96894d83448b1505913e10bdad60b56453298e774";
+      url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
+      sha256 = "4f3d030df847ccda5b60d02a248b6573ed5998be0b1b1a5dba0b8011e5a0342f";
     };
   };
 
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "2022-07-27";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Tuple";
+        name = "tuple";
         description = "Remote pair programming app";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };

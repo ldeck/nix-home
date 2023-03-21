@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2022.5.1";
+      version = "2023.1.0";
       revision = "";
+      date = "";
       arch = "amd64";
-      sha256 = "d659cf1164bfbbc63836027d5b26b18d701256019121e3ac90d18c2e16a28f0d";
+      url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
+      sha256 = "1bd0475e1a0254cd3b44262d5177a10905f7c9b2c0d5dd4b0270d8d7b6286a7c";
     };
     aarch64-darwin = {
-      version = "2022.5.1";
+      version = "2023.1.0";
       revision = "";
+      date = "";
       arch = "arm64";
-      sha256 = "d659cf1164bfbbc63836027d5b26b18d701256019121e3ac90d18c2e16a28f0d";
+      url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
+      sha256 = "1bd0475e1a0254cd3b44262d5177a10905f7c9b2c0d5dd4b0270d8d7b6286a7c";
     };
   };
 
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Insomnia";
+        name = "insomnia";
         description = "HTTP and GraphQL Client";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };

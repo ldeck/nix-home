@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "1.13.0";
-      revision = "20220615";
+      version = "1.14.0.20230315";
+      revision = "";
+      date = "";
       arch = "amd64";
-      sha256 = "5e866ce672f2d800b902f017edc266406ef1c895e6defde0aac5d895d7966b98";
+      url = "https://download.eclipse.org/mat/${lib.versions.majorMinor cfg.version}.0/rcp/MemoryAnalyzer-${cfg.version}-macosx.cocoa.x86_64.dmg";
+      sha256 = "236175bc2f306ec963b708b3b765c1684a018d30da4d38c52c9774b80133ddfb";
     };
     aarch64-darwin = {
-      version = "1.13.0";
-      revision = "20220615";
+      version = "1.14.0.20230315";
+      revision = "";
+      date = "";
       arch = "arm64";
-      sha256 = "55a7113181a5aea34d83a471752f81f27988720e2f58edc090e6e2565f020532";
+      url = "https://download.eclipse.org/mat/${lib.versions.majorMinor cfg.version}.0/rcp/MemoryAnalyzer-${cfg.version}-macosx.cocoa.aarch64.dmg";
+      sha256 = "4fff45cd2518348eaed38522d5a58ad6e4cc4515c08cd89144944c83db52a7f6";
     };
   };
 
@@ -38,9 +42,17 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.version;
         description = "The version of the app.";
       };
+      date = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
+        description = "The build date (if applicable).";
+      };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -51,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Mat";
+        name = "mat";
         description = "Java heap analyzer";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://download.eclipse.org/mat/${cfg.version}/rcp/MemoryAnalyzer-${cfg.version}.${cfg.revision}-macosx.cocoa.x86_64.dmg";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };

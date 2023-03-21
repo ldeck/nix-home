@@ -12,13 +12,17 @@ let
     x86_64-darwin = {
       version = "2.0.5";
       revision = "";
+      date = "";
       arch = "amd64";
+      url = "https://github.com/pascalpp/FreeRuler/releases/download/v${cfg.version}/free-ruler-${cfg.version}.zip";
       sha256 = "6332b9252a4fc58dbf4a5f74b5484d6ae20c2f4cb7db7a2c86020454fa66444d";
     };
     aarch64-darwin = {
       version = "2.0.5";
       revision = "";
+      date = "";
       arch = "arm64";
+      url = "https://github.com/pascalpp/FreeRuler/releases/download/v${cfg.version}/free-ruler-${cfg.version}.zip";
       sha256 = "6332b9252a4fc58dbf4a5f74b5484d6ae20c2f4cb7db7a2c86020454fa66444d";
     };
   };
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,17 +63,17 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Free-ruler";
+        name = "free-ruler";
         description = "Horizontal and vertical rulers";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://github.com/pascalpp/FreeRuler/releases/download/v${cfg.version}/free-ruler-${cfg.version}.zip";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
         appcast = "https://formulae.brew.sh/api/cask/free-ruler.json";
-        homepage = "http://www.pascal.com/software/freeruler/";
+        homepage = "https://www.pascal.com/software/freeruler/";
       });
   };
 }

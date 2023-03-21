@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2.10.32";
+      version = "2.10.34";
       revision = "";
+      date = "";
       arch = "amd64";
-      sha256 = "e5547fc01168270bd1ba5380cff610966da229e44f311138f12168cb2f34d3c8";
+      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-x86_64.dmg";
+      sha256 = "6d228b36eaa70be9dff81b37c3561dce2a62ff8c6fd55f6fc982457768e691da";
     };
     aarch64-darwin = {
-      version = "2.10.32";
+      version = "2.10.34";
       revision = "";
+      date = "";
       arch = "arm64";
-      sha256 = "e5547fc01168270bd1ba5380cff610966da229e44f311138f12168cb2f34d3c8";
+      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64.dmg";
+      sha256 = "5561a571fe8dfa176ca526939288322abfa4b5b084eda03013355313350aaf47";
     };
   };
 
@@ -31,7 +35,7 @@ in {
         description = "Whether to enable this app.";
       };
       sourceRoot = mkOption {
-        default = "GIMP-2.10.app";
+        default = "GIMP.app";
         description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
       };
       version = mkOption {
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Gimp";
+        name = "gimp";
         description = "Free and open-source image editor";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://download.gimp.org/pub/gimp/v${lib.versions.majorMinor cfg.version}/osx/gimp-${cfg.version}-x86_64.dmg";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
