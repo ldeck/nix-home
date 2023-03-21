@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "intellij-idea";
+        name = "IntelliJ IDEA";
         description = "Java IDE by JetBrains";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

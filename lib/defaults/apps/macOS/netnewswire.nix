@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "netnewswire";
+        name = "NetNewsWire";
         description = "Free and open-source RSS reader";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "gimp";
+        name = "GIMP";
         description = "Free and open-source image editor";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

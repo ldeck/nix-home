@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "cyberduck";
+        name = "Cyberduck";
         description = "Server and cloud storage browser";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

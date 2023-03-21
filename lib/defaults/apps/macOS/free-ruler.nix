@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "free-ruler";
+        name = "Free Ruler";
         description = "Horizontal and vertical rulers";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

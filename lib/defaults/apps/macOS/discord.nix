@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "discord";
+        name = "Discord";
         description = "Voice and text chat software";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

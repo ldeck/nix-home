@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "tuple";
+        name = "Tuple";
         description = "Remote pair programming app";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "signal";
+        name = "Signal";
         description = "Instant messaging application focusing on security";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "rectangle";
+        name = "Rectangle";
         description = "Move and resize windows using keyboard shortcuts or snap areas";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;

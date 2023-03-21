@@ -63,7 +63,7 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "insomnia";
+        name = "Insomnia";
         description = "HTTP and GraphQL Client";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
