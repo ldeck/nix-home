@@ -1999,7 +1999,6 @@ in
 
       treemacs = {
         enable = true;
-        defer = true;
         bind = {
           "C-c t /" = "treemacs";
           "C-c t B" = "treemacs-bookmark";
@@ -2010,24 +2009,17 @@ in
           "C-c t t" = "treemacs-find-tag";
         };
         config = ''
-          (setq treemacs-python-executable "${python3}/bin/python3")
-          (setq treemacs-follow-after-init t
+          (setq treemacs-python-executable "${python3}/bin/python3"
+                treemacs-follow-after-init t
                 treemacs-project-follow-mode t
                 treemacs-follow-mode t
                 treemacs-filewatch-mode t
                 treemacs-fringe-indicator-mode 'always)
 
-
-          (pcase (cons (not (null (executable-find "git")))
-                 (not (null treemacs-python-executable)))
-            (`(t . t)
-              (treemacs-git-mode 'deferred))
-            (`(t . _)
-            (treemacs-git-mode 'simple)))
+          (treemacs-git-mode 'deferred)
+          (add-hook 'projectile-after-switch-project-hook 'treemacs-add-and-display-current-project-exclusively)
 
           ;;(add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
-
-          (treemacs-display-current-project-exclusively)
 
           ;; (autoload 'treemacs-create-dir "treemacs-file-management" nil t nil)
           ;; (autoload 'treemacs-create-file "treemacs-file-management" nil t nil)
