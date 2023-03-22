@@ -27,7 +27,7 @@ if stdenv.isDarwin then
       echo "File to unpack: $curSrc"
       if ! [[ "$curSrc" =~ \.dmg$ ]]; then return 1; fi
       mnt=$(mktemp -d -t ci-XXXXXXXXXX)
-      echo "Mounting at $mnt"
+
       function finish {
         echo "Detaching $mnt"
         /usr/bin/hdiutil detach $mnt -force
