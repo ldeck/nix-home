@@ -22,7 +22,28 @@ if stdenv.isDarwin then
     name = "${name}-${version}";
     version = "${version}";
     src = src;
-    buildInputs = [ undmg unzip ];
+    buildInputs = [ unzip ];
+    unpackCmd = ''
+      echo "File to unpack: $curSrc"
+      if ! [[ "$curSrc" =~ \.dmg$ ]]; then return 1; fi
+      mnt=$(mktemp -d -t ci-XXXXXXXXXX)
+      echo "Mounting at $mnt"
+      function finish {
+        echo "Detaching $mnt"
+        /usr/bin/hdiutil detach $mnt -force
+        rm -rf $mnt
+      }
+      trap finish EXIT
+
+      echo "Attaching $mnt"
+      /usr/bin/hdiutil attach -nobrowse -readonly $src -mountpoint $mnt
+
+      echo "What's in the mount dir"?
+      ls -la $mnt/
+
+      echo "Copying contents"
+      cp -a $mnt/. .
+    '';
     sourceRoot = sourceRoot;
     phases = [ "unpackPhase" "installPhase" ];
     installPhase = ''
