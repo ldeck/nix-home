@@ -42,13 +42,15 @@ if stdenv.isDarwin then
       ls -la $mnt/
 
       echo "Copying contents"
-      cp -a $mnt/. .
+      shopt -s extglob
+      DEST="$PWD"
+      (cd "$mnt"; cp -a !(Applications) "$DEST/")
     '';
     sourceRoot = sourceRoot;
     phases = [ "unpackPhase" "installPhase" ];
     installPhase = ''
       mkdir -p "$out/Applications/${appname}.app"
-      cp -pR * "$out/Applications/${appname}.app"
+      cp -a ./. "$out/Applications/${appname}.app/"
     '' + postInstall;
     meta = {
       description = description;
