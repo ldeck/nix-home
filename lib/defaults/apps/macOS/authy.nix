@@ -10,16 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2.2.1";
+      version = "2.2.3";
       revision = "";
+      date = "";
       arch = "amd64";
-      sha256 = "88663f7e83cec5a39c4336df9fb395b30447431c8902d0769211f1e31006d2db";
+      url = "https://pkg.authy.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
+      sha256 = "a75657222028822949516805f5af5406d4a786d0db0a9f91bd04cc08779883df";
     };
     aarch64-darwin = {
-      version = "2.2.1";
+      version = "2.2.3";
       revision = "";
+      date = "";
       arch = "arm64";
-      sha256 = "88663f7e83cec5a39c4336df9fb395b30447431c8902d0769211f1e31006d2db";
+      url = "https://pkg.authy.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
+      sha256 = "a75657222028822949516805f5af5406d4a786d0db0a9f91bd04cc08779883df";
     };
   };
 
@@ -39,12 +43,16 @@ in {
         description = "The version of the app.";
       };
       date = mkOption {
-        default = "";
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
         description = "The build date (if applicable).";
       };
       revision = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.revision;
         description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
@@ -55,12 +63,12 @@ in {
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
-        name = "Authy";
+        name = "Authy Desktop";
         description = "Two-factor authentication software";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://authy-electron-repository-production.s3.amazonaws.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
+          url = cfg.url;
           sha256 = cfg.sha256;
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
