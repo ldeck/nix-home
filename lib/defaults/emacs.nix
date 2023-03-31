@@ -257,6 +257,9 @@ in
       (defun indent-for-tab-command-line-by-line ()
         (interactive)
         (funcall 'apply-function-to-region-lines 'indent-for-tab-command))
+
+      ;; sql-mode defaults
+      (setq sql-mysql-login-params (append sql-mysql-login-params '(port)))
     '';
 
     usePackage = {
