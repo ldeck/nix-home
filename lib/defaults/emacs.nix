@@ -258,6 +258,9 @@ in
         (interactive)
         (funcall 'apply-function-to-region-lines 'indent-for-tab-command))
 
+      ;; LSP keymap config needs to be early to set successfully
+      ;; see https://github.com/emacs-lsp/lsp-mode/issues/1532#issuecomment-602832013
+      (setq lsp-keymap-prefix "C-c l")
     '';
 
     usePackage = {
@@ -1035,34 +1038,48 @@ in
         demand = true;
         command = [
           "lsp"
+          "lsp-deferred"
         ];
-        after = [ "company" "flycheck" "which-key" ];
+        after = [ "company" "flycheck" "which-key" "(require 'lsp-modeline)" ];
         hook = [
-          "(lsp-mode . lsp-enable-which-key-integration)"
-          "(scala-mode . lsp)"
+          "(scala-mode . lsp-deferred)"
           "(lsp-mode . lsp-lens-mode)"
+          "(lsp-modde . hs-minor-mode)"
+          ''
+          (lsp-mode . (lambda ()
+                        (let ((lsp-keymap-prefix "C-c l"))
+                             (lsp-enable-which-key-integration))))
+          ''
         ];
-        bindLocal = {
-          lsp-mode-map = {
-            "C-c l d" = "dap-hydra";
-            "C-c r r" = "lsp-rename";
-            "C-c r f" = "lsp-format-buffer";
-            "C-c r g" = "lsp-format-region";
-            "C-c r a" = "lsp-execute-code-action";
-            "C-c f r" = "lsp-find-references";
-          };
+        # init = ''
+        #   (setq lsp-keymap-prefix "C-c l")
+        #   (which-key-add-key-based-replacements "C-c l d" "debugger")
+        # '';
+        bindKeyMap = {
+          "C-c l" = "lsp-command-map";
         };
         init = ''
           (setq lsp-keymap-prefix "C-c l")
           (which-key-add-key-based-replacements "C-c l d" "debugger")
         '';
+        # bindLocal = {
+        #   lsp-mode-map = {
+        #     "C-c l d" = "dap-hydra";
+        #     "C-c r r" = "lsp-rename";
+        #     "C-c r f" = "lsp-format-buffer";
+        #     "C-c r g" = "lsp-format-region";
+        #     "C-c r a" = "lsp-execute-code-action";
+        #     "C-c f r" = "lsp-find-references";
+        #   };
+        # };
         config = ''
           (setq lsp-diagnostics-provider :flycheck
-                lsp-modeline-workspace-status-enable nil
-                lsp-modeline-diagnostics-enable nil
-                lsp-modeline-code-actions-enable nil
-                lsp-eldoc-render-all nil
-                lsp-headerline-breadcrumb-enable nil
+                ;; lsp-modeline-workspace-status-enable nil
+                ;; lsp-modeline-diagnostics-enable nil
+                ;; lsp-modeline-code-actions-enable nil
+                ;; lsp-eldoc-render-all nil
+                ;; lsp-headerline-breadcrumb-enable nil
+                lsp-keep-workspace-alive nil
           )
 
           (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.Trash\\'")
@@ -1106,7 +1123,7 @@ in
 
       lsp-metals = {
         enable = true;
-        hook = [ "(scala-mode . lsp)" ];
+        hook = [ "(scala-mode . rah-lsp)" ];
         config = ''
           ;; Metals claims to support range formatting by default, but it supports range
           ;; formatting of multiline strings only. By disabling it emacs can use the
