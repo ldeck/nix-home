@@ -258,13 +258,16 @@ in
         (interactive)
         (funcall 'apply-function-to-region-lines 'indent-for-tab-command))
 
-      ;; sql-mode defaults
-      ;; See https://stackoverflow.com/questions/12613/specify-a-port-number-in-emacs-sql-mysql
-      (with-eval-after-load 'sql
-        (setq sql-mysql-login-params (append sql-mysql-login-params '(port :default 3306))))
     '';
 
     usePackage = {
+      sql = {
+        enable = true;
+        config = ''
+          ;; See https://stackoverflow.com/questions/12613/specify-a-port-number-in-emacs-sql-mysql
+          (setq sql-mysql-login-params (append sql-mysql-login-params '(port :default 3306)))
+        '';
+      };
       abbrev = {
         enable = true;
         functions = [ "org-in-src-block-p" ];
