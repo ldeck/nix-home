@@ -473,6 +473,11 @@ in
       };
       consult-lsp = {
         enable = true;
+        bind = {
+          "C-c l c d" = "consult-lsp-diagnostics";
+          "C-c l c s" = "consult-lsp-symbols";
+          "C-c l c f" = "consult-lsp-file-symbols";
+        };
         extraConfig = ''
           :bind (:map lsp-mode-map
                       ([remap xref-find-apropros] . company-complete-common))
