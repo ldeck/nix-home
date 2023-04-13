@@ -1009,11 +1009,11 @@ in
         };
         config = ''
           (setq lsp-ui-sideline-enable t
-                lsp-ui-sideline-show-symbol nil
-                lsp-ui-sideline-show-hover nil
-                lsp-ui-sideline-show-code-actions nil
+                lsp-ui-sideline-show-symbol t
+                lsp-ui-sideline-show-hover t
+                lsp-ui-sideline-show-code-actions t
                 lsp-ui-sideline-update-mode 'point)
-          (setq lsp-ui-doc-enable nil
+          (setq lsp-ui-doc-enable t
                 lsp-ui-doc-position 'at-point
                 lsp-ui-doc-max-width 120
                 lsp-ui-doc-max-height 15)
