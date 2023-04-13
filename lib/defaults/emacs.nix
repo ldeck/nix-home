@@ -1635,7 +1635,9 @@ in
         bindKeyMap = { "C-c p" = "projectile-command-map"; };
         config = ''
           (projectile-mode)
-          (setq projectile-switch-project-action 'projectile-find-file)
+          (setq projectile-switch-project-action 'projectile-find-file
+                projectile-create-missing-test-files t
+          )
           (projectile-register-project-type 'yarn '("package.json" "yarn.lock")
                                             :compile "yarn install"
                                             :test "yarn test"
