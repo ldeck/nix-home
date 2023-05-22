@@ -14,8 +14,26 @@
   lib,
   undmg,
   unzip,
+  pkg-config,
   ...
 }:
+
+let
+  native-undmg = pkgs.writeShellScriptBin "native-undmg" ''
+    if ! [[ "$src" =~ \.dmg$ ]]; then return 1; fi
+    mnt="/Volumes/$RANDOM$RANDOM"
+    function finish {
+      echo "Detaching $mnt"
+      /usr/bin/hdiutil detach $mnt -force
+    }
+    trap finish EXIT
+
+    /usr/bin/hdiutil attach -nobrowse -readonly $src -mountroot $mnt
+    echo "Attaching $mnt"
+    cp -a $mnt/. .
+  '';
+
+in
 
 if stdenv.isDarwin then
   [(stdenv.mkDerivation {
