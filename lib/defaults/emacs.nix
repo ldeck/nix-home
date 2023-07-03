@@ -631,6 +631,7 @@ in
         ];
         config = ''
           (setq js-indent-level 2)
+          (define-key js-mode-map (kbd "M-.") nil)
         '';
       };
 
@@ -1062,7 +1063,7 @@ in
         hook = [
           "(scala-mode . lsp-deferred)"
           "(lsp-mode . lsp-lens-mode)"
-          "(lsp-modde . hs-minor-mode)"
+          "(lsp-mode . hs-minor-mode)"
           ''
           (lsp-mode . (lambda ()
                         (let ((lsp-keymap-prefix "C-c l"))
@@ -1185,6 +1186,9 @@ in
           :bind (:map lsp-mode-map
            ("<f5>" . dap-debug)
            ("C-c l d" . dap-hydra))
+        '';
+        config = ''
+          (require 'dap-chrome)
         '';
       };
 
@@ -1848,6 +1852,17 @@ in
         mode = [ ''"\\.tt\\'"'' ];
       };
 
+      typescript-mode = {
+        enable = true;
+        mode = [ ''"\\.ts\\'"'' ];
+        hook = [ "(typescript-mode . rah-lsp)" ];
+        config = ''
+          (setq typescript-indent-level 2)
+          (require 'dap-node)
+          (dap-node-setup)
+        '';
+      };
+
       yaml-mode = {
         enable = true;
         hook = [ "(yaml-mode . rah-prog-mode-setup)" ];
@@ -1860,6 +1875,7 @@ in
 
       web-mode = {
         enable = true;
+        hook = [ "(web-mode . rah-lsp)" ];
         mode = [
           ''"\\.html\\'"'' # \
           ''"\\.jsx?\\'"'' # \
