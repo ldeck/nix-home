@@ -271,6 +271,12 @@ in
           (setq sql-mysql-login-params (append sql-mysql-login-params '(port :default 3306)))
         '';
       };
+      sqlite3 = {
+        enable = true;
+      };
+      sqlite3-api = {
+        enable = true;
+      };
       abbrev = {
         enable = true;
         functions = [ "org-in-src-block-p" ];
