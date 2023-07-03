@@ -28,6 +28,7 @@
       gnupg
       jq
       jsonnet
+      k9s
       nox
       perl
       ripgrep
