@@ -763,6 +763,10 @@ in
         '';
       };
 
+      protobuf-mode = {
+        enable = true;
+      };
+
       # Remember where we were in a previously visited file. Built-in.
       saveplace = {
         enable = true;
