@@ -211,7 +211,7 @@ in
       (defun rah-lsp ()
         (interactive)
         (envrc-mode)
-        (lsp))
+        (lsp-deferred))
 
       ;(defun rah-sort-lines-ignore-case ()
       ;  (interactive)
