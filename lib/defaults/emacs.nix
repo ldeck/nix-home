@@ -112,8 +112,11 @@ in
       (setq line-move-visual nil)
 
       ;; Stop creating backup and autosave files.
-      (setq make-backup-files nil
-            auto-save-default nil)
+      ;;(setq          make-backup-files nil
+      ;;      auto-save-default nil)
+
+      (setq backup-directory-alist
+        `(("." . ,(concat user-emacs-directory "backups"))))
 
       ;; Acknowledge filesystem changes
       (global-auto-revert-mode t)
