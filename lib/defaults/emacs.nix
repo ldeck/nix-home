@@ -526,6 +526,44 @@ in
         '';
       };
 
+      diff-hl = {
+        enable = true;
+        demand = true;
+        diminish = [
+          " D"
+        ];
+        hook = [
+          "(magit-pre-refresh . diff-hl-magit-pre-refresh)"
+          "(magit-post-refresh . diff-hl-magit-post-refresh)"
+          "(prog-mode . diff-hl-mode)"
+          "(org-mode . diff-hl-mode)"
+          "(dired-mode . diff-hl-dired-mode)"
+        ];
+        init = ''
+          (setq diff-hl-draw-borders nil)
+          ;; (setq diff-hl-global-modes '(not org-mode))
+          ;; (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-type)
+          ;; (setq diff-hl-global-modes (not '(image-mode org-mode)))
+        '';
+        config = ''
+          (global-diff-hl-mode)
+
+          ;; Fall back to the display margin, if the fringe is unavailable
+          (unless (display-graphic-p) (diff-hl-margin-mode))
+
+          (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-type)
+
+          (diff-hl-margin-mode)
+          ;;(setq diff-hl-margin-side 'left)
+
+          (dolist (buf (buffer-list))
+            (with-current-buffer buf
+              (cond
+                ((derived-mode-p '(prog-mode org-mode)) (diff-hl-mode))
+                  ((eq major-mode 'dired-mode) (diff-hl-dired-mode)))))
+        '';
+      };
+
       exec-path-from-shell = {
         enable = true;
         config = ''
