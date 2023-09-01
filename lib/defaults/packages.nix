@@ -30,6 +30,7 @@
       jsonnet
       k9s
       nox
+      nushell
       perl
       ripgrep
       rustup
