@@ -188,6 +188,7 @@ in
     jqo
     markdown
     nix-system
+    nix-update
     nix-version
   ]
   ++ lib.optionals pkgs.stdenv.isDarwin ([
