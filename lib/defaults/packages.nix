@@ -32,6 +32,7 @@
       nox
       perl
       ripgrep
+      rustup
       silver-searcher
       sqls
       #taskwarrior

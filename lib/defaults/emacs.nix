@@ -2029,7 +2029,17 @@ in
         '';
       };
 
-      rust-mode.enable = true;
+      rust-mode = {
+        enable = true;
+        hook = [
+          "ld-rust-mode-hook"
+        ];
+        config = ''
+          (defun ld-rust-mode-hook ()
+            (setq indent-tabs-mode nil)
+            )
+        '';
+      };
 
       savehist = {
         enable = true;
