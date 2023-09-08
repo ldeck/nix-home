@@ -31,6 +31,10 @@ in
     pkgs.bash
   ];
 
+  home.sessionVariables = {
+    LIBRARY_PATH = ''${lib.makeLibraryPath [pkgs.libiconv]}''${LIBRARY_PATH:+:$LIBRARY_PATH}'';
+  };
+
   programs = {
     autojump = {
       enable = true;

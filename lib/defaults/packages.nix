@@ -26,9 +26,11 @@
       ffmpeg
       gdb
       gnupg
+      iconv
       jq
       jsonnet
       k9s
+      libiconv
       nox
       nushell
       perl
