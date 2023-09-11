@@ -261,6 +261,20 @@ in
         (interactive)
         (funcall 'apply-function-to-region-lines 'indent-for-tab-command))
 
+      (defun ld-make-run-buffer-writable ()
+        "Prompt the user for a buffer whose name begins with '*run ',
+         switch to that buffer, enable comint-mode, and set read-only-mode to 0."
+        (interactive)
+        (let* ((buffer-name-prefix "*run ")
+               (buffer-name (read-buffer "Select a buffer: " nil t))
+               (buffer (get-buffer buffer-name))
+               (comint-buffer-p (and buffer (string-prefix-p buffer-name-prefix buffer-name))))
+          (when comint-buffer-p
+            (setq buffer-read-only nil) ; Disable read-only mode
+            (with-current-buffer buffer
+              (comint-mode))) ; Enable comint-mode in the target buffer
+          (switch-to-buffer buffer)))
+
       ;; LSP keymap config needs to be early to set successfully
       ;; see https://github.com/emacs-lsp/lsp-mode/issues/1532#issuecomment-602832013
       (setq lsp-keymap-prefix "C-c l")
