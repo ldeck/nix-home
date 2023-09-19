@@ -17,10 +17,10 @@
         "homepage": "https://rycee.gitlab.io/home-manager/",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5bac4a1c06cd77cf8fc35a658ccb035a6c50cd2c",
-        "sha256": "1lhkqlizabh107mgj9b3fsfzz6cwpcmplkwspqqavwqr9dlmlwc4",
+        "rev": "9787dffff5d315c9593d3f9fb0f9bf2097e1b57b",
+        "sha256": "0n047422nnk5f0z6s8jkvdhq3qy7lyjc6fv3dk12gb6chsx2457h",
         "type": "tarball",
-        "url": "https://github.com/nix-community/home-manager/archive/5bac4a1c06cd77cf8fc35a658ccb035a6c50cd2c.tar.gz",
+        "url": "https://github.com/nix-community/home-manager/archive/9787dffff5d315c9593d3f9fb0f9bf2097e1b57b.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "ligature.el": {
