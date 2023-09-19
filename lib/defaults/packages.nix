@@ -17,6 +17,7 @@
       # TOOLS
       aspell
       aspellDicts.en
+      bat
       bc
       clang_13
       coreutils
