@@ -26,6 +26,7 @@
       ffmpeg
       gdb
       gnupg
+      google-cloud-sdk
       iconv
       jq
       jsonnet
