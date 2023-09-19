@@ -41,11 +41,11 @@ in
     programs.nvm = {
       enable = mkEnableOption "Whether to enable nvm installation";
       version = mkOption {
-        default = "0.39.1";
+        default = "0.39.5";
         description = "The tagged version of nvm (without preceeding 'v')";
       };
       sha256 = mkOption {
-        default = "jqjSKzSYiNY4+4xd2sS809OBfWwJB9GAuUHbC9MmvHQ=";
+        default = "tUH6V+1HzLy0GT1Lk53p267/+MjARLmsGnfIHKWLqq0=";
         description = "The sha256 for the given version";
       };
 
