@@ -35,6 +35,7 @@
       k9s
       lazygit
       libiconv
+      lnav
       nox
       nushell
       perl
