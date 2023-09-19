@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.107.0";
-      revision = "e1d49bbb9";
-      date = "2023-08-08";
+      version = "0.107.4";
+      revision = "27d11c7e1";
+      date = "2023-09-16";
       arch = "amd64";
       url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
-      sha256 = "adafb0bc8c9e109753263f104a2537e9eb1b8b3c7623416d758399f6998a8232";
+      sha256 = "95ea0c897d7e732151d43c432a10afae3cc6a9a2fe9030258b6e727b4ba9c45e";
     };
     aarch64-darwin = {
-      version = "0.107.0";
-      revision = "e1d49bbb9";
-      date = "2023-08-08";
+      version = "0.107.4";
+      revision = "27d11c7e1";
+      date = "2023-09-16";
       arch = "arm64";
       url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
-      sha256 = "adafb0bc8c9e109753263f104a2537e9eb1b8b3c7623416d758399f6998a8232";
+      sha256 = "95ea0c897d7e732151d43c432a10afae3cc6a9a2fe9030258b6e727b4ba9c45e";
     };
   };
 
