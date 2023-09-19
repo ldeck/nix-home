@@ -28,6 +28,7 @@
       gdb
       gnupg
       google-cloud-sdk
+      httpie
       iconv
       jq
       jsonnet
