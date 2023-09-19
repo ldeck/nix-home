@@ -33,6 +33,7 @@
       jq
       jsonnet
       k9s
+      lazygit
       libiconv
       nox
       nushell
