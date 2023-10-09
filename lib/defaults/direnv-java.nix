@@ -18,6 +18,9 @@ let
         11)
           JDK="${pkgs.jdk11_headless}"
           ;;
+        16)
+          JDK="${pkgs.openjdk16-bootstrap}"
+          ;;
         *)
           JDK="${pkgs.jdk17_headless}"
           ;;
