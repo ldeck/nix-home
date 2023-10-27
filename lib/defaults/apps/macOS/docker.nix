@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "4.23.0";
-      revision = "120376";
+      version = "4.24.0";
+      revision = "122432";
       date = "";
       arch = "amd64";
       url = "https://desktop.docker.com/mac/main/amd64/${cfg.revision}/Docker.dmg";
-      sha256 = "30bf23633840a5d129c7e125f940f41336176ea0235c7592ab9b5b3f775d5b3e";
+      sha256 = "67ba11934540270ad37ede8c4d6b3b73ef393690ee2aebca04b6591d22ffe4c5";
     };
     aarch64-darwin = {
-      version = "4.23.0";
-      revision = "120376";
+      version = "4.24.0";
+      revision = "122432";
       date = "";
       arch = "arm64";
       url = "https://desktop.docker.com/mac/main/arm64/${cfg.revision}/Docker.dmg";
-      sha256 = "88813e65928d86d2ad301e51619109aeb3f46f6e135b355000c8854ac4737cca";
+      sha256 = "048e28f9834179008d4728ad59171584b793a76f5d2d52c13b577d1bbb2f699b";
     };
   };
 
