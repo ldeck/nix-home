@@ -73,7 +73,7 @@ in {
           name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
         };
         appcast = "https://formulae.brew.sh/api/cask/mat.json";
-        homepage = "https://www.eclipse.org/mat/";
+        homepage = "https://eclipse.dev/mat/";
       });
   };
 }

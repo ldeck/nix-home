@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.73";
+      version = "0.74";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://github.com/rxhanson/Rectangle/releases/download/v${cfg.version}/Rectangle${cfg.version}.dmg";
-      sha256 = "0fe85e0ab255a36c6c298f57b44ba1ac6ff9f721482531a128921f37d56173e3";
+      sha256 = "1117f3830f11dfd74e73d17f76072008a6c4545342842e4ba831410f36d2f968";
     };
     aarch64-darwin = {
-      version = "0.73";
+      version = "0.74";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://github.com/rxhanson/Rectangle/releases/download/v${cfg.version}/Rectangle${cfg.version}.dmg";
-      sha256 = "0fe85e0ab255a36c6c298f57b44ba1ac6ff9f721482531a128921f37d56173e3";
+      sha256 = "1117f3830f11dfd74e73d17f76072008a6c4545342842e4ba831410f36d2f968";
     };
   };
 
