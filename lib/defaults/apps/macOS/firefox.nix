@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "118.0.2";
+      version = "119.0";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${cfg.version}/mac/en-US/Firefox%20${cfg.version}.dmg";
-      sha256 = "ab8cca216aa1360763986bd1556d3e92f2294f66726ba69cabb5bd1152a5e586";
+      sha256 = "9ea862f623fb3ffbdc6af5cbab34aa7a57aff0c7b13789ccca03ceb73ccae2e9";
     };
     aarch64-darwin = {
-      version = "118.0.2";
+      version = "119.0";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${cfg.version}/mac/en-US/Firefox%20${cfg.version}.dmg";
-      sha256 = "ab8cca216aa1360763986bd1556d3e92f2294f66726ba69cabb5bd1152a5e586";
+      sha256 = "9ea862f623fb3ffbdc6af5cbab34aa7a57aff0c7b13789ccca03ceb73ccae2e9";
     };
   };
 

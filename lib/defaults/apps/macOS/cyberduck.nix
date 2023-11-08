@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "8.6.3";
-      revision = "40040";
+      version = "8.7.0";
+      revision = "40629";
       date = "";
       arch = "amd64";
       url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
-      sha256 = "29e45aa94be68a39ede7cfa543c6f37fcdd02cdfd2888c1f30ad50a8ba7822e8";
+      sha256 = "0076129b8e3d702e90d33450260116e0ca6711b8fbc59413799aa332235614bb";
     };
     aarch64-darwin = {
-      version = "8.6.3";
-      revision = "40040";
+      version = "8.7.0";
+      revision = "40629";
       date = "";
       arch = "arm64";
       url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
-      sha256 = "29e45aa94be68a39ede7cfa543c6f37fcdd02cdfd2888c1f30ad50a8ba7822e8";
+      sha256 = "0076129b8e3d702e90d33450260116e0ca6711b8fbc59413799aa332235614bb";
     };
   };
 

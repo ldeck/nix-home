@@ -22,8 +22,8 @@ let
       revision = "";
       date = "";
       arch = "arm64";
-      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64.dmg";
-      sha256 = "037779aab7924ec0faa3c941ecc194ae51bc329321f06203b38c647fde88a205";
+      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-x86_64.dmg";
+      sha256 = "03dc1d98eec58e49f0fa2c001e313822ee493efdf5b80f347ca8d0885eb38e15";
     };
   };
 

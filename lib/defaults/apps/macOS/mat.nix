@@ -22,8 +22,8 @@ let
       revision = "";
       date = "";
       arch = "arm64";
-      url = "https://download.eclipse.org/mat/${lib.versions.majorMinor cfg.version}.0/rcp/MemoryAnalyzer-${cfg.version}-macosx.cocoa.aarch64.dmg";
-      sha256 = "4fff45cd2518348eaed38522d5a58ad6e4cc4515c08cd89144944c83db52a7f6";
+      url = "https://download.eclipse.org/mat/${lib.versions.majorMinor cfg.version}.0/rcp/MemoryAnalyzer-${cfg.version}-macosx.cocoa.x86_64.dmg";
+      sha256 = "236175bc2f306ec963b708b3b765c1684a018d30da4d38c52c9774b80133ddfb";
     };
   };
 
