@@ -22,6 +22,7 @@
       clang_13
       coreutils
       coreutils-prefixed
+      croc
       editorconfig-core-c
       fd
       ffmpeg
