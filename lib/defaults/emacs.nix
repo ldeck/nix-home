@@ -1484,7 +1484,16 @@ in
         enable = true;
         after = [ "org" ];
         config = ''
-          (setq org-capture-templates rah-org-capture-templates)
+          ;; https://howardism.org/Technical/Emacs/capturing-intro.html
+          (setq org-default-notes-file "~/Documents/notes/tasks.org")
+          (add-to-list 'org-capture-templates
+             '("w" "Work-related Task"  entry
+               (file "~/Documents/work/work.org")
+               "* TODO %?" :empty-lines 1))
+          (add-to-list 'org-capture-templates
+             '("t" "Personal Task"  entry
+               (file org-default-notes-file)
+               "* TODO %?" :empty-lines 1))
         '';
       };
 
