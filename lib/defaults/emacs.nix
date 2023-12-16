@@ -272,6 +272,8 @@ in
       ;; LSP keymap config needs to be early to set successfully
       ;; see https://github.com/emacs-lsp/lsp-mode/issues/1532#issuecomment-602832013
       (setq lsp-keymap-prefix "C-c l")
+
+      (setq cua-rectangle-mark-key (kbd "C-M-<return>"))
     '';
 
     usePackage = {
