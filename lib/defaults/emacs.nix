@@ -694,6 +694,7 @@ in
           epkgs.trivialBuild {
             pname = "ligature.el";
             src = sources."ligature.el";
+            version = "ldeck-${builtins.toString builtins.currentTime}";
             preferLocalBuild = true;
             allowSubstitutes = false;
           };

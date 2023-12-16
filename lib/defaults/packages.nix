@@ -20,7 +20,7 @@
       bat
       bc
       clang_13
-      coreutils
+      #coreutils
       coreutils-prefixed
       croc
       editorconfig-core-c
@@ -31,7 +31,7 @@
       gnupg
       (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
       httpie
-      iconv
+      #iconv
       jq
       jsonnet
       k9s
