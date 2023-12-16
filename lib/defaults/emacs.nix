@@ -1534,6 +1534,31 @@ in
       org-tree-slide = {
         enable = true;
         command = [ "org-tree-slide-mode" ];
+        hook = [
+          ''
+          (org-tree-slide-play . (lambda ()
+            (setq-local text-scale-mode-amount 3)
+            (org-display-inline-images t)
+            (text-scale-mode 1)
+          ))
+          ''
+          ''
+          (org-tree-slide-stop . (lambda ()
+            (text-scale-mode 0)
+          ))
+          ''
+        ];
+        config = ''
+          (setq org-tree-slide-heading-emphasis t)
+          (setq org-tree-slide-skip-outline-level 4)
+
+          (org-tree-slide-slide-in-effect t)
+          (org-tree-slide-activate-message "Presentation Started!")
+          (org-tree-slide-deactivate-message "Presentation Finished!")
+          (org-tree-slide-header t)
+          (org-tree-slide-breadcrumbs " > ")
+          (org-tree-slide-image-actual-width nil)
+        '';
       };
 
       org-variable-pitch = {
