@@ -1512,6 +1512,12 @@ in
         '';
       };
 
+      org-ref = {
+        enable = true;
+        after = [ "org" ];
+
+      };
+
       org-refile = {
         enable = true;
         after = [ "org" ];
