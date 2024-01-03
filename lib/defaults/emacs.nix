@@ -1359,6 +1359,7 @@ in
         config = ''
           ;; Some general stuff.
           (setq org-reverse-note-order t
+                org-src-fontify-natively t
                 org-use-fast-todo-selection t
                 org-adapt-indentation nil
                 org-hide-leading-stars t
@@ -1382,6 +1383,11 @@ in
                                          (shell . t)
                                          (sql . t)
                                          (verb . t)))
+
+          ;; org-latex settings
+          (add-to-list 'org-latex-packages-alist '("" "listings" nil))
+          (setq org-latex-listings t
+                org-latex-listings-options '(("breaklines" "true")))
 
           ;; Unfortunately org-mode tends to take over keybindings that
           ;; start with C-c.
