@@ -1403,7 +1403,7 @@ in
         defer = true;
         config = ''
           ;; Set up agenda view.
-          (setq org-agenda-files (rah-all-org-files)
+          (setq org-agenda-files (list "~/Documents/notes/")
                 org-agenda-span 5
                 org-deadline-warning-days 14
                 org-agenda-show-all-dates t
