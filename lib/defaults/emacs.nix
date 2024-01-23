@@ -274,6 +274,12 @@ in
       (setq lsp-keymap-prefix "C-c l")
 
       (setq cua-rectangle-mark-key (kbd "C-M-<return>"))
+
+      ;; ensure directory listings work
+      ;; https://github.com/d12frosted/homebrew-emacs-plus/issues/383#issuecomment-899157143
+      (setq
+            insert-directory-program "gls" dired-use-ls-dired t
+            dired-listing-switches "-al --group-directories-first")
     '';
 
     usePackage = {
