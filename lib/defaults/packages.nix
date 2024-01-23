@@ -58,6 +58,7 @@
       })
       tree
       python310Packages.yamllint
+      xq-xml
       zlib
     ];
   };
