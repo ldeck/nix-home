@@ -18,11 +18,15 @@ let
         11)
           JDK="${pkgs.jdk11_headless}"
           ;;
-        16)
-          JDK="${pkgs.openjdk16-bootstrap}"
+        17)
+          JDK="${pkgs.jdk17_headless}"
+          ;;
+        21)
+          JDK="${pkgs.jdk21_headless}"
           ;;
         *)
-          JDK="${pkgs.jdk17_headless}"
+          echo "Usage: jdk $2 not known"
+          exit 1
           ;;
       esac
       JAVA_HOME=$(${pkgs.coreutils}/bin/realpath "$JDK/bin/..")
