@@ -73,7 +73,7 @@ in {
           name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
         };
         appcast = "https://formulae.brew.sh/api/cask/free-ruler.json";
-        homepage = "https://www.pascal.com/software/freeruler/";
+        homepage = "https://www.pascal.com/freeruler";
       });
   };
 }

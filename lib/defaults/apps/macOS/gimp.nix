@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2.10.34-3";
+      version = "2.10.36";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-x86_64.dmg";
-      sha256 = "03dc1d98eec58e49f0fa2c001e313822ee493efdf5b80f347ca8d0885eb38e15";
+      sha256 = "9e6e4f9572d1509cbb7f442b01232428adbfa45cb99f92a6d497b2f25ae9327e";
     };
     aarch64-darwin = {
-      version = "2.10.34-3";
+      version = "2.10.36";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-x86_64.dmg";
-      sha256 = "03dc1d98eec58e49f0fa2c001e313822ee493efdf5b80f347ca8d0885eb38e15";
+      sha256 = "9e6e4f9572d1509cbb7f442b01232428adbfa45cb99f92a6d497b2f25ae9327e";
     };
   };
 
