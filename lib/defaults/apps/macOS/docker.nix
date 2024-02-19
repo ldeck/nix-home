@@ -10,12 +10,12 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "4.27.2";
-      revision = "137060";
+      version = "4.26.1";
+      revision = "131620";
       date = "";
       arch = "amd64";
       url = "https://desktop.docker.com/mac/main/amd64/${cfg.revision}/Docker.dmg";
-      sha256 = "784ec9535cea22d16405696f4e9fc77dad761f83957dd0a62650245169ae8e4a";
+      sha256 = "617e07f04cd8a337c189efcfc05109fc9ef83c313ea101c520593c79c36697cf";
     };
     aarch64-darwin = {
       version = "4.27.2";
