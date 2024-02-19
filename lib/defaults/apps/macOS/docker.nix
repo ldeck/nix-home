@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "4.27.1";
-      revision = "136059";
+      version = "4.27.2";
+      revision = "137060";
       date = "";
       arch = "amd64";
       url = "https://desktop.docker.com/mac/main/amd64/${cfg.revision}/Docker.dmg";
-      sha256 = "7e2bb9403904078e95332dbc5d94107a740a66d5ceba46e749116fa9a4707a2b";
+      sha256 = "784ec9535cea22d16405696f4e9fc77dad761f83957dd0a62650245169ae8e4a";
     };
     aarch64-darwin = {
-      version = "4.27.1";
-      revision = "136059";
+      version = "4.27.2";
+      revision = "137060";
       date = "";
       arch = "arm64";
       url = "https://desktop.docker.com/mac/main/amd64/${cfg.revision}/Docker.dmg";
-      sha256 = "7e2bb9403904078e95332dbc5d94107a740a66d5ceba46e749116fa9a4707a2b";
+      sha256 = "784ec9535cea22d16405696f4e9fc77dad761f83957dd0a62650245169ae8e4a";
     };
   };
 
@@ -64,7 +64,7 @@ in {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Docker";
-        description = "App to build and share containerized applications and microservices";
+        description = "App to build and share containerised applications and microservices";
         sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {

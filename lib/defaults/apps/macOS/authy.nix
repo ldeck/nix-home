@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2.4.2";
+      version = "2.5.0";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://pkg.authy.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
-      sha256 = "8d99ccb1ee8c1e3fd64b65ee2f7774516880c241abd1f565e65678bb01de95cd";
+      sha256 = "7116fa3638eedc66f947acbd75380e1e0f10e0d7e71369e3bb39ce99f8299455";
     };
     aarch64-darwin = {
-      version = "2.4.2";
+      version = "2.5.0";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://pkg.authy.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
-      sha256 = "8d99ccb1ee8c1e3fd64b65ee2f7774516880c241abd1f565e65678bb01de95cd";
+      sha256 = "7116fa3638eedc66f947acbd75380e1e0f10e0d7e71369e3bb39ce99f8299455";
     };
   };
 
