@@ -280,6 +280,40 @@ in
       (setq
             insert-directory-program "gls" dired-use-ls-dired t
             dired-listing-switches "-al --group-directories-first")
+
+      ;; copy filename and line to clipboard
+      (defun copy-current-line-position-to-clipboard ()
+        "Copy current line in file to clipboard as '<project/path/to/file>:<line-number>'."
+        (interactive)
+        (let* ((vcroot (vc-root-dir))
+               (name1 (buffer-file-name))
+               (name2 (string-replace vcroot "" name1))
+               (name3 (string-replace (getenv "HOME") "~" name2))
+               (name4 (string-replace vcroot "" name3))
+               (path-with-line-number (concat name4 ":" (number-to-string (line-number-at-pos)))))
+          (kill-new path-with-line-number)
+          (message (concat path-with-line-number " copied to clipboard "))))
+
+      ;; take a url and make an @see javadoc snippet
+      (defun ld/url-host (url)
+        "Extract hostname from URL removing any preceding 'www.'."
+        (let ((parsed-url (url-generic-parse-url url)))
+          (if parsed-url
+              (let ((host (url-host parsed-url)))
+                (if (string-match "^www\\." host)
+                    (substring host 4)
+                  host))
+            nil)))
+
+      (defun ld/make-javadoc-link ()
+        (interactive)
+        (let* ((url (read-string "Enter the URL: "))
+               (host (ld/url-host url)))
+          (if (not (string-empty-p url))
+              (let ((msg (concat "@see <a href=\"" url "\">on " host "</a>")))
+                (kill-new msg)
+                (message "%s copied to clipboard" msg))
+            (message "URL cannot be empty"))))
     '';
 
     usePackage = {
@@ -817,6 +851,15 @@ in
                 flyspell-issue-welcome-flag nil
                 flyspell-use-meta-tab nil)
         '';
+      };
+
+      git-link = {
+        enable = true;
+        bind = {
+          "C-c L g" = "git-link";
+          "C-c L c" = "git-link-commit";
+          "C-c L h" = "git-link-homepage";
+        };
       };
 
       protobuf-mode = {
