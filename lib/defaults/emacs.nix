@@ -314,6 +314,26 @@ in
                 (kill-new msg)
                 (message "%s copied to clipboard" msg))
             (message "URL cannot be empty"))))
+
+
+
+       ;; CUSTOM MODES
+       (require 'generic-x)
+
+       (define-generic-mode
+         'avdl-mode
+         '("//") ;; comments
+         '("protocol" "namespace") ;; reserved words
+         '(("\\<[[:alnum:]]+\\>" (0 font-lock-builtin-face) ("\\<[[:alnum:]]+\\>;?\\( {\\)?" nil nil (0 nil))) ;; type
+         ("\\<\\(?:namespace\\|protocol\\)\\>" . font-lock-keyword-face)
+
+         ("{\\|}\\|;\\|<\\|>" . font-lock-constant-face)) ;; separators
+         '("\\.avdl$") ;; file extension
+         nil
+         "Major mode for editing Avro IDL files."
+         )
+
+       (add-to-list 'auto-mode-alist '("\\.avdl\\'" . avdl-mode))
     '';
 
     usePackage = {
