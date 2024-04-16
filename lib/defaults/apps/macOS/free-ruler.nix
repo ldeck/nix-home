@@ -10,20 +10,20 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2.0.6";
+      version = "2.0.8";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://github.com/pascalpp/FreeRuler/releases/download/v${cfg.version}/free-ruler-${cfg.version}.zip";
-      sha256 = "ee762183261e58b8b121a09cd282bc63f2b8664f0d1e31d24be2c623c99d01a8";
+      sha256 = "697482a35fb13cb6f58678b443a57951180ad1046141f0e98d0fc8d1f1d67da6";
     };
     aarch64-darwin = {
-      version = "2.0.6";
+      version = "2.0.8";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://github.com/pascalpp/FreeRuler/releases/download/v${cfg.version}/free-ruler-${cfg.version}.zip";
-      sha256 = "ee762183261e58b8b121a09cd282bc63f2b8664f0d1e31d24be2c623c99d01a8";
+      sha256 = "697482a35fb13cb6f58678b443a57951180ad1046141f0e98d0fc8d1f1d67da6";
     };
   };
 
