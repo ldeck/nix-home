@@ -277,9 +277,13 @@ in
 
       ;; ensure directory listings work
       ;; https://github.com/d12frosted/homebrew-emacs-plus/issues/383#issuecomment-899157143
-      (setq
+      (defun ld/fix-directories-listing-with-gls ()
+        (setq
             insert-directory-program "gls" dired-use-ls-dired t
             dired-listing-switches "-al --group-directories-first")
+      )
+
+      (ld/fix-directories-listing-with-gls)
 
       ;; copy filename and line to clipboard
       (defun copy-current-line-position-to-clipboard ()
@@ -507,6 +511,21 @@ in
 
           (advice-add #'project-find-regexp
                       :override #'consult-ripgrep)
+
+          (defun ld/consult-ripgrep-in-project-subdir ()
+            "Search for a pattern using ripgrep in a subdirectory of the current project."
+            (interactive)
+            (let* ((project-root (project-root (project-current)))
+                   (subdirs (mapcar (lambda (dir) (file-relative-name dir project-root))
+                                    (seq-filter 'file-directory-p
+                                                (directory-files-recursively project-root "^[^.].*" t)))))
+              (if subdirs
+                  (let ((subdir (completing-read "Select a subdirectory: " subdirs)))
+                    (if subdir
+                        (let* ((default-directory (expand-file-name subdir project-root)))
+                          (consult-ripgrep default-directory))
+                        (message "No subdirectory selected.")))
+                  (message "No subdirectories found in the project."))))
 
           (consult-customize
             consult-line
