@@ -499,15 +499,11 @@ in
           "M-s r" = "consult-ripgrep";
           "M-y" = "consult-yank-pop";
         };
-        command = [ "consult-completing-read-multiple" ];
         config = ''
-          (defvar rah/consult-line-map
+          (defvar ld/consult-line-map
             (let ((map (make-sparse-keymap)))
               (define-key map "\C-s" #'vertico-next)
               map))
-
-          (advice-add #'completing-read-multiple
-                      :override #'consult-completing-read-multiple)
 
           (advice-add #'project-find-regexp
                       :override #'consult-ripgrep)
@@ -515,7 +511,7 @@ in
           (consult-customize
             consult-line
               :history t ;; disable history
-              :keymap rah/consult-line-map
+              :keymap ld/consult-line-map
             consult-buffer consult-find consult-ripgrep
               :preview-key "M-."
             consult-theme
