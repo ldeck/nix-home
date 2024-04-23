@@ -10,20 +10,22 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "125.0.1";
+      version = "125.0.2";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${cfg.version}/mac/en-US/Firefox%20${cfg.version}.dmg";
-      sha256 = "3f431079d423e5397987a4120a63948217252426219f23348cb6b6bbded3acf3";
+      sha256 = "a25f9e670fa0462be74ee04ac2cd6df234ff8d94cf032d5b94270af9f71fa355";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "125.0.1";
+      version = "125.0.2";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${cfg.version}/mac/en-US/Firefox%20${cfg.version}.dmg";
-      sha256 = "3f431079d423e5397987a4120a63948217252426219f23348cb6b6bbded3acf3";
+      sha256 = "a25f9e670fa0462be74ee04ac2cd6df234ff8d94cf032d5b94270af9f71fa355";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/firefox.json";
         homepage = "https://www.mozilla.org/firefox/";

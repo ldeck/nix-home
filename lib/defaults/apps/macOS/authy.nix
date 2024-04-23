@@ -16,6 +16,7 @@ let
       arch = "amd64";
       url = "https://pkg.authy.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
       sha256 = "7116fa3638eedc66f947acbd75380e1e0f10e0d7e71369e3bb39ce99f8299455";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
       version = "2.5.0";
@@ -24,6 +25,7 @@ let
       arch = "arm64";
       url = "https://pkg.authy.com/authy/stable/${cfg.version}/darwin/x64/Authy%20Desktop-${cfg.version}.dmg";
       sha256 = "7116fa3638eedc66f947acbd75380e1e0f10e0d7e71369e3bb39ce99f8299455";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/authy.json";
         homepage = "https://authy.com/";

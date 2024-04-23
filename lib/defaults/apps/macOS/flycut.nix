@@ -16,6 +16,7 @@ let
       arch = "amd64";
       url = "https://github.com/TermiT/Flycut/releases/download/${cfg.version}/Flycut.${cfg.version}.zip";
       sha256 = "bc1a73b9cb4b4d316fa11572f43383f0f02fc7e6ba88bbed046cc1b074336862";
+      imagetype = "zip";
     };
     aarch64-darwin = {
       version = "1.9.6";
@@ -24,6 +25,7 @@ let
       arch = "arm64";
       url = "https://github.com/TermiT/Flycut/releases/download/${cfg.version}/Flycut.${cfg.version}.zip";
       sha256 = "bc1a73b9cb4b4d316fa11572f43383f0f02fc7e6ba88bbed046cc1b074336862";
+      imagetype = "zip";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/flycut.json";
         homepage = "https://github.com/TermiT/Flycut";

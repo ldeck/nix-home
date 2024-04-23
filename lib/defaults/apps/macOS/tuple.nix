@@ -10,20 +10,22 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.114.1";
-      revision = "db92fdb5b";
-      date = "2024-03-21";
+      version = "0.114.3";
+      revision = "50d941071";
+      date = "2024-04-19";
       arch = "amd64";
       url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
-      sha256 = "2ee3fabfe75f15874fb7805fa33634041cb91d1932925d8a4bb7d22d83a52abe";
+      sha256 = "8010db4c9fe961c651f769ec4efd1263ba0d03a3741cb4523a5eb8ecbab75d74";
+      imagetype = "zip";
     };
     aarch64-darwin = {
-      version = "0.114.1";
-      revision = "db92fdb5b";
-      date = "2024-03-21";
+      version = "0.114.3";
+      revision = "50d941071";
+      date = "2024-04-19";
       arch = "arm64";
       url = "https://d32ifkf9k9ezcg.cloudfront.net/production/sparkle/tuple-${cfg.version}-${cfg.date}-${cfg.revision}.zip";
-      sha256 = "2ee3fabfe75f15874fb7805fa33634041cb91d1932925d8a4bb7d22d83a52abe";
+      sha256 = "8010db4c9fe961c651f769ec4efd1263ba0d03a3741cb4523a5eb8ecbab75d74";
+      imagetype = "zip";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/tuple.json";
         homepage = "https://tuple.app/";

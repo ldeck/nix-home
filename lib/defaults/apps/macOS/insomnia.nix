@@ -16,6 +16,7 @@ let
       arch = "amd64";
       url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
       sha256 = "e18e9ee5c43d2747a7a76b5e5d5342beb8db847d77d28a78e4157167103be091";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
       version = "8.6.1";
@@ -24,6 +25,7 @@ let
       arch = "arm64";
       url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
       sha256 = "e18e9ee5c43d2747a7a76b5e5d5342beb8db847d77d28a78e4157167103be091";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/insomnia.json";
         homepage = "https://insomnia.rest/";

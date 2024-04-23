@@ -10,20 +10,22 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "7.5.0";
+      version = "7.5.1";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://updates.signal.org/desktop/signal-desktop-mac-x64-${cfg.version}.dmg";
-      sha256 = "79de8e71a48133b1e1af1465bc577e4d6708dbfb57bfa2ac109af996ff75958c";
+      sha256 = "dc614688c598412417d4440f60f5a292bfb4880a37e8a6548ec4c6911f4c41d0";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "7.5.0";
+      version = "7.5.1";
       revision = "";
       date = "";
       arch = "arm64";
-      url = "https://updates.signal.org/desktop/signal-desktop-mac-x64-${cfg.version}.dmg";
-      sha256 = "79de8e71a48133b1e1af1465bc577e4d6708dbfb57bfa2ac109af996ff75958c";
+      url = "https://updates.signal.org/desktop/signal-desktop-mac-arm64-${cfg.version}.dmg";
+      sha256 = "ab7fafe6efff9e203ea2bb6518cb0db9548968833bd8f17decd806d326861e52";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/signal.json";
         homepage = "https://signal.org/";

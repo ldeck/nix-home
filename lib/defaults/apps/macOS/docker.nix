@@ -10,20 +10,22 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "4.26.1";
-      revision = "131620";
+      version = "4.29.0";
+      revision = "145265";
       date = "";
       arch = "amd64";
       url = "https://desktop.docker.com/mac/main/amd64/${cfg.revision}/Docker.dmg";
-      sha256 = "617e07f04cd8a337c189efcfc05109fc9ef83c313ea101c520593c79c36697cf";
+      sha256 = "3b6ea4803d29b947b1553d5d91e26815a76e099bcea0f3c55d27974868652127";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "4.27.2";
-      revision = "137060";
+      version = "4.29.0";
+      revision = "145265";
       date = "";
       arch = "arm64";
-      url = "https://desktop.docker.com/mac/main/amd64/${cfg.revision}/Docker.dmg";
-      sha256 = "784ec9535cea22d16405696f4e9fc77dad761f83957dd0a62650245169ae8e4a";
+      url = "https://desktop.docker.com/mac/main/arm64/${cfg.revision}/Docker.dmg";
+      sha256 = "d51a70ceceab25e6e60589f77751a12dc54ecdae0e243ddb95d18c59a210a834";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/docker.json";
         homepage = "https://www.docker.com/products/docker-desktop";

@@ -16,6 +16,7 @@ let
       arch = "amd64";
       url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
       sha256 = "5041b995cc80d68f0c378977ab47d22d63c3cb0f1758adf76dacdc0f5f1122c3";
+      imagetype = "zip";
     };
     aarch64-darwin = {
       version = "8.8.2";
@@ -24,6 +25,7 @@ let
       arch = "arm64";
       url = "https://update.cyberduck.io/Cyberduck-${cfg.version}.${cfg.revision}.zip";
       sha256 = "5041b995cc80d68f0c378977ab47d22d63c3cb0f1758adf76dacdc0f5f1122c3";
+      imagetype = "zip";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/cyberduck.json";
         homepage = "https://cyberduck.io/";

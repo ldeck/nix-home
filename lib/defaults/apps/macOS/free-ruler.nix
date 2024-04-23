@@ -16,6 +16,7 @@ let
       arch = "amd64";
       url = "https://github.com/pascalpp/FreeRuler/releases/download/v${cfg.version}/free-ruler-${cfg.version}.zip";
       sha256 = "697482a35fb13cb6f58678b443a57951180ad1046141f0e98d0fc8d1f1d67da6";
+      imagetype = "zip";
     };
     aarch64-darwin = {
       version = "2.0.8";
@@ -24,6 +25,7 @@ let
       arch = "arm64";
       url = "https://github.com/pascalpp/FreeRuler/releases/download/v${cfg.version}/free-ruler-${cfg.version}.zip";
       sha256 = "697482a35fb13cb6f58678b443a57951180ad1046141f0e98d0fc8d1f1d67da6";
+      imagetype = "zip";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/free-ruler.json";
         homepage = "https://www.pascal.com/freeruler";

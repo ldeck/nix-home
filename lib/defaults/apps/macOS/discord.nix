@@ -10,20 +10,22 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.0.301";
+      version = "0.0.302";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
-      sha256 = "87b0b5c022ad50670c154868295743ed5abd4c651a5df9a3955870991761a98c";
+      sha256 = "5edd1e7fea201a53c0e1e6f1b80b0640a78c543a13079f230917323357c78d81";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "0.0.301";
+      version = "0.0.302";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
-      sha256 = "87b0b5c022ad50670c154868295743ed5abd4c651a5df9a3955870991761a98c";
+      sha256 = "5edd1e7fea201a53c0e1e6f1b80b0640a78c543a13079f230917323357c78d81";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/discord.json";
         homepage = "https://discord.com/";

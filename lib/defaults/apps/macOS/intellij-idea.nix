@@ -16,14 +16,16 @@ let
       arch = "amd64";
       url = "https://download.jetbrains.com/idea/ideaIU-${cfg.version}.dmg";
       sha256 = "aaecd61f3258d555cb5b2993d04a56955f6dd4cb7a393b58928e4548817750e1";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
       version = "2024.1";
       revision = "241.14494.240";
       date = "";
       arch = "arm64";
-      url = "https://download.jetbrains.com/idea/ideaIU-${cfg.version}.dmg";
-      sha256 = "aaecd61f3258d555cb5b2993d04a56955f6dd4cb7a393b58928e4548817750e1";
+      url = "https://download.jetbrains.com/idea/ideaIU-${cfg.version}-aarch64.dmg";
+      sha256 = "fd09f791834713e02c7cd28e4bf35b89e6f55e09970db3a720a4c59044874973";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/intellij-idea.json";
         homepage = "https://www.jetbrains.com/idea/";

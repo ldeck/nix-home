@@ -10,20 +10,22 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "24.0.2";
+      version = "24.0.3";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://dbeaver.io/files/${cfg.version}/dbeaver-ce-${cfg.version}-macos-x86_64.dmg";
-      sha256 = "095020eae470a7e9f4fd7e6868ae237323fd309bbd1a5a788b0f5fe7342bc55e";
+      sha256 = "0a4afff7fdc7359e61ba37419466b6b4eec2b8543cd914ded9cddfde4ddc65cc";
+      imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "24.0.2";
+      version = "24.0.3";
       revision = "";
       date = "";
       arch = "arm64";
-      url = "https://dbeaver.io/files/${cfg.version}/dbeaver-ce-${cfg.version}-macos-x86_64.dmg";
-      sha256 = "095020eae470a7e9f4fd7e6868ae237323fd309bbd1a5a788b0f5fe7342bc55e";
+      url = "https://dbeaver.io/files/${cfg.version}/dbeaver-ce-${cfg.version}-macos-aarch64.dmg";
+      sha256 = "449f2d93612c5435e785d2f2913ef249cac75955cc741adef1ea0fe8ae24b4a4";
+      imagetype = "dmg";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.dmg";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/dbeaver-community.json";
         homepage = "https://dbeaver.io/";

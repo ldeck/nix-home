@@ -16,6 +16,7 @@ let
       arch = "amd64";
       url = "https://github.com/Ranchero-Software/NetNewsWire/releases/download/mac-${cfg.version}/NetNewsWire${cfg.version}.zip";
       sha256 = "74d75b9e25c6adef06dbf01cd060771872769357448879809535f77493840bbb";
+      imagetype = "zip";
     };
     aarch64-darwin = {
       version = "6.1.4";
@@ -24,6 +25,7 @@ let
       arch = "arm64";
       url = "https://github.com/Ranchero-Software/NetNewsWire/releases/download/mac-${cfg.version}/NetNewsWire${cfg.version}.zip";
       sha256 = "74d75b9e25c6adef06dbf01cd060771872769357448879809535f77493840bbb";
+      imagetype = "zip";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/netnewswire.json";
         homepage = "https://netnewswire.com/";

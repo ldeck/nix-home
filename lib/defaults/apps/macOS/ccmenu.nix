@@ -16,6 +16,7 @@ let
       arch = "amd64";
       url = "https://github.com/erikdoe/ccmenu/releases/download/v${cfg.version}/CCMenu.app.zip";
       sha256 = "4ee3c5f65828c30c5cbe147064396d387a175042601076adf12b6c1a99792c1d";
+      imagetype = "zip";
     };
     aarch64-darwin = {
       version = "15.0";
@@ -24,6 +25,7 @@ let
       arch = "arm64";
       url = "https://github.com/erikdoe/ccmenu/releases/download/v${cfg.version}/CCMenu.app.zip";
       sha256 = "4ee3c5f65828c30c5cbe147064396d387a175042601076adf12b6c1a99792c1d";
+      imagetype = "zip";
     };
   };
 
@@ -58,6 +60,10 @@ in {
         default = archSpecs.${stdenv.hostPlatform.system}.sha256;
         description = "The sha256 for the app.";
       };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
     };
   };
   config = mkIf cfg.enable {
@@ -70,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.zip";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/ccmenu.json";
         homepage = "https://ccmenu.org/";
