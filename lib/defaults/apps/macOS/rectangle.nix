@@ -76,7 +76,7 @@ in {
         src = pkgs.fetchurl {
           url = cfg.url;
           sha256 = cfg.sha256;
-          name = "${(toHyphenedLower name)}-${arch}-${version}.${imagetype}";
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${cfg.imagetype}";
         };
         appcast = "https://formulae.brew.sh/api/cask/rectangle.json";
         homepage = "https://rectangleapp.com/";
