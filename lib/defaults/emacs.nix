@@ -277,13 +277,17 @@ in
 
       ;; ensure directory listings work
       ;; https://github.com/d12frosted/homebrew-emacs-plus/issues/383#issuecomment-899157143
-      (defun ld/fix-directories-listing-with-gls ()
+      (defun ld/use-directories-listing-with-gls ()
         (setq
             insert-directory-program "gls" dired-use-ls-dired t
             dired-listing-switches "-al --group-directories-first")
       )
 
-      (ld/fix-directories-listing-with-gls)
+      (ld/use-directories-listing-with-gls)
+      (defun ld/fix-directories-listing-with-gls ()
+        (interactive)
+        (ld/use-directories-listing-with-gls)
+      )
 
       ;; copy filename and line to clipboard
       (defun copy-current-line-position-to-clipboard ()
