@@ -27,9 +27,9 @@ let
 
 in
 {
-  home.packages = [
-    pkgs.bash
-  ];
+  # home.packages = [
+  #   pkgs.bash
+  # ];
 
   home.sessionVariables = {
     LIBRARY_PATH = ''${lib.makeLibraryPath [pkgs.libiconv]}''${LIBRARY_PATH:+:$LIBRARY_PATH}'';
@@ -53,7 +53,7 @@ in
     };
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       shellAliases = essentialShellAliases // {
         reload = "unset __HM_SESS_VARS_SOURCED && exec zsh";

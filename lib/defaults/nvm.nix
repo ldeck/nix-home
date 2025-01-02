@@ -50,7 +50,7 @@ in
       };
 
       zsh.enable = mkEnableOption "Whether to enable zsh integration";
-      bash.enable = mkEnableOption "Whether to enable zsh integration";
+      bash.enable = mkEnableOption "Whether to enable bash integration";
     };
   };
 

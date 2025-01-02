@@ -9,7 +9,7 @@
 
       # NIX BASICS
       niv
-      nixfmt
+      nixfmt-classic
       nix-prefetch-github
       nix-prefetch-scripts
       undmg
@@ -47,8 +47,8 @@
       sqls
       #taskwarrior
       (symlinkJoin {
-        inherit (taskwarrior) name meta;
-        paths = [taskwarrior];
+        inherit (taskwarrior3) name meta;
+        paths = [taskwarrior3];
         postBuild = ''
           mv $out/bin/task $out/bin/tw
           mv $out/share/zsh/site-functions/_task $out/share/zsh/site-functions/_tw
