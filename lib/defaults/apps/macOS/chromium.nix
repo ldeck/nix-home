@@ -1,26 +1,31 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
+{ config, lib, pkgs, ... }:
 with lib;
 
 let
-  stdenv = pkgs.stdenv;
   cfg = config.macOS.apps.chromium;
+  stdenv = pkgs.stdenv;
+  arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
 
-  specs = {
+  archSpecs = {
     x86_64-darwin = {
-      version = "948906";
-      arch = "Mac";
-      sha256 = "dee4dbb296e672d2e7e552d865d82c3248b2534b232ee638f472aa3a8948b223";
+      version = "131.0.6778.0";
+      revision = "1368531";
+      date = "Tue, 15 Oct 2024 00:55:06 GMT";
+      arch = "amd64";
+      url = "https://storage.googleapis.com/chromium-browser-snapshots/Mac/1368531/chrome-mac.zip";
+      sha256 = "176njljv5cv61z417v9ydxga3hf4s6pfhbvpvgpsmpppw34gsy4h";
+      imagetype = "zip";
     };
     aarch64-darwin = {
-      version = "948906";
-      arch = "Mac_Arm";
-      sha256 = "823c1c56a981619d4a1fb029ba415ab6a0d47caf70c70d337d64651a2e6d82d9";
+      version = "131.0.6778.0";
+      revision = "1368531";
+      date = "Tue, 15 Oct 2024 00:55:06 GMT";
+      arch = "arm64";
+      url = "https://storage.googleapis.com/chromium-browser-snapshots/Mac/1368531/chrome-mac.zip";
+      sha256 = "176njljv5cv61z417v9ydxga3hf4s6pfhbvpvgpsmpppw34gsy4h";
+      imagetype = "zip";
     };
   };
 
@@ -31,34 +36,50 @@ in {
         default = false;
         description = "Whether to enable this app.";
       };
-      arch = mkOption {
-        default = specs.${stdenv.hostPlatform.system}.arch;
-        description = "The chromium alias for the host platform's system. e.g., Mac, Mac_Arm";
+      sourceRoot = mkOption {
+        default = "chrome-mac/Chromium.app";
+        description = "The app folder name to recursively copy from the install archive.";
       };
       version = mkOption {
-        default = specs.${stdenv.hostPlatform.system}.version;
-        description = "The version of this app";
+        default = archSpecs.${stdenv.hostPlatform.system}.version;
+        description = "The version of the app.";
+      };
+      date = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.date;
+        description = "The build date (if applicable).";
+      };
+      revision = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.revision;
+        description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
       };
       sha256 = mkOption {
-        default = specs.${stdenv.hostPlatform.system}.sha256;
-        description = "The sha256 for the defined version";
+        default = archSpecs.${stdenv.hostPlatform.system}.sha256;
+        description = "The sha256 for the app.";
+      };
+      imagetype = mkOption {
+        default = archSpecs.${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
       };
     };
   };
-
   config = mkIf cfg.enable {
     home.packages =
       (pkgs.callPackage ./lib/app.nix rec {
         name = "Chromium";
-        sourceRoot = "chrome-mac/${name}.app";
+        description = "Open-source web browser project by Google";
+        sourceRoot = cfg.sourceRoot;
         version = cfg.version;
         src = pkgs.fetchurl {
-          url = "https://commondatastorage.googleapis.com/chromium-browser-snapshots/${cfg.arch}/${version}/chrome-mac.zip";
+          url = cfg.url;
           sha256 = cfg.sha256;
+          name = "${(toHyphenedLower name)}-${arch}-${version}.${cfg.imagetype}";
         };
-        description = "Chromium is an open-source browser project that aims to build a safer, faster, and more stable way for all Internet users to experience the web.";
-      homepage = "https://chromium.org/Home";
-      appcast = "https://chromiumdash.appspot.com/releases?platform=Mac";
+        appcast = "https://storage.googleapis.com/chromium-browser-snapshots/Mac";
+        homepage = "https://www.chromium.org";
       });
   };
 }
