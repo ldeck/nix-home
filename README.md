@@ -94,6 +94,14 @@ can load a version of nixpkgs that suffers from clang errors.
     ```sh
     nix-shell --run "home-manager packages"
     ```
+6. Update macOS desktop apps
+   ```sh
+   ./apps.sh
+   ```
+
+   This will seek to find the latest stable releases for the casks listed under ./lib/defaults/macOS/apps/.
+   This will use brew.sh json api to determine if an updated version is relevant.
+   The exception to this, at the time of writing, is Chromium which uses chromedash to calculate the latest stable chromium release.
 
 # Home configuration
 
