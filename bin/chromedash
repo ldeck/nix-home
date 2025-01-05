@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# Fetch the latest stable release for macOS from Chromium Dash
+echo "Fetching the latest stable Chromium release for macOS..."
+API_URL="https://chromiumdash.appspot.com/fetch_releases?platform=Mac&channel=Stable&num=1"
+RELEASE_DATA=$(curl -s "$API_URL")
+
+# Check if the response is valid JSON
+if ! echo "$RELEASE_DATA" | jq empty; then
+    echo "Error: Failed to fetch the latest release. Invalid API response."
+    echo "$RELEASE_DATA"
+    exit 1
+fi
+
+# Extract details from the API response
+echo "Extracting details..."
+VERSION=$(echo "$RELEASE_DATA" | jq -r '.[0].version')
+CHROMIUM_REVISION=$(echo "$RELEASE_DATA" | jq -r '.[0].hashes.chromium')
+BBP=$(echo "$RELEASE_DATA" | jq -r '.[0].chromium_main_branch_position')
+
+if [[ -z "$VERSION" || -z "$CHROMIUM_REVISION" || -z "$BBP" ]]; then
+    echo "Error: Missing required fields in the API response."
+    echo "$RELEASE_DATA"
+    exit 1
+fi
+
+echo "Latest stable release: version $VERSION, Chromium revision $CHROMIUM_REVISION, Base branch position $BBP."
+
+# Check Chromium snapshot storage for matching builds
+echo "Searching for branch position in snapshot storage..."
+
+# Step 2: Loop to find the correct download URL
+url_found=false
+while [ "$url_found" = false ]; do
+    url="https://storage.googleapis.com/chromium-browser-snapshots/Mac/${BBP}/chrome-mac.zip"
+    if curl --head --silent --fail "$url" > /dev/null; then
+        url_found=true
+    else
+        BBP=$((BBP + 1))  # Increment BBP and try again
+    fi
+done
+
+echo "Found download URL: $url"
+SNAPSHOT_URL=$url
+
+# Download the zip archive
+TEMP_DIR=$(mktemp -d)
+ZIP_FILE="$TEMP_DIR/chrome-mac.zip"
+
+echo "Downloading Chromium zip archive..."
+curl -s -o "$ZIP_FILE" "$SNAPSHOT_URL"
+
+# Extract the zip and confirm the version
+echo "Extracting Chromium zip archive..."
+unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
+
+INFO_PLIST="$TEMP_DIR/chrome-mac/Chromium.app/Contents/Info.plist"
+if [[ -f "$INFO_PLIST" ]]; then
+    # CONFIRMED_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$INFO_PLIST")
+    CONFIRMED_VERSION=$(defaults read "$INFO_PLIST" CFBundleShortVersionString)
+    echo "Confirmed Chromium version from archive: $CONFIRMED_VERSION."
+else
+    echo "Error: Info.plist not found in the extracted archive."
+    exit 1
+fi
+
+# Output download details
+echo "Resolved Chromium version information..."
+echo "Version: $VERSION"
+echo "Chromium Revision: $CHROMIUM_REVISION"
+echo "Branch Position: $BRANCH_POSITION"
+echo "Download URL: $SNAPSHOT_URL"
+echo "Confirmed Version: $CONFIRMED_VERSION"
+
+# Optionally, calculate sha256 for Nix integration
+echo "Calculating SHA256 hash for Nix integration..."
+SHA256=$(nix-prefetch-url "$SNAPSHOT_URL")
+echo "Resolved SHA256: $SHA256"
+
+echo "Integrate the following into your Nix module:"
+echo "URL: $SNAPSHOT_URL"
+echo "SHA256: $SHA256"
+
+# Cleanup
+rm -rf "$TEMP_DIR"

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+function usage {
+  echo "$0 dir [... dirN]"
+}
+
+function refill {
+  dir="$1"
+  for middy in $(ls "$dir" | grep -E "^[a-z].*.nix"); do
+    name="${middy%.*}"
+    nix-middy "$name" "$dir/$middy"
+  done
+}
+
+if [ $# -lt 1 ]
+then
+  usage 1
+else
+  for dir in "$@"; do
+    if [ -d "$dir" ]; then
+      usage 1
+    fi
+  done
+fi
+
+for dir in "$@"; do
+  refill "$dir"
+done

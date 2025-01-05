@@ -1,0 +1,339 @@
+#!/usr/bin/env bash
+
+CASK_API=https://formulae.brew.sh/api/cask
+
+function echoerr {
+  echo "$@" 1>&2;
+}
+function fail {
+  echoerr "$1"
+  exit 1
+}
+function usage {
+  echo "Usage: $(basename 0) <cask> <outfile.nix>"
+  exit $1
+}
+
+# ---------------------------------------------------
+# step 1: validate script args
+# ---------------------------------------------------
+
+if [ "$#" -ne 2 ]; then
+  usage 1
+fi
+
+CASK=$1
+DEST=$2
+
+REQUEST_URL="${CASK_API}/${CASK}.json"
+
+
+echo "----------------"
+echo "Start: $CASK"
+
+JSON=
+
+if curl --output /dev/null --silent --head --fail "${REQUEST_URL}"; then
+  JSON=$(curl -s "${REQUEST_URL}")
+else
+  echoerr "No such cask"
+  usage 1
+fi
+
+# ---------------------------------------------------
+# step 2: extract standard attributes
+# ---------------------------------------------------
+
+MACOS_VERSION=$(/usr/bin/sw_vers -productVersion | cut -d. -f1)
+echo "macOS version: ${MACOS_VERSION}"
+
+declare -A macoses=( ["14"]="sonoma" ["13"]="ventura" ["12"]="monterey" ["11"]="big_sur" ["10"]="catalina")
+
+MACOS_NAME="${macoses[${MACOS_VERSION}]}"
+echo "macOS: ${MACOS_NAME}"
+
+HOMEPAGE=$(echo "$JSON" | jq -r '.homepage')
+DESCRIPTION=$(echo "$JSON" | jq -r '.desc')
+SOURCEROOT=$(echo "$JSON" | jq -r 'try (.artifacts[] | .app | first) catch null' | grep -v null)
+NAME="${SOURCEROOT%.app}"
+
+
+#
+# step 3: determine which is the primary machine type
+#
+MAIN_URL=$(echo "$JSON" | jq -r '.url')
+MAIN_SHA256=$(echo "$JSON" | jq -r '.sha256')
+MAIN_TYPE=${MAIN_URL:(-3)}
+
+ALTERNATIVE_URL=$(echo "$JSON" | jq -r ".variations.${MACOS_NAME}.url" | grep -v null)
+ALTERNATIVE_SHA256=$(echo "$JSON" | jq -r ".variations.${MACOS_NAME}.sha256" | grep -v null)
+
+if [[ -z "${ALTERNATIVE_URL}" ]]; then
+  ALTERNATIVE_URL="${MAIN_URL}"
+  ALTERNATIVE_SHA256="${MAIN_SHA256}"
+  ALTERNATIVE_TYPE="${MAIN_TYPE}"
+else
+  ALTERNATIVE_TYPE=${ALTERNATIVE_URL:(-3)}
+fi
+
+echo "main url: ${MAIN_URL}"
+echo "main type: ${MAIN_TYPE}"
+echo "else url: ${ALTERNATIVE_URL}"
+echo "else type: ${ALTERNATIVE_TYPE}"
+
+
+# ---------------------------------------------------
+# step 4: extract app and alternative version if any
+# ---------------------------------------------------
+#
+# nb: brew uses a weird method of combining 'version' and 'buildnumber'
+#     into a 'version', often separated by comma, but sometimes by dot.
+#     Why? No idea!
+#
+
+MAIN_RAW_VERSION=$(echo "$JSON" | jq -r '.version')
+IFS=', ' read -r -a versions <<< "${MAIN_RAW_VERSION}"
+
+MAIN_VERSION="${versions[0]}"
+MAIN_REVISION=
+MAIN_BUILDDATE=
+
+if [[ "${#versions[@]}" -eq "3" ]]; then
+  MAIN_BUILDDATE="${versions[1]}"
+  MAIN_REVISION="${versions[2]}"
+elif [[ "${#versions[@]}" -eq "2" ]]; then
+  MAIN_BUILDDATE=""
+  MAIN_REVISION="${versions[1]}"
+fi
+
+ALTERNATIVE_RAW_VERSION=$(echo "$JSON" | jq -r ".variations.${MACOS_NAME}.version" | grep -v null)
+ALTERNATIVE_BUILDDATE=
+ALTERNATIVE_REVISION=
+# echo "Alternate version '${ALTERNATIVE_RAW_VERSION}'."
+if [[ -z "${ALTERNATIVE_RAW_VERSION}" ]]; then
+  ALTERNATIVE_RAW_VERSION="${MAIN_RAW_VERSION}"
+  ALTERNATIVE_VERSION="${MAIN_VERSION}"
+  ALTERNATIVE_BUILDDATE="${MAIN_BUILDDATE}"
+  ALTERNATIVE_REVISION="${MAIN_REVISION}"
+else
+  IFS=', ' read -r -a altversions <<< "${ALTERNATIVE_RAW_VERSION}"
+  ALTERNATIVE_VERSION="${altversions[0]}"
+  if [[ "$#altversions[@]" -eq "3" ]]; then
+    ALTERNATIVE_BUILDDATE="${altversions[1]}"
+    ALTERNATIVE_REVISION="${altversions[2]}"
+  elif [[ "${#altversions[@]}" -eq "2" ]]; then
+    ALTERNATIVE_REVISION="${altversions[1]}"
+  fi
+fi
+
+
+MAIN_MAJOR_MINOR_VERSION=$(echo "${MAIN_VERSION}" | perl -nle 'm/^(\d+\.\d+)?.*$/; print $1')
+MAIN_MAJOR_VERSION=$(echo "${MAIN_VERSION}" | perl -nle 'm/^(\d+)?.*$/; print $1')
+
+ALTERNATIVE_MAJOR_MINOR_VERSION=$(echo "${ALTERNATIVE_VERSION}" | perl -nle 'm/^(\d+\.\d+)?.*$/; print $1')
+ALTERNATIVE_MAJOR_VERSION=$(echo "${ALTERNATIVE_VERSION}" | perl -nle 'm/^(\d+)?.*$/; print $1')
+
+#
+# step 5: assign main/alternative variables to relevant architecture
+#
+
+if [[ "$MAIN_URL" == *"arm64"* ]] || [[ "$MAIN_URL" == *"aarch64"* ]]; then
+  AARCH64_URL="${MAIN_URL}"
+  AARCH64_SHA256="${MAIN_SHA256}"
+  AARCH64_TYPE="${MAIN_TYPE}"
+  AARCH64_VERSION="${MAIN_VERSION}"
+  AARCH64_REVISION="${MAIN_REVISION}"
+  AARCH64_BUILDDATE="${MAIN_BUILDDATE}"
+  AARCH64_MAJOR_MINOR_VERSION="${MAIN_MAJOR_MINOR_VERSION}"
+  AARCH64_MAJOR_VERSION="${MAIN_MAJOR_VERSION}"
+
+  [[ ${MAIN_RAW_VERSION} =~ ^${AARCH64_VERSION}(.${AARCH64_BUILDDATE})?(.${AARCH64_REVISION})?$ ]] || fail "MAIN Raw version (${MAIN_RAW_VERSION}) does not match (${AARCH64_VERSION}.${AARCH64_BUILDDATE}.${AARCH64_REVISION})"
+
+  INTEL_URL="${ALTERNATIVE_URL}"
+  INTEL_SHA256="${ALTERNATIVE_SHA256}"
+  INTEL_TYPE="${ALTERNATIVE_TYPE}"
+  INTEL_VERSION="${ALTERNATIVE_VERSION}"
+  INTEL_REVISION="${ALTERNATIVE_REVISION}"
+  INTEL_BUILDDATE="${ALTERNATIVE_BUILDDATE}"
+  INTEL_MAJOR_MINOR_VERSION="${ALTERNATIVE_MAJOR_MINOR_VERSION}"
+  INTEL_MAJOR_VERSION="${ALTERNATIVE_MAJOR_VERSION}"
+
+  [[ ${ALTERNATIVE_RAW_VERSION} =~ ^${INTEL_VERSION}(.${INTEL_BUILDDATE})?(.${INTEL_REVISION})?$ ]] || fail "ALTERNATE Raw version (${ALTERNATIVE_RAW_VERSION}) does not match (${INTEL_VERSION}.${INTEL_BUILDDATE}.${INTEL_REVISION})"
+else
+  AARCH64_URL="${ALTERNATIVE_URL}"
+  AARCH64_SHA256="${ALTERNATIVE_SHA256}"
+  AARCH64_TYPE="${ALTERNATIVE_TYPE}"
+  AARCH64_VERSION="${ALTERNATIVE_VERSION}"
+  AARCH64_REVISION="${ALTERNATIVE_REVISION}"
+  AARCH64_BUILDDATE="${ALTERNATIVE_BUILDDATE}"
+  AARCH64_MAJOR_MINOR_VERSION="${ALTERNATIVE_MAJOR_MINOR_VERSION}"
+  AARCH64_MAJOR_VERSION="${ALTERNATIVE_MAJOR_VERSION}"
+
+
+  [[ ${ALTERNATIVE_RAW_VERSION} =~ ^${AARCH64_VERSION}(.${AARCH64_BUILDDATE})?(.${AARCH64_REVISION})?$ ]] || fail "ALTERNATE Raw version (${ALTERNATIVE_RAW_VERSION}) does not match (${AARCH64_VERSION}.${AARCH64_BUILDDATE}.${AARCH64_REVISION})"
+
+  INTEL_URL="${MAIN_URL}"
+  INTEL_SHA256="${MAIN_SHA256}"
+  INTEL_TYPE="${MAIN_TYPE}"
+  INTEL_VERSION="${MAIN_VERSION}"
+  INTEL_REVISION="${MAIN_REVISION}"
+  INTEL_BUILDDATE="${MAIN_BUILDDATE}"
+  INTEL_MAJOR_MINOR_VERSION="${MAIN_MAJOR_MINOR_VERSION}"
+  INTEL_MAJOR_VERSION="${MAIN_MAJOR_VERSION}"
+
+  [[ ${MAIN_RAW_VERSION} =~ ^${INTEL_VERSION}(.${INTEL_BUILDDATE})?(.${INTEL_REVISION})?$ ]] || fail "MAIN Raw version (${MAIN_RAW_VERSION}) does not match (${INTEL_VERSION}.${INTEL_BUILDDATE}.${INTEL_REVISION})"
+fi
+
+# ---------------------------------------------------
+# step 6: change url to nix interpolated version
+# ---------------------------------------------------
+
+# intel url interpolations
+
+INTEL_URL=${INTEL_URL//${INTEL_VERSION}/\$\{cfg.version\}}
+
+if ! [ -z "$INTEL_MAJOR_MINOR_VERSION" ]; then
+  echo "Found intel major minor version: ${INTEL_MAJOR_MINOR_VERSION}"
+  INTEL_URL=${INTEL_URL//${INTEL_MAJOR_MINOR_VERSION}/\$\{lib.versions.majorMinor cfg.version\}}
+fi
+
+if [[ ! -z "$INTEL_BUILDDATE" ]] && [[ "$INTEL_URL" == *"$INTEL_BUILDDATE"* ]]; then
+  echo "Found intel build date: ${INTEL_BUILDDATE}"
+  INTEL_URL=${INTEL_URL//${INTEL_BUILDDATE}/\$\{cfg.date\}}
+fi
+
+if [[ ! -z "$INTEL_REVISION" ]] && [[ "$INTEL_URL" == *"$INTEL_REVISION"* ]]; then
+  echo "Found intel revision number: ${INTEL_REVISION}"
+  INTEL_URL=${INTEL_URL//${INTEL_REVISION}/\$\{cfg.revision\}}
+fi
+
+# aarch64 url interpolations
+
+AARCH64_URL=${AARCH64_URL//${AARCH64_VERSION}/\$\{cfg.version\}}
+
+if ! [ -z "$AARCH64_MAJOR_MINOR_VERSION" ]; then
+  echo "Found aarch64 major minor version: ${AARCH64_MAJOR_MINOR_VERSION}"
+  AARCH64_URL=${AARCH64_URL//${AARCH64_MAJOR_MINOR_VERSION}/\$\{lib.versions.majorMinor cfg.version\}}
+fi
+
+if [[ ! -z "$AARCH64_BUILDDATE" ]] && [[ "$AARCH64_URL" == *"$AARCH64_BUILDDATE"* ]]; then
+  echo "Found aarch64 build date: ${AARCH64_BUILDDATE}"
+  AARCH64_URL=${AARCH64_URL//${AARCH64_BUILDDATE}/\$\{cfg.date\}}
+fi
+
+if [[ ! -z "$AARCH64_REVISION" ]] && [[ "$AARCH64_URL" == *"$AARCH64_REVISION"* ]]; then
+  echo "Found aarch64 revision number: ${AARCH64_REVISION}"
+  AARCH64_URL=${AARCH64_URL//${AARCH64_REVISION}/\$\{cfg.revision\}}
+fi
+
+# ---------------------------------------------------
+# step 7: assign variables
+# ---------------------------------------------------
+
+PACKAGE_NAME="$NAME"
+# PACKAGE_NAME=$(echo $NAME | awk '{print toupper(substr($0,0,1))substr($0,2)}')
+
+
+# ---------------------------------------------------
+# step 8: define essential template module
+# ---------------------------------------------------
+
+TEMPLATE=$(cat <<EOF
+{ config, lib, pkgs, ... }:
+with lib;
+
+let
+  cfg = config.macOS.apps.${CASK};
+  stdenv = pkgs.stdenv;
+  arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
+
+  archSpecs = {
+    x86_64-darwin = {
+      version = "${INTEL_VERSION}";
+      revision = "${INTEL_REVISION}";
+      date = "${INTEL_BUILDDATE}";
+      arch = "amd64";
+      url = "${INTEL_URL}";
+      sha256 = "${INTEL_SHA256}";
+      imagetype = "${INTEL_TYPE}";
+    };
+    aarch64-darwin = {
+      version = "${AARCH64_VERSION}";
+      revision = "${AARCH64_REVISION}";
+      date = "${AARCH64_BUILDDATE}";
+      arch = "arm64";
+      url = "${AARCH64_URL}";
+      sha256 = "${AARCH64_SHA256}";
+      imagetype = "${AARCH64_TYPE}";
+    };
+  };
+
+in {
+  options = {
+    macOS.apps.${CASK} = {
+      enable = mkOption {
+        default = false;
+        description = "Whether to enable this app.";
+      };
+      sourceRoot = mkOption {
+        default = "${SOURCEROOT}";
+        description = "The app folder name to recursively copy from the install archive. e.g., Foo.app";
+      };
+      version = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.version;
+        description = "The version of the app.";
+      };
+      date = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.date;
+        description = "The build date (if applicable).";
+      };
+      revision = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.revision;
+        description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
+      };
+      sha256 = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.sha256;
+        description = "The sha256 for the app.";
+      };
+      imagetype = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
+    };
+  };
+  config = mkIf cfg.enable {
+    home.packages =
+      (pkgs.callPackage ./lib/app.nix rec {
+        name = "${PACKAGE_NAME}";
+        description = "${DESCRIPTION}";
+        sourceRoot = cfg.sourceRoot;
+        version = cfg.version;
+        src = pkgs.fetchurl {
+          url = cfg.url;
+          sha256 = cfg.sha256;
+          name = "\${(toHyphenedLower name)}-\${arch}-\${version}.\${cfg.imagetype}";
+        };
+        appcast = "${REQUEST_URL}";
+        homepage = "${HOMEPAGE}";
+      });
+  };
+}
+EOF
+)
+
+# ---------------------------------------------------
+# step 9: write resulting nix module
+# ---------------------------------------------------
+
+DEST_DIR=$(dirname "$DEST")
+mkdir -p ${DEST_DIR}
+
+echo "${TEMPLATE}" > $DEST
+
+echo "Done"

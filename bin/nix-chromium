@@ -1,0 +1,204 @@
+#!/usr/bin/env bash
+
+function echoerr {
+  echo "$@" 1>&2;
+}
+function fail {
+  echoerr "$1"
+  exit 1
+}
+function usage {
+  echo "Usage: $(basename 0) <cask> <outfile.nix>"
+  exit $1
+}
+
+DEST="$1"
+
+# Variables
+CASK="chromium"
+PACKAGE_NAME="Chromium"
+DESCRIPTION="Open-source web browser project by Google"
+HOMEPAGE="https://www.chromium.org"
+REQUEST_URL="https://storage.googleapis.com/chromium-browser-snapshots/Mac"
+
+echo "----------------"
+echo "Start: $CASK"
+
+
+# Fetch the latest stable release for macOS from Chromium Dash
+echo "Fetching the latest stable Chromium release for macOS..."
+API_URL="https://chromiumdash.appspot.com/fetch_releases?platform=Mac&channel=Stable&num=1"
+RELEASE_DATA=$(curl -s "$API_URL")
+
+# Check if the response is valid JSON
+if ! echo "$RELEASE_DATA" | jq empty; then
+    echo "Error: Failed to fetch the latest release. Invalid API response."
+    echo "$RELEASE_DATA"
+    exit 1
+fi
+
+# Extract details from the API response
+echo "Extracting details..."
+VERSION=$(echo "$RELEASE_DATA" | jq -r '.[0].version')
+CHROMIUM_REVISION=$(echo "$RELEASE_DATA" | jq -r '.[0].hashes.chromium')
+BBP=$(echo "$RELEASE_DATA" | jq -r '.[0].chromium_main_branch_position')
+
+if [[ -z "$VERSION" || -z "$CHROMIUM_REVISION" || -z "$BBP" ]]; then
+    echo "Error: Missing required fields in the API response."
+    echo "$RELEASE_DATA"
+    exit 1
+fi
+
+echo "Latest stable release: version $VERSION, Chromium revision $CHROMIUM_REVISION, Base branch position $BBP."
+
+# Check Chromium snapshot storage for matching builds
+echo "Searching for branch position in snapshot storage..."
+
+# Step 2: Loop to find the correct download URL
+url_found=false
+while [ "$url_found" = false ]; do
+    url="https://storage.googleapis.com/chromium-browser-snapshots/Mac/${BBP}/chrome-mac.zip"
+    if curl --head --silent --fail "$url" > /dev/null; then
+        url_found=true
+    else
+        BBP=$((BBP + 1))  # Increment BBP and try again
+    fi
+done
+
+echo "Found download URL: $url"
+SNAPSHOT_URL=$url
+
+MODIFIED=$(curl -sI "$SNAPSHOT_URL" | grep -i 'Last-Modified' | cut -d' ' -f2- | tr -d '\r')
+PREFETCH=$(nix-prefetch-url --type sha256 --print-path --unpack "$SNAPSHOT_URL")
+SHA256=$(echo "$PREFETCH" | sed -n '1p')
+STORE_PATH=$(echo "$PREFETCH" | sed -n '2p')
+
+echo "modified: $MODIFIED"
+echo "sha256: $SHA256"
+echo "path: $STORE_PATH"
+
+# Step 3: inspect unpacked archive
+
+INFO_PLIST="$STORE_PATH/Chromium.app/Contents/Info.plist"
+if [[ -f "$INFO_PLIST" ]]; then
+    # CONFIRMED_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$INFO_PLIST")
+    CONFIRMED_VERSION=$(defaults read "$INFO_PLIST" CFBundleShortVersionString)
+    echo "Confirmed Chromium version from archive: $CONFIRMED_VERSION."
+else
+    echo "Error: Info.plist not found in the extracted archive."
+    exit 1
+fi
+
+# Step 4: Generate the Nix module
+INTEL_VERSION="$CONFIRMED_VERSION"
+INTEL_REVISION="$BBP"
+INTEL_BUILDDATE="$MODIFIED"
+INTEL_URL="$SNAPSHOT_URL"
+INTEL_SHA256="$SHA256"
+
+AARCH64_VERSION=$INTEL_VERSION
+AARCH64_REVISION=$INTEL_REVISION
+AARCH64_BUILDDATE=$INTEL_BUILDDATE
+AARCH64_URL=$INTEL_URL
+AARCH64_SHA256=$INTEL_SHA256
+
+# Output Nix module
+TEMPLATE=$(cat <<EOF
+{ config, lib, pkgs, ... }:
+with lib;
+
+let
+  cfg = config.macOS.apps.${CASK};
+  stdenv = pkgs.stdenv;
+  arch = if stdenv.isDarwin then stdenv.hostPlatform.darwinArch else stdenv.system;
+  toHyphenedLower = str:
+    (lib.strings.toLower (builtins.replaceStrings [" "] ["-"] str));
+
+  archSpecs = {
+    x86_64-darwin = {
+      version = "${INTEL_VERSION}";
+      revision = "${INTEL_REVISION}";
+      date = "${INTEL_BUILDDATE}";
+      arch = "amd64";
+      url = "${INTEL_URL}";
+      sha256 = "${INTEL_SHA256}";
+      imagetype = "zip";
+    };
+    aarch64-darwin = {
+      version = "${AARCH64_VERSION}";
+      revision = "${AARCH64_REVISION}";
+      date = "${AARCH64_BUILDDATE}";
+      arch = "arm64";
+      url = "${AARCH64_URL}";
+      sha256 = "${AARCH64_SHA256}";
+      imagetype = "zip";
+    };
+  };
+
+in {
+  options = {
+    macOS.apps.${CASK} = {
+      enable = mkOption {
+        default = false;
+        description = "Whether to enable this app.";
+      };
+      sourceRoot = mkOption {
+        default = "chrome-mac/Chromium.app";
+        description = "The app folder name to recursively copy from the install archive.";
+      };
+      version = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.version;
+        description = "The version of the app.";
+      };
+      date = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.date;
+        description = "The build date (if applicable).";
+      };
+      revision = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.revision;
+        description = "The build number of the app (if applicable).";
+      };
+      url = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.url;
+        description = "The url or url template for the archive.";
+      };
+      sha256 = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.sha256;
+        description = "The sha256 for the app.";
+      };
+      imagetype = mkOption {
+        default = archSpecs.\${stdenv.hostPlatform.system}.imagetype;
+        description = "The image type being downloaded.";
+      };
+    };
+  };
+  config = mkIf cfg.enable {
+    home.packages =
+      (pkgs.callPackage ./lib/app.nix rec {
+        name = "${PACKAGE_NAME}";
+        description = "${DESCRIPTION}";
+        sourceRoot = cfg.sourceRoot;
+        version = cfg.version;
+        src = pkgs.fetchurl {
+          url = cfg.url;
+          sha256 = cfg.sha256;
+          name = "\${(toHyphenedLower name)}-\${arch}-\${version}.\${cfg.imagetype}";
+        };
+        appcast = "${REQUEST_URL}";
+        homepage = "${HOMEPAGE}";
+      });
+  };
+}
+EOF
+)
+
+# ---------------------------------------------------
+# step 9: write resulting nix module
+# ---------------------------------------------------
+
+DEST_DIR=$(dirname "$DEST")
+mkdir -p ${DEST_DIR}
+
+echo "${TEMPLATE}" > $DEST
+
+echo "Done"
