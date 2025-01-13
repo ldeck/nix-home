@@ -60,6 +60,9 @@ in
                 ver='17'
               fi
 
+              # grab major version
+              ver=$(echo "$ver" | awk -F. '{print $1}')
+
               local jdk_home=$(${java_home}/bin/java_home -v $ver)
               export JAVA_HOME=$jdk_home
               load_prefix "$JAVA_HOME"
