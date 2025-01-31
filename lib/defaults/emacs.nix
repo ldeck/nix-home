@@ -2419,6 +2419,10 @@ in
         '';
       };
 
+      slack = {
+        enable = true;
+      };
+
       sv-kalender = {
         enable = false;
         defer = 5;
