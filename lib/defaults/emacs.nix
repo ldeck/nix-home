@@ -205,6 +205,7 @@ in
       (defun rah-lsp ()
         (interactive)
         (envrc-mode)
+        (setq-local company-minimum-prefix-length 0)
         (lsp-deferred))
 
       ;(defun rah-sort-lines-ignore-case ()
@@ -304,7 +305,7 @@ in
 
       ;; take a url and make an @see javadoc snippet
       (defun ld/url-host (url)
-        "Extract hostname from URL removing any preceding 'www.'."
+        "Extract hostname from URL removing any preceding `www.`."
         (let ((parsed-url (url-generic-parse-url url)))
           (if parsed-url
               (let ((host (url-host parsed-url)))
@@ -1198,7 +1199,7 @@ in
         ];
         after = [ "company" "flycheck" "which-key" "(require 'lsp-modeline)" ];
         hook = [
-          "(scala-mode . lsp-deferred)"
+          # "(scala-mode . lsp-deferred)"
           "(lsp-mode . lsp-lens-mode)"
           "(lsp-mode . hs-minor-mode)"
           ''
@@ -1259,59 +1260,86 @@ in
         defer = true;
         hook = [
           "(java-mode . rah-lsp)"
+          ''
+          (java-mode
+           . (lambda ()
+               (ld/enable-lsp-java-lombok-annotation-processing)))
+        ''
         ];
         bindLocal = {
-          java-mode-map = { "C-c r o" = "lsp-java-organize-imports"; };
+          java-mode-map = {
+            # actions
+            "C-c j a a" = "lsp-ui-sideline-apply-code-actions";
+            # build
+            "C-c j b b" = "lsp-java-build-project";
+            "C-c j b r" = "lsp-java-update-project-configuration";
+            "C-c j b l" = "ld/enable-lsp-java-lombok-annotation-processing";
+            "C-c j b u" = "lsp-java-update-server";
+            # find
+            "C-c j f i" = "lsp-find-implementation";
+            "C-c j f r" = "lsp-find-references";
+            "C-c j f d" = "lsp-find-definition";
+            "C-c j f D" = "lsp-find-declaration";
+            "C-c j f t" = "lsp-find-type-definition";
+            "C-c j f ^" = "lsp-java-open-super-implementation";
+            # peek
+            "C-c j F r" = "lsp-ui-peek-find-references";
+            "C-c j F d" = "lsp-ui-peek-find-definitions";
+            "C-c j F i" = "lsp-ui-peek-find-implementation";
+            # info
+            "C-c j i i" = "lsp-ui-doc-show";
+            "C-c j i t" = "lsp-type-hierarchy";
+            "C-c j i D" = "lsp-treemacs-java-deps-list";
+            # refactor
+            # -- add
+            "C-c j r a a" = "lsp-java-assign-all";
+            "C-c j r a F" = "lsp-java-assign-statement-to-field";
+            "C-c j r a v" = "lsp-java-assign-statement-to-local";
+            "C-c j r a i" = "lsp-java-add-import";
+            "C-c j r a I" = "lsp-java-convert-to-static-import";
+            "C-c j r a t" = "lsp-java-add-throws";
+            "C-c j r a m" = "lsp-java-generate-overrides";
+            "C-c j r a M" = "lsp-java-add-unimplemented-methods";
+            "C-c j r a S" = "lsp-java-generate-to-string";
+            # -- create
+            "C-c j r c f" = "lsp-java-create-field";
+            "C-c j r c F" = "lsp-java-assign-to-field";
+            "C-c j r c v" = "lsp-java-create-local";
+            "C-c j r c p" = "lsp-java-create-parameter";
+            "C-c j r c E" = "lsp-java-generate-equals-and-hash-code";
+            "C-c j r c M" = "lsp-java-generate-getters-and-setters";
+            # -- extract
+            "C-c j r e m" = "lsp-java-extract-method";
+            "C-c j r e C" = "lsp-java-extract-to-constant";
+            "C-c j r e v" = "lsp-java-extract-to-local-variable";
+            # -- update
+            "C-c j r u o" = "lsp-java-organize-imports";
+            "C-c j r u r" = "lsp-rename";
+            # lens
+            "C-c j l a" = "lsp-avy-lens";
+            "C-c j l b" = "lsp-java-boot-lens-mode";
+            "C-c j l j" = "lsp-java-lens-mode";
+            "C-c j l k" = "lsp-kotlin-lens-mode";
+            "C-c j l t" = "lsp-jt-lens-mode";
+            "C-c j l i" = "lsp-lens-show";
+            # spring
+            "C-c j S i" = "lsp-java-spring-initializer";
+            # test
+            "C-c j t b" = "lsp-jt-browser";
+          };
         };
         init = ''
-          (defvar lsp-java-lombok/enabled nil
-            "Indicates the LSP server should be started with Lombok.")
-
-          (defvar lsp-java-lombok/version nil
-            "When non-nil, use the specified Lombok version, otherwise use the latest.")
-
-          (defvar lsp-java-lombok/jar-url-base "https://projectlombok.org/downloads/"
-            "The base path to download Lombok jars from.")
-
-          (defvar lsp-java-lombok/dir user-emacs-directory
-            "The path on disk where lombok jars are saved.")
-
-          (defun lsp-java-lombok/jar-file ()
-            "Get the filename for the Lombok jar."
-            (concat "lombok"
-              (when lsp-java-lombok/version "-")
-                    lsp-java-lombok/version
-                    ".jar"))
-
-          (defun lsp-java-lombok/jar-path ()
-            "Generate the path on disk for the Lombok jar."
-            (concat user-emacs-directory (lsp-java-lombok/jar-file)))
-
-          (defun lsp-java-lombok/append-vmargs ()
-            "Apply lombok args to lsp-java-vmargs."
-            (setq lsp-java-vmargs
-              (append lsp-java-vmargs
-                (concat "-javaagent:" (lsp-java-lombok/jar-path)))))
-
-          (defun lsp-java-lombok/download-jar ()
-            "Download the latest lombok jar for use with LSP."
-            (let* ((lombok-url (url-generic-parse-url lsp-java-lombok/jar-url-base))
-                   (base-path (file-name-as-directory (url-filename lombok-url)))
-                   (file-path (concat base-path (lsp-java-lombok/jar-file))))
-               (setf (url-filename lombok-url) file-path)
-               (url-copy-file lombok-url (lsp-java-lombok/jar-path))))
-
-          (defun lsp-java-lombok/setup ()
-            "Download Lombok if it hasn't been downloaded already."
-            (when (not (file-exists-p (lsp-java-lombok/jar-path)))
-              (message "Could not find lombok for lsp-java.  Downloading...")
-              (lsp-java-lombok/download-jar)))
-
-          (defun lsp-java-lombok/init ()
-            "Initialize lsp-java-lombok."
-            (when lsp-java-lombok/enabled
-              (lsp-java-lombok/setup)
-              (lsp-java-lombok/append-vmargs)))
+          (which-key-add-key-based-replacements "C-c j" "java")
+          (which-key-add-key-based-replacements "C-c j a" "actions")
+          (which-key-add-key-based-replacements "C-c j b" "build")
+          (which-key-add-key-based-replacements "C-c j f" "find")
+          (which-key-add-key-based-replacements "C-c j F" "peek")
+          (which-key-add-key-based-replacements "C-c j i" "info")
+          (which-key-add-key-based-replacements "C-c j r" "refactor")
+          (which-key-add-key-based-replacements "C-c j r a" "add")
+          (which-key-add-key-based-replacements "C-c j r c" "create")
+          (which-key-add-key-based-replacements "C-c j r e" "extract")
+          (which-key-add-key-based-replacements "C-c j r u" "update")
 
           (setq lsp-java-save-actions-organize-imports nil
                 lsp-java-completion-favorite-static-members
@@ -1324,8 +1352,90 @@ in
                      "org.junit.jupiter.api.Assumptions.*"
                      "org.junit.jupiter.api.DynamicContainer.*"
                      "org.junit.jupiter.api.DynamicTest.*"
-                     "org.mockito.ArgumentMatchers.*"])
+                     "org.mockito.ArgumentMatchers.*"]
+          )
+
+          (setq lsp-java-vmargs (list
+                                "-Xmx4G"  ;; Increase max heap for large projects
+                                "-Xms1G"  ;; More aggressive starting heap size
+                                "-XX:+UnlockExperimentalVMOptions" ;; Must come first
+                                "-XX:+EnableJVMCI"  ;; Enable Graal JIT optimizations
+                                "-XX:+UseG1GC"  ;; G1GC for balanced performance
+                                "-XX:InitiatingHeapOccupancyPercent=30"  ;; Start GC at lower heap usage to prevent pauses
+                                "-XX:+UseStringDeduplication"  ;; Reduce memory usage for string-heavy workloads
+                                "-XX:+ParallelRefProcEnabled"  ;; Parallel reference processing
+                                "-Dsun.zip.disableMemoryMapping=true"  ;; Prevent file lock issues
+         ))
+
+          (defun ld/get-builder-type (workspace-root)
+            "Determine the builder type (e.g., Maven or Gradle) for the current project."
+            (cond
+             ((file-exists-p (expand-file-name "pom.xml" workspace-root)) 'maven)
+             ((file-exists-p (expand-file-name "build.gradle" workspace-root)) 'gradle)
+             (t nil)))
+
+          (defun ld/get-maven-processor-path (workspace-root processor-group-id processor-artifact-id)
+            "Retrieve the processor path for a Maven project using the given group and artifact ID."
+            (let* ((command-template "mvn dependency:list -DoutputAbsoluteArtifactFilename=true -DincludeGroupIds=%s -DincludeArtifactIds=%s -f %s")
+                   (command (format command-template processor-group-id processor-artifact-id workspace-root))
+                   (output (shell-command-to-string command))
+                   (regex (format ".*%s:%s:.*:\([^:]+\.jar\)" (regexp-quote processor-group-id) (regexp-quote processor-artifact-id)))
+                   (matches (and (string-match regex output) (match-string 1 output))))
+              (when matches
+                (if (string-prefix-p "M2_REPO" matches)
+                    (replace-regexp-in-string
+                     "^M2_REPO"
+                     (or (getenv "M2_REPO") (expand-file-name "~/.m2/repository"))
+                     matches)
+                  matches))))
+
+          (defun ld/get-processor-path (workspace-root processor-group-id processor-artifact-id)
+            "Determine the path to the processor JAR based on the project build system."
+            (let ((builder-type (ld/get-builder-type workspace-root)))
+              (cond
+               ((eq builder-type 'maven)
+                (ld/get-maven-processor-path workspace-root processor-group-id processor-artifact-id))
+               ;; Add additional builder types here...
+               (t nil))))
+
+          (defun ld/get-factorypath-lombok-jar-path (workspace-root)
+            "Retrieve the Lombok JAR path from the .factorypath file if it exists."
+            (let* ((factorypath-file (expand-file-name ".factorypath" workspace-root)))
+              (message "Checking .factorypath: %s" factorypath-file)
+              (when (file-exists-p factorypath-file)
+                (message ".factorypath found")
+                (with-temp-buffer
+                  (insert-file-contents factorypath-file)
+                  (when (re-search-forward ".*factorypathentry.*?id=\"\\(M2_REPO/.*lombok.*.jar\\)\".*" nil t)
+                    (let ((lombok-jar (match-string 1)))
+                      (if (string-prefix-p "M2_REPO" lombok-jar)
+                          (replace-regexp-in-string
+                           "^M2_REPO"
+                           (or (getenv "M2_REPO")
+                               (expand-file-name "~/.m2/repository"))
+                           lombok-jar
+                           t)
+                          lombok-jar)))))))
+
+          (defun ld/enable-lsp-java-lombok-annotation-processing ()
+            "Enable Lombok annotation processing for the current LSP Java workspace."
+            (interactive)
+            (let* ((workspace-root (or (lsp-workspace-root) default-directory))
+                   (lombok-jar
+                    (or
+                     (ld/get-factorypath-lombok-jar-path workspace-root)
+                     (ld/get-processor-path workspace-root "org.projectlombok" "lombok"))))
+              (if lombok-jar
+                  (progn
+                    (setq-local lsp-java-vmargs (append lsp-java-vmargs (list (concat "-javaagent:" lombok-jar))))
+                    (message "Added Lombok JAR to LSP Java VM args: %s" lombok-jar))
+                  (message "Failed to find Lombok processor path."))))
         '';
+      };
+
+      lsp-java-boot = {
+        enable = true;
+        hook = [ "(java-mode . lsp-java-boot-lens-mode)" ];
       };
 
       lsp-metals = {
@@ -1921,29 +2031,35 @@ in
         extraConfig = ''
           :bind (:map company-mode-map
                       ([remap completion-at-point] . company-complete-common)
-                      ([remap complete-symbol] . company-complete-common))
+                      ([remap complete-symbol] . company-complete-common)
+                 :map company-active-map
+                      ("M-/" . company-complete)
+                      ("M-<tab>" . company-complete-selection)
+                )
         '';
         config = ''
           (setq company-idle-delay 0.3
-                company-show-quick-access t
-                company-tooltip-maximum-width 100
-                company-tooltip-minimum-width 20
+                company-show-quick-access 'left
+                ; company-tooltip-maximum-width 100
+                ; company-tooltip-minimum-width 20
                 ; Allow me to keep typing even if company disapproves.
-                company-require-match nil)
-
-          (setq lsp-completion-provider :capf)
+                ; company-require-match nil
+                lsp-completion-provider :capf
+                company-search-regexp-function #'company-search-flex-regexp
+          )
 
           (global-company-mode)
+          ;; (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
 
           ;; https://www.emacswiki.org/emacs/CompanyMode
-          (require 'color)
-          (let ((bg (face-attribute 'default :background)))
-            (custom-set-faces
-              `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-              `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-              `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-              `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-              `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+          ;;(require 'color)
+          ;;(let ((bg (face-attribute 'default :background)))
+          ;;  (custom-set-faces
+          ;;    `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+          ;;    `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+          ;;    `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+          ;;    `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+          ;;    `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
         '';
         defines = [
           "lsp-completion-provider"
