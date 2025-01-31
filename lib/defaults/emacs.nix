@@ -343,6 +343,73 @@ in
          )
 
        (add-to-list 'auto-mode-alist '("\\.avdl\\'" . avdl-mode))
+
+       ;; MODE LINE
+
+       (setq-default mode-line-format
+         '("%e"
+           mode-line-front-space
+           ;; LSP Diagnostics (Errors, Warnings)
+
+           (:eval (when (bound-and-true-p lsp-mode)
+                    lsp-modeline-diagnostics-mode-line
+                    ))
+
+           ;; Active project (Projectile)
+           (:eval (if (projectile-project-p)
+                      (propertize
+                       (concat "  " (projectile-project-name))
+                       'face '(:foreground "light gray"))
+                    (propertize
+                     (concat "  " (abbreviate-file-name default-directory))
+                       'face '(:foreground "light gray"))))
+           " > "
+           mode-line-buffer-identification
+           " "
+
+           ;; Conditional minor modes display
+           (:eval (if (bound-and-true-p minions-mode)
+                      minions-mode-line-modes  ;; Use minions-mode-line-modes if minions-mode is active
+                    mode-line-modes))       ;; Use standard minor modes if minions-mode is not active
+
+           mode-line-position
+           mode-line-misc-info
+
+           mode-line-format-right-align
+
+           ;; Git branch (Magit) with dynamic color based on status
+           (:eval (when (magit-get-current-branch)
+                    (let* ((branch (magit-get-current-branch))
+                           (top-dir (magit-toplevel))
+                           (unstaged-changes (magit-anything-unstaged-p top-dir))
+                           (staged-changes (magit-anything-staged-p top-dir))
+                           (modified-changes (magit-anything-modified-p top-dir))
+                           (unmerged-changes (magit-anything-unmerged-p top-dir)))
+                      (propertize
+                       (concat "  " branch "   ")
+                       'face (cond
+                              ;; Green for main/master branch
+                              ((or (string= branch "main") (string= branch "master") (string= branch "dev"))
+                               '(:foreground "#A6D8A4" :weight "bold"))
+
+                              ;; Red for branches with uncommitted changes
+                              (unmerged-changes
+                               '(:foreground "#F07178" :weight "bold"))
+
+                              (modified-changes
+                               '(:foreground "#E8C089"))
+
+                              (unstaged-changes
+                               '(:foreground "#80C7D0"))
+
+                              (staged-changes
+                               '(:foreground "#A0E0A0"))
+
+                              ;; Default color for other branches
+                              (t '(:foreground "#F8C29F" :weight "bold")))))))
+
+           ;; Misc info
+           mode-line-end-spaces))
     '';
 
     usePackage = {
