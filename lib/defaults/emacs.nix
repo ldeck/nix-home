@@ -1509,6 +1509,13 @@ in
         after = [ "dap-mode" "lsp-java" ];
       };
 
+      minions = {
+        enable = true;
+        config = ''
+          (minions-mode 1)
+        '';
+      };
+
       # use the Debug Adapter Protocol for running tests and debugging
       posframe = {
         enable = true;
