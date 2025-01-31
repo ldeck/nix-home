@@ -665,6 +665,21 @@ in
         '';
       };
 
+      logview = {
+        enable = true;
+        config = ''
+          (setf logview-additional-timestamp-formats
+                '(((user-login-name)
+                  (java-pattern . "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"))))  ;; timestamp is not standard, but can be parsed with a certain pattern
+
+          (setf logview-additional-submodes
+                '(((user-login-name)
+                  (format . "TIMESTAMP LEVEL IGNORED --- [THREAD] [IGNORED] NAME :")
+                  (timestamp . "Lachlan Deck")
+                  (levels . "SLF4J"))))
+        '';
+      };
+
       lsp-dhall = {
         enable = true;
         defer = true;
