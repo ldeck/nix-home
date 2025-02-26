@@ -1406,6 +1406,7 @@ in
             "C-c j r e C" = "lsp-java-extract-to-constant";
             "C-c j r e v" = "lsp-java-extract-to-local-variable";
             # -- update
+            "C-c j r u i" = "lsp-java-inline";
             "C-c j r u o" = "lsp-java-organize-imports";
             "C-c j r u r" = "lsp-rename";
             # lens
