@@ -164,6 +164,9 @@ in
       ;; click happened.
       (setq mouse-yank-at-point t)
 
+      ;; only show *warnings* buffer for errors
+      (setq warning-minimum-level :error)
+
       ;; Enable a few useful commands that are initially disabled.
       (put 'upcase-region 'disabled nil)
       (put 'downcase-region 'disabled nil)
