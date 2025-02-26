@@ -1523,6 +1523,25 @@ in
                     (setq-local lsp-java-vmargs (append lsp-java-vmargs (list (concat "-javaagent:" lombok-jar))))
                     (message "Added Lombok JAR to LSP Java VM args: %s" lombok-jar))
                   (message "Failed to find Lombok processor path."))))
+
+          (defun lsp-java--completing-read-empty (message items ignored-initial-selection)
+            "Start with everything deselected by default."
+            (let ((deps nil) dep)
+              (while (setq dep (cl-rest (lsp--completing-read
+                                         (if deps
+                                             (format "%s (selected %s): " message (length deps))
+                                           (concat message ": "))
+                                         items
+                                         (-lambda ((name . id))
+                                           (if (-contains? deps id)
+                                               (concat name " ✓")
+                                             name)))))
+                (if (-contains? deps dep)
+                    (setq deps (remove dep deps))
+                  (cl-pushnew dep deps)))
+              deps))
+
+          (advice-add 'lsp-java--completing-read-multiple :override #'lsp-java--completing-read-empty)
         '';
       };
 
