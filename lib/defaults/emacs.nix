@@ -1762,6 +1762,18 @@ in
         '';
       };
 
+      ob-dsq = {
+        enable = true;
+        after = [ "org" ];
+        defer = true;
+      };
+
+      ob-duckdb = {
+        enable = true;
+        after = [ "org" ];
+        defer = true;
+      };
+
       ob-http = {
         enable = true;
         after = [ "org" ];

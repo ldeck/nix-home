@@ -23,6 +23,8 @@
       #coreutils
       coreutils-prefixed
       croc
+      dsq
+      duckdb
       editorconfig-core-c
       fd
       ffmpeg
