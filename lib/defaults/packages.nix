@@ -45,6 +45,7 @@
       perl
       ripgrep
       rustup
+      semgrep # used by lsp
       silver-searcher
       sqls
       #taskwarrior
