@@ -673,6 +673,10 @@ in
         '';
       };
 
+      csv = {
+        enable = true;
+      };
+
       csv-mode = {
         enable = true;
       };
