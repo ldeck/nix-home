@@ -2095,10 +2095,50 @@ in
         command = [ "project-root" ];
         bindKeyMap = { "C-x p" = "project-prefix-map"; };
         bindLocal = {
-          project-prefix-map = { "m" = "magit-project-status"; };
+          project-prefix-map = {
+            "m" = "magit-project-status";
+            "F" = "ld/consult-project-dir-file";
+          };
         };
         config = ''
+          (defun ld/consult-project-dir-file (&optional include-ignored)
+            "Select a directory within the current project and then find a file inside it.
+            With a prefix argument, include VC-ignored directories."
+            (interactive "P")
+            (require 'consult)
+            (require 'magit)
+
+            (let* ((root (or (project-root (project-current))
+                             (locate-dominating-file default-directory ".git")))
+                   (dirs (cl-remove-if-not
+                          'file-directory-p
+                          (directory-files-recursively root "" t))) ;; get directories
+                   (dirs-to-check (mapconcat #'identity dirs " "))
+                   (command (format "git -C %s check-ignore %s" root dirs-to-check))
+                   (ignored-dirs (when (not include-ignored)
+                                   (split-string
+                                    (shell-command-to-string command)
+                                    "\n"))))
+
+              ;; Filter out ignored directories
+              (let ((filtered-dirs (if include-ignored
+                                       dirs
+                                     (seq-remove
+                                      (lambda (dir)
+                                        (member dir ignored-dirs))
+                                      dirs))))
+                (if filtered-dirs
+                    (let* ((relative-dirs (mapcar
+                                            (lambda (dir)
+                                              (file-relative-name dir root))
+                                            filtered-dirs))
+                           (chosen-dir (consult--read relative-dirs :prompt "Choose directory: ")))
+                      (when chosen-dir
+                        (consult-find (expand-file-name chosen-dir root))))
+                  (message "No directories found.")))))
+
           (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)
+          (add-to-list 'project-switch-commands '(ld/consult-project-dir-file "Dir/File") t)
         '';
       };
 
