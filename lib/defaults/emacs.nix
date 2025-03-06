@@ -2694,11 +2694,6 @@ in
         enable = true;
         package = epkgs: epkgs.aidermacs;
         hook = [
-          "(emacs-lisp-mode . aidermacs-mode)"
-          "(nix-mode . aidermacs-mode)"
-          "(yaml-mode . aidermacs-mode)"  ;; For GitHub Workflows
-          "(lsp-mode . aidermacs-mode)"
-          "(lsp-java-mode . aidermacs-mode)"
           "(prog-mode . aidermacs-mode)"
         ];
         config = ''
