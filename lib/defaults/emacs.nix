@@ -20,6 +20,7 @@ let
     installPhase = ''
       mkdir -p $out/share/emacs/site-lisp/aidermacs
       cp -r * $out/share/emacs/site-lisp/aidermacs
+      (autoload 'aidermacs-mode "aidermacs" nil t)
     '';
   };
 
