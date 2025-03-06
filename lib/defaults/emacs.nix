@@ -54,7 +54,7 @@ in
       (load-theme 'modus-vivendi)
 
       ;; line numbers
-      (global-display-line-numbers-mode 1)
+      ;;(global-display-line-numbers-mode 1)
 
       ;;(set-face-background 'completions-common-part "white smoke")
 
@@ -121,6 +121,7 @@ in
       ;; Always show line and column number in the mode line.
       (line-number-mode)
       (column-number-mode)
+      (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
       ;; Enable some features that are disabled by default.
       (put 'narrow-to-region 'disabled nil)
@@ -415,7 +416,10 @@ in
         enable = true;
         config = ''
           ;; See https://stackoverflow.com/questions/12613/specify-a-port-number-in-emacs-sql-mysql
-          (setq sql-mysql-login-params (append sql-mysql-login-params '(port :default 3306)))
+          ;;(setq sql-mysql-login-params (append sql-mysql-login-params '(port :default 3306)))
+
+          (setq sql-mysql-login-params nil)
+          (setq sql-postgres-login-params nil)
         '';
       };
       sqlite3 = {
@@ -1115,7 +1119,22 @@ in
                    (apply args)))
 
           (advice-add #'magit-completing-read-multiple* :around #'opt-out-of-consult-crm)
+
+          ;;(dolist (mode '(magit-status-mode
+          ;;              magit-diff-mode
+          ;;              magit-log-mode
+          ;;              magit-revision-mode
+          ;;              magit-process-mode))
+          ;;(add-hook (intern (format "%s-hook" mode))
+          ;;          (lambda () (display-line-numbers-mode -1)))))
+          ;;
+          ;;;; Enable line numbers only for programming modes
+          ;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
         '';
+      };
+
+      transient = {
+        enable = true;
       };
 
       git-auto-commit-mode = {
