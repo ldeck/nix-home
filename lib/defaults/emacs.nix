@@ -13,6 +13,16 @@ let
 
   enableNotMuch = false && pcfg.notmuch.enable;
 
+  aidermacs = pkgs.stdenv.mkDerivation {
+    pname = "aidermacs";
+    version = "latest";
+    src = sources.aidermacs;
+    installPhase = ''
+      mkdir -p $out/share/emacs/site-lisp/aidermacs
+      cp -r * $out/share/emacs/site-lisp/aidermacs
+    '';
+  };
+
 in
 {
   imports = [
@@ -22,7 +32,12 @@ in
 
   nixpkgs.overlays = [ (import sources.emacs-overlay) ];
 
-  programs.emacs.init = {
+  programs.emacs = {
+    extraPackages = epkgs: with epkgs; [
+      aidermacs
+    ];
+
+    init = {
     enable = false;
     packageQuickstart = false;
     recommendedGcSettings = true;
@@ -2690,20 +2705,30 @@ in
         defer = 1;
         command = [ "xterm-color-filter" ];
       };
+
       aidermacs = {
         enable = true;
-        package = epkgs: epkgs.aidermacs;
         hook = [
           "(prog-mode . aidermacs-mode)"
+          "(magit-mode . aidermacs-mode)"
         ];
         config = ''
-          ;; Recommended settings for AiderMacs
-          (setq aidermacs-enable-lsp-integration t)
-          (setq aidermacs-enable-github-integration t)
-          (setq aidermacs-enable-nix-integration t)
-          (setq aidermacs-enable-emacs-lisp-integration t)
+          (setq aidermacs-default-model "sonnet")
+          (global-set-key (kbd "C-c a") 'aidermacs-transient-menu)
+          (aidermacs-setup-minor-mode)
+          (setq aidermacs-use-architect-mode t)
+          (setq aidermacs-backend 'vterm)
+
+          ;; disable auto-commit
+          (setq aidermacs-auto-commits nil)
+
+          ;; Comint backend:
+          (setq aidermacs-comint-multiline-newline-key "S-<return>")
+          ;; Vterm backend:
+          (setq aidermacs-vterm-multiline-newline-key "S-<return>")
         '';
       };
+    };
     };
   };
 }
