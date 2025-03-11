@@ -2718,6 +2718,7 @@ in
           (aidermacs-setup-minor-mode)
           (setq aidermacs-use-architect-mode t)
           (setq aidermacs-backend 'vterm)
+          (setq aidermacs-show-diff-after-change nil)
 
           ;; disable auto-commit
           (setq aidermacs-auto-commits nil)

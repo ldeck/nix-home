@@ -5,10 +5,10 @@
         "homepage": "",
         "owner": "MatthewZMD",
         "repo": "aidermacs",
-        "rev": "b641c16de58d5d4b6cca4b9ef3250048ed7f334d",
-        "sha256": "0y5bqrdwaiszjjwyhighy5vd998vd3pq5kgn3qcx4hqx09m9vajy",
+        "rev": "da760ca70c1bb81403d68246d9c49fee23423931",
+        "sha256": "1f4zhj96r09vgi8cygrww9p4cahbwqkhqaydv44mplywcwasw61d",
         "type": "tarball",
-        "url": "https://github.com/MatthewZMD/aidermacs/archive/b641c16de58d5d4b6cca4b9ef3250048ed7f334d.tar.gz",
+        "url": "https://github.com/MatthewZMD/aidermacs/archive/da760ca70c1bb81403d68246d9c49fee23423931.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "emacs-overlay": {
