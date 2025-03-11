@@ -1,4 +1,16 @@
 {
+    "aidermacs": {
+        "branch": "main",
+        "description": "Emacs AI Pair Programming Solution",
+        "homepage": "",
+        "owner": "MatthewZMD",
+        "repo": "aidermacs",
+        "rev": "b641c16de58d5d4b6cca4b9ef3250048ed7f334d",
+        "sha256": "0y5bqrdwaiszjjwyhighy5vd998vd3pq5kgn3qcx4hqx09m9vajy",
+        "type": "tarball",
+        "url": "https://github.com/MatthewZMD/aidermacs/archive/b641c16de58d5d4b6cca4b9ef3250048ed7f334d.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "emacs-overlay": {
         "branch": "master",
         "description": "Bleeding edge emacs overlay [maintainer=@adisbladis] ",

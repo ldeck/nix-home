@@ -15,6 +15,7 @@
       undmg
 
       # TOOLS
+      aider-chat # AI pair programming in your terminal
       aspell
       aspellDicts.en
       bat

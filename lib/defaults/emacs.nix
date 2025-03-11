@@ -19,8 +19,7 @@ let
     src = sources.aidermacs;
     installPhase = ''
       mkdir -p $out/share/emacs/site-lisp/aidermacs
-      cp -r * $out/share/emacs/site-lisp/aidermacs
-      (autoload 'aidermacs-mode "aidermacs" nil t)
+      cp -r *.el $out/share/emacs/site-lisp/aidermacs
     '';
   };
 
@@ -2710,8 +2709,8 @@ in
       aidermacs = {
         enable = true;
         hook = [
-          "(prog-mode . aidermacs-mode)"
-          "(magit-mode . aidermacs-mode)"
+          "(prog-mode . aidermacs-minor-mode)"
+          "(magit-mode . aidermacs-minor-mode)"
         ];
         config = ''
           (setq aidermacs-default-model "sonnet")
@@ -2727,6 +2726,8 @@ in
           (setq aidermacs-comint-multiline-newline-key "S-<return>")
           ;; Vterm backend:
           (setq aidermacs-vterm-multiline-newline-key "S-<return>")
+
+          (autoload 'aidermacs-mode "aidermacs" nil t)
         '';
       };
     };
