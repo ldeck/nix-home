@@ -1356,13 +1356,56 @@ in
         #   };
         # };
         config = ''
-          (setq lsp-diagnostics-provider :flycheck
-                ;; lsp-modeline-workspace-status-enable nil
-                ;; lsp-modeline-diagnostics-enable nil
-                ;; lsp-modeline-code-actions-enable nil
-                ;; lsp-eldoc-render-all nil
-                ;; lsp-headerline-breadcrumb-enable nil
-                lsp-keep-workspace-alive nil
+          (setq lsp-completion-provider :capf
+                lsp-idle-delay 0.1
+
+                ;; lsp-enable-snippet nil
+                ;; lsp-prefer-flymake nil
+
+                lsp-response-timeout 60 ;; Increase timeout to 60 seconds
+
+                lsp-log-io nil
+                ;; lsp-enable-file-watchers nil
+
+                lsp-enable-symbol-highlighting t
+                lsp-enable-text-document-color t
+                lsp-enable-folding t
+                lsp-enable-indentation t
+                ;; lsp-enable-on-type-formatting nil
+
+                lsp-enable-links t
+                lsp-enable-imenu t
+                lsp-enable-xref t
+
+                lsp-auto-execute-action t
+
+                lsp-enable-dap-auto-configure t
+
+                lsp-eldoc-enable-hover t
+
+                lsp-headerline-breadcrumb-enable t
+                lsp-modeline-diagnostics-enable t
+
+                lsp-modeline-code-actions-enable nil
+
+                lsp-signature-auto-activate t
+                lsp-signature-render-documentation t
+
+                lsp-keep-workspace-alive nil ;; Prevent keeping workspaces alive unnecessarily
+
+                ;; lsp-before-save-edits nil ;; Prevent LSP from modifying files on save
+
+                lsp-semantic-tokens-enable t
+
+                lsp-enable-completion-at-point t
+                lsp-completion-show-detail t
+                lsp-completion-show-kind t
+
+                lsp-completion-enable-additional-text-edit nil ;; Avoid additional text edits on completion
+
+                read-process-output-max (* 1024 1024) ;; 1MB
+
+                gc-cons-threshold 100000000 ;; 100MB
           )
 
           (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.Trash\\'")
@@ -1468,18 +1511,45 @@ in
           (which-key-add-key-based-replacements "C-c j r e" "extract")
           (which-key-add-key-based-replacements "C-c j r u" "update")
 
-          (setq lsp-java-save-actions-organize-imports nil
+          (setq lsp-java-completion-enabled t
+                lsp-java-completion-on-did-select nil ;; Disable slow completion command
+                lsp-java-completion-enable-on-did-change nil ;; Avoid triggering completion on every change
                 lsp-java-completion-favorite-static-members
-                    ["org.assertj.core.api.Assertions.*"
-                     "org.assertj.core.api.Assumptions.*"
-                     "org.hamcrest.Matchers.*"
-                     "org.junit.Assert.*"
-                     "org.junit.Assume.*"
-                     "org.junit.jupiter.api.Assertions.*"
-                     "org.junit.jupiter.api.Assumptions.*"
-                     "org.junit.jupiter.api.DynamicContainer.*"
-                     "org.junit.jupiter.api.DynamicTest.*"
-                     "org.mockito.ArgumentMatchers.*"]
+                  ["org.assertj.core.api.Assertions.*"
+                  "org.assertj.core.api.Assumptions.*"
+                   "org.junit.jupiter.api.Assertions.*"
+                   "org.mockito.Mockito.*"
+                   "org.junit.jupiter.api.Assertions.*"
+                   "org.junit.jupiter.api.Assumptions.*"
+                   "org.junit.jupiter.api.DynamicContainer.*"
+                   "org.junit.jupiter.api.DynamicTest.*"
+                   "org.mockito.ArgumentMatchers.*"
+                  ]
+                lsp-java-completion-import-order ["java" "javax" "org" "com"]
+                lsp-java-completion-guess-method-arguments t
+                lsp-java-completion-filtered-types [
+                  "java.lang.Object"
+                ]
+                lsp-java-code-generation-use-blocks t
+                lsp-java-code-generation-generate-comments t
+                lsp-java-code-generation-to-string-code-style "STRING_CONCATENATION"
+
+                lsp-java-save-actions-organize-imports t
+
+                lsp-java-import-gradle-enabled t
+                lsp-java-import-maven-enabled t
+                lsp-java-maven-download-sources t
+
+                lsp-java-autobuild-enabled t
+
+                lsp-java-format-enabled t
+                lsp-java-format-settings-url nil
+                lsp-java-format-settings-profile nil
+
+                lsp-java-code-generation-hash-code-equals-use-java7-objects t
+                ;; lsp-java-trace-server "off"
+
+                lsp-java-vmargs ["-Xmx4G" "-Xms1G" "-XX:+UseG1GC" "-XX:+UseStringDeduplication"]
           )
 
           (setq lsp-java-vmargs (list
@@ -2243,18 +2313,22 @@ in
                 )
         '';
         config = ''
-          (setq company-idle-delay 0.3
+          (setq company-idle-delay 0.1 ;; Reduce delay before showing completions
+                company-minimum-prefix-length 1 ;; Trigger completion earlier
                 company-show-quick-access 'left
-                ; company-tooltip-maximum-width 100
-                ; company-tooltip-minimum-width 20
-                ; Allow me to keep typing even if company disapproves.
-                ; company-require-match nil
-                lsp-completion-provider :capf
+                company-tooltip-align-annotations t
+                company-selection-wrap-around t
+                company-dabbrev-downcase nil
+                company-dabbrev-ignore-case t
                 company-search-regexp-function #'company-search-flex-regexp
+                company-global-modes t
+                ;; company-global-modes '(not org-mode)
+                ;; company-backends (remove 'company-capf company-backends) ;; Remove capf if causing issues
+                ;; company-backends '((company-dabbrev-code company-keywords company-files))
           )
 
           (global-company-mode)
-          ;; (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+          ;; (setq company-backends (remove 'company-lsp company-backends))
 
           ;; https://www.emacswiki.org/emacs/CompanyMode
           ;;(require 'color)
