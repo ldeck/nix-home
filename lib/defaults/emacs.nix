@@ -874,6 +874,10 @@ in
         enable = true;
       };
 
+      keycast = {
+        enable = true;
+      };
+
       # See https://github.com/mickeynp/ligature.el
       ligature = {
         enable = true;
