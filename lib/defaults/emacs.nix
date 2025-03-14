@@ -2718,6 +2718,8 @@ in
         ];
         config = ''
           (setq aidermacs-default-model "sonnet")
+          (setq aidermacs-llm-provider 'openai) ;; or 'mistral', 'huggingface', etc.
+          (setq aidermacs-api-key (getenv "OPENAI_API_KEY")) ;; Ensure API key is set
           (global-set-key (kbd "C-c a") 'aidermacs-transient-menu)
           (aidermacs-setup-minor-mode)
           (setq aidermacs-use-architect-mode t)
