@@ -44,6 +44,7 @@
       nox
       nushell
       perl
+      python312Packages.playwright
       ripgrep
       rustup
       semgrep # used by lsp
@@ -61,7 +62,7 @@
         '';
       })
       tree
-      python310Packages.yamllint
+      python312Packages.yamllint
       xq-xml
       zlib
     ];
