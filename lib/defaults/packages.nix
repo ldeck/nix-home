@@ -47,7 +47,8 @@
       python312Packages.playwright
       ripgrep
       rustup
-      semgrep # used by lsp
+      # semgrep # used by lsp
+      emacs-lsp-booster
       silver-searcher
       sqls
       #taskwarrior
