@@ -2611,12 +2611,49 @@ in
       nxml-mode = {
         enable = true;
         mode = [ ''"\\.xml\\'"'' ];
+        bindLocal = {
+          "C-c x" = "nxml-show-and-copy-xpath";
+        }
         config = ''
           (setq nxml-child-indent 2
                 nxml-attribute-indent 4
                 nxml-slash-auto-complete-flag t)
           (add-to-list 'rng-schema-locating-files
                        "~/.emacs.d/nxml-schemas/schemas.xml")
+
+          (defun xml-find-file-hook ()
+            (when (derived-mode-p 'nxml-mode)
+              (which-function-mode t)
+              (setq which-func-mode t)
+              (add-hook 'which-func-functions 'nxml-where t t)))
+
+          (add-hook 'find-file-hook 'xml-find-file-hook t)
+
+          (defun nxml-where ()
+                "Display the hierarchy of XML elements the point is on as a path."
+                (interactive)
+                (let ((path nil))
+                  (save-excursion
+                    (save-restriction
+                      (widen)
+                      (while (and (< (point-min) (point)) ;; Doesn't error if point is at beginning of buffer
+                                  (condition-case nil
+                                      (progn
+                                        (nxml-backward-up-element) ; always returns nil
+                                        t)
+                                    (error nil)))
+                        (setq path (cons (xmltok-start-tag-local-name) path)))
+                      (if (called-interactively-p t)
+                          (message "/%s" (mapconcat 'identity path "/"))
+                        (format "/%s" (mapconcat 'identity path "/")))))))
+
+          (defun nxml-show-and-copy-xpath ()
+            "Show the current XPath in the minibuffer and copy it to the clipboard."
+            (interactive)
+            (let ((xpath (nxml-where)))
+              (when xpath
+                (kill-new xpath)
+                (message "Copied XPath: %s" xpath))))
         '';
       };
 
