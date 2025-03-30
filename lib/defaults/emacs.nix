@@ -1359,6 +1359,8 @@ in
           (setq lsp-completion-provider :capf
                 lsp-idle-delay 0.1
 
+                (setq lsp-lens-enable t) ;; Ensure LSP lenses are enabled globally
+
                 ;; lsp-enable-snippet nil
                 ;; lsp-prefer-flymake nil
 
@@ -1429,12 +1431,24 @@ in
         defer = true;
         hook = [
           "(java-mode . rah-lsp)"
+          "(java-mode . lsp-lens-mode)"
           ''
           (java-mode
            . (lambda ()
                (ld/enable-lsp-java-lombok-annotation-processing)))
         ''
         ];
+        config = ''
+          (setq lsp-java-lens-enabled t) ;; Ensure lenses are enabled
+          (setq lsp-java-lens-mode t) ;; Enable lens mode
+          (setq lsp-java-lens-test t) ;; Enable test lenses
+          (setq lsp-java-lens-boot t) ;; Enable Spring Boot lenses
+          (setq lsp-java-lens-references t) ;; Enable reference lenses
+          (setq lsp-java-lens-implementations t) ;; Enable implementation lenses
+          (setq lsp-java-lens-dependencies t) ;; Enable dependency lenses
+          (setq lsp-java-lens-run t) ;; Enable run/debug lenses
+          (setq lsp-java-lens-debug t) ;; Enable debug lenses
+        '';
         bindLocal = {
           java-mode-map = {
             # actions
@@ -1651,7 +1665,10 @@ in
 
       lsp-java-boot = {
         enable = true;
-        hook = [ "(java-mode . lsp-java-boot-lens-mode)" ];
+        hook = [
+          "(java-mode . lsp-java-boot-lens-mode)"
+          "(java-mode . lsp-lens-mode)"
+        ];
       };
 
       lsp-metals = {
