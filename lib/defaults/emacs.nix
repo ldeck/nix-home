@@ -1574,8 +1574,10 @@ in
                 lsp-java-completion-on-did-select nil ;; Disable slow completion command
                 lsp-java-completion-enable-on-did-change nil ;; Avoid triggering completion on every change
                 lsp-java-completion-favorite-static-members
-                  ["org.assertj.core.api.Assertions.*"
-                  "org.assertj.core.api.Assumptions.*"
+                  [
+                   "net.logstash.logback.argument.StructuredArguments.*"
+                   "org.assertj.core.api.Assertions.*"
+                   "org.assertj.core.api.Assumptions.*"
                    "org.junit.jupiter.api.Assertions.*"
                    "org.mockito.Mockito.*"
                    "org.junit.jupiter.api.Assertions.*"
