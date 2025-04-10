@@ -2497,6 +2497,73 @@ in
 
       format-all = {
         enable = true;
+        hook = [
+          "(prog-mode . format-all-mode)"
+        ];
+        config = ''
+          (setq-default format-all-formatters
+                '(("C"     (astyle "--mode=c"))
+                  ("Shell" (shfmt "-i" "4" "-ci"))
+                  ("SQL" sql-formatter)
+                            ))
+
+          (defun ld/sql-formatter-region-preserve-vars ()
+            "Format SQL in region or buffer using sql-formatter CLI, preserving $variables and :placeholders."
+            (interactive)
+            (let* ((start (if (use-region-p) (region-beginning) (point-min)))
+                   (end   (if (use-region-p) (region-end) (point-max)))
+                   (original-sql (buffer-substring-no-properties start end))
+                   (var-map '())
+                   (counter 1)
+                   clean-sql)
+
+              (message "[sql-formatter] Original SQL:\n%s" original-sql)
+
+              ;; Step 1: Replace variables with markers
+              (setq clean-sql
+                    (with-temp-buffer
+                      (insert original-sql)
+                      (goto-char (point-min))
+                      (while (re-search-forward "\\(?:\\$\\|:\\)[a-zA-Z_][a-zA-Z0-9_]*" nil t)
+            (let* ((original (match-string 0))
+                   (marker (format "__VAR%d__" counter)))
+              (message "[sql-formatter] Replacing %s -> %s" original marker)
+              (replace-match marker t t)
+              (setq var-map (cons (cons marker original) var-map))
+              (setq counter (1+ counter))))
+                      (buffer-string)))
+
+              ;; Debug: show var-map
+              (message "[sql-formatter] Replacement map: %s" var-map)
+
+              ;; Step 2: Format SQL
+              (let ((formatted-sql
+                     (with-temp-buffer
+                       (insert clean-sql)
+                       (if (zerop (call-process-region
+                                   (point-min) (point-max)
+                                   "sql-formatter" t t nil "-l" "postgresql"))
+                           (buffer-string)
+                         (error "[sql-formatter] Formatting failed.")))))
+
+                (message "[sql-formatter] Formatted SQL:\n%s" formatted-sql)
+
+                ;; Step 3: Restore original variables
+                (dolist (pair var-map)
+                  (let ((marker (car pair))
+                        (original (cdr pair)))
+                    (message "[sql-formatter] Restoring %s -> %s" marker original)
+                    (setq formatted-sql
+                          (replace-regexp-in-string (regexp-quote marker) original formatted-sql t t))))
+
+                ;; Step 4: Replace buffer contents
+                (save-excursion
+                  (goto-char start)
+                  (delete-region start end)
+                  (insert formatted-sql))
+
+                (message "[sql-formatter] Done formatting."))))
+        '';
       };
 
       php-mode = { hook = [ "ggtags-mode" ]; };

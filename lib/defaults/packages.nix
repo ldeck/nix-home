@@ -51,6 +51,7 @@
       emacs-lsp-booster
       silver-searcher
       sqls
+      sql-formatter
       #taskwarrior
       (symlinkJoin {
         inherit (taskwarrior3) name meta;
