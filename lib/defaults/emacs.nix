@@ -2742,9 +2742,10 @@ in
       nxml-mode = {
         enable = true;
         mode = [ ''"\\.xml\\'"'' ];
-        bindLocal = {
+        bind = {
           "C-c x" = "nxml-show-and-copy-xpath";
-        }
+        };
+        hook = [ "(xml-mode . xml-find-file-hook)" ];
         config = ''
           (setq nxml-child-indent 2
                 nxml-attribute-indent 4
@@ -2755,10 +2756,8 @@ in
           (defun xml-find-file-hook ()
             (when (derived-mode-p 'nxml-mode)
               (which-function-mode t)
-              (setq which-func-mode t)
-              (add-hook 'which-func-functions 'nxml-where t t)))
-
-          (add-hook 'find-file-hook 'xml-find-file-hook t)
+              (setq-local which-func-mode t)
+              (add-hook 'which-func-functions 'nxml-where nil t)))
 
           (defun nxml-where ()
                 "Display the hierarchy of XML elements the point is on as a path."
