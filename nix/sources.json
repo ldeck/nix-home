@@ -82,5 +82,17 @@
         "type": "tarball",
         "url": "https://github.com/nix-community/NUR/archive/5cdd10307119a3e5c4fa590f0153f1a7d6c71846.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "ob-duckdb": {
+        "branch": "main",
+        "description": "org-babel support for duckdb",
+        "homepage": null,
+        "owner": "smurp",
+        "repo": "ob-duckdb",
+        "rev": "3fd1123e7552a97d676be8aebd22dfbe8c6cfd0e",
+        "sha256": "16cp9szb7a8rc6bfkz4l5r1axzhjbns68bmjf5plsy8gs8a8g5bm",
+        "type": "tarball",
+        "url": "https://github.com/smurp/ob-duckdb/archive/3fd1123e7552a97d676be8aebd22dfbe8c6cfd0e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

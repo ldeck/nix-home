@@ -23,6 +23,16 @@ let
     '';
   };
 
+  ob-duckdb = pkgs.stdenv.mkDerivation {
+    pname = "ob-duckdb";
+    version = "latest";
+    src = sources.ob-duckdb;
+    installPhase = ''
+      mkdir -p $out/share/emacs/site-lisp/ob-duckdb
+      cp -r *.el $out/share/emacs/site-lisp/ob-duckdb
+    '';
+  };
+
 in
 {
   imports = [
@@ -35,6 +45,7 @@ in
   programs.emacs = {
     extraPackages = epkgs: with epkgs; [
       aidermacs
+      ob-duckdb
     ];
 
     init = {
@@ -1905,6 +1916,8 @@ in
                                          (http . t)
                                          (shell . t)
                                          (sql . t)
+                                         (duckdb . t)
+                                         (dsq . t)
                                          (verb . t)))
 
           ;; org-latex settings
