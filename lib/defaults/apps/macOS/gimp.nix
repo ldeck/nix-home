@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2.10.38";
-      revision = "1";
+      version = "3.0.2";
+      revision = "";
       date = "";
       arch = "amd64";
-      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-x86_64-${cfg.revision}.dmg";
-      sha256 = "d2d3ac20c762fe12f0dd0ec8d7c6c2f1f3a43e046ecb4ed815a49afcbaa92b92";
+      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64.dmg";
+      sha256 = "847e1d57e937ffd23c3b3a8c0a1ce50e04b1706b75e0184d6f6f6b3f941be9d3";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "2.10.38";
-      revision = "1";
+      version = "3.0.2";
+      revision = "";
       date = "";
       arch = "arm64";
-      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64-${cfg.revision}.dmg";
-      sha256 = "dc1aa78a40695f9f4580ce710960ff411eeef48af45b659b03b51e4cd6cdf4e8";
+      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64.dmg";
+      sha256 = "847e1d57e937ffd23c3b3a8c0a1ce50e04b1706b75e0184d6f6f6b3f941be9d3";
       imagetype = "dmg";
     };
   };
