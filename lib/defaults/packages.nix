@@ -39,6 +39,7 @@
       jsonnet
       k9s
       lazygit
+      libgccjit
       libiconv
       lnav
       nox
