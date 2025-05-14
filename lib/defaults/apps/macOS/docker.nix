@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "4.40.0";
-      revision = "187762";
+      version = "4.41.2";
+      revision = "191736";
       date = "";
       arch = "amd64";
       url = "https://desktop.docker.com/mac/main/arm64/${cfg.revision}/Docker.dmg";
-      sha256 = "79d5611b9fae4dbe5d2925bbecafabf122192390fb327754963348a2a660d71c";
+      sha256 = "19c69b358a8ee1b94e308648a2853e398f4bff29f0f74f00ef2d1b462ced1d1c";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "4.40.0";
-      revision = "187762";
+      version = "4.41.2";
+      revision = "191736";
       date = "";
       arch = "arm64";
       url = "https://desktop.docker.com/mac/main/arm64/${cfg.revision}/Docker.dmg";
-      sha256 = "79d5611b9fae4dbe5d2925bbecafabf122192390fb327754963348a2a660d71c";
+      sha256 = "19c69b358a8ee1b94e308648a2853e398f4bff29f0f74f00ef2d1b462ced1d1c";
       imagetype = "dmg";
     };
   };
