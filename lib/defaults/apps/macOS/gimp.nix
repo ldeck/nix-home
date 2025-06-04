@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "3.0.2";
+      version = "3.0.4";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64.dmg";
-      sha256 = "847e1d57e937ffd23c3b3a8c0a1ce50e04b1706b75e0184d6f6f6b3f941be9d3";
+      sha256 = "bc3002d9221ebed220b9687378275d139b4fd0ea066fe3a2b5788ef2ee4377f3";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "3.0.2";
+      version = "3.0.4";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64.dmg";
-      sha256 = "847e1d57e937ffd23c3b3a8c0a1ce50e04b1706b75e0184d6f6f6b3f941be9d3";
+      sha256 = "bc3002d9221ebed220b9687378275d139b4fd0ea066fe3a2b5788ef2ee4377f3";
       imagetype = "dmg";
     };
   };
