@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "11.1.0";
+      version = "11.2.0";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
-      sha256 = "e7cb0f1a35f2510e54d89e05d39fdc74830d0c347d85c098448f59c0138d3365";
+      sha256 = "4bf3435b3ec57fc40964f46dfa7572c80499929461a584b419f2b6b80332efb8";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "11.1.0";
+      version = "11.2.0";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://github.com/Kong/insomnia/releases/download/core%40${cfg.version}/Insomnia.Core-${cfg.version}.dmg";
-      sha256 = "e7cb0f1a35f2510e54d89e05d39fdc74830d0c347d85c098448f59c0138d3365";
+      sha256 = "4bf3435b3ec57fc40964f46dfa7572c80499929461a584b419f2b6b80332efb8";
       imagetype = "dmg";
     };
   };
