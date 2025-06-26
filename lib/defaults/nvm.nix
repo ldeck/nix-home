@@ -62,7 +62,7 @@ in
     }
 
     (mkIf cfg.zsh.enable {
-      programs.zsh.initExtra = initExtra;
+      programs.zsh.initContent = initExtra;
     })
 
     (mkIf cfg.bash.enable {
