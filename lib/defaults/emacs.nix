@@ -1571,8 +1571,6 @@ in
           (which-key-add-key-based-replacements "C-c j r u" "update")
 
           (setq lsp-java-completion-enabled t
-                lsp-java-completion-on-did-select nil ;; Disable slow completion command
-                lsp-java-completion-enable-on-did-change nil ;; Avoid triggering completion on every change
                 lsp-java-completion-favorite-static-members
                   [
                    "net.logstash.logback.argument.StructuredArguments.*"
