@@ -2953,6 +2953,18 @@ in
 
       aidermacs = {
         enable = true;
+        extraConfig = ''
+          (defvar aidermacs-prefix-map (make-sparse-keymap)
+            "Keymap for Aidermacs commands under the C-c a prefix.")
+
+          ;; Define sub-bindings under the prefix map
+          (define-key aidermacs-prefix-map (kbd "C-c") #'aidermacs-send-block-or-region)
+          (define-key aidermacs-prefix-map (kbd "C-n") #'aidermacs-send-line-or-region)
+          (define-key aidermacs-prefix-map (kbd "a")   #'aidermacs-transient-menu)
+
+          ;; Bind the whole prefix map to C-c a
+          (define-key aidermacs-minor-mode-map (kbd "C-c a") aidermacs-prefix-map)
+        '';
         hook = [
           "(prog-mode . aidermacs-minor-mode)"
           "(magit-mode . aidermacs-minor-mode)"
@@ -2961,7 +2973,6 @@ in
           (setq aidermacs-default-model "sonnet")
           (setq aidermacs-llm-provider 'openai) ;; or 'mistral', 'huggingface', etc.
           (setq aidermacs-api-key (getenv "OPENAI_API_KEY")) ;; Ensure API key is set
-          (global-set-key (kbd "C-c a") 'aidermacs-transient-menu)
           (aidermacs-setup-minor-mode)
           (setq aidermacs-use-architect-mode t)
           (setq aidermacs-backend 'vterm)
