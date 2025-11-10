@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "138.0.7204.0";
-      revision = "1465706";
-      date = "Tue, 27 May 2025 02:32:34 GMT";
+      version = "142.0.7444.0";
+      revision = "1522598";
+      date = "Tue, 30 Sep 2025 01:07:37 GMT";
       arch = "amd64";
-      url = "https://storage.googleapis.com/chromium-browser-snapshots/Mac/1465706/chrome-mac.zip";
-      sha256 = "16wpfk7yzj5sjj89279pxnrzlnr5nx0i4a37y8pg8yhhhjcfs1a0";
+      url = "https://storage.googleapis.com/chromium-browser-snapshots/Mac/1522598/chrome-mac.zip";
+      sha256 = "107wkjxx4w25kn9vmy0yxjbjsr301cp0igf3z109rrw6ygsbih6d";
       imagetype = "zip";
     };
     aarch64-darwin = {
-      version = "138.0.7204.0";
-      revision = "1465706";
-      date = "Tue, 27 May 2025 02:32:34 GMT";
+      version = "142.0.7444.0";
+      revision = "1522598";
+      date = "Tue, 30 Sep 2025 01:07:37 GMT";
       arch = "arm64";
-      url = "https://storage.googleapis.com/chromium-browser-snapshots/Mac/1465706/chrome-mac.zip";
-      sha256 = "16wpfk7yzj5sjj89279pxnrzlnr5nx0i4a37y8pg8yhhhjcfs1a0";
+      url = "https://storage.googleapis.com/chromium-browser-snapshots/Mac/1522598/chrome-mac.zip";
+      sha256 = "107wkjxx4w25kn9vmy0yxjbjsr301cp0igf3z109rrw6ygsbih6d";
       imagetype = "zip";
     };
   };

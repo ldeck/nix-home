@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "7.13.1";
+      version = "7.15.1";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${cfg.version}-MacOSX-universal.dmg";
-      sha256 = "59177c10479e7d773a2df82d58a4f73b056d1c354b85b11b1040218b3c10419c";
+      sha256 = "9d64bb5ec01015ca76ba85d7cd3f9ae78d90f6fc25a191101ea7f87a278aa940";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "7.13.1";
+      version = "7.15.1";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${cfg.version}-MacOSX-universal.dmg";
-      sha256 = "59177c10479e7d773a2df82d58a4f73b056d1c354b85b11b1040218b3c10419c";
+      sha256 = "9d64bb5ec01015ca76ba85d7cd3f9ae78d90f6fc25a191101ea7f87a278aa940";
       imagetype = "dmg";
     };
   };
