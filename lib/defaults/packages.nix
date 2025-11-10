@@ -44,6 +44,7 @@
       lnav
       mermaid-cli
       nox
+      nodejs_24
       nushell
       perl
       python312Packages.playwright
