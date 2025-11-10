@@ -42,6 +42,7 @@
       libgccjit
       libiconv
       lnav
+      mermaid-cli
       nox
       nushell
       perl
