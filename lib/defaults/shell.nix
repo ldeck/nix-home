@@ -22,7 +22,7 @@ let
       fi
       mkdir -p $1
       cd $1
-    }
+     }
   '';
 
 in
@@ -53,6 +53,7 @@ in
     };
     zsh = {
       enable = true;
+      enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       shellAliases = essentialShellAliases // {
@@ -70,6 +71,10 @@ in
         bindkey '\e[A' up-line-or-beginning-search
         bindkey '\e[B' down-line-or-beginning-search
         bindkey '^U' backward-kill-line
+
+        # enable completions -- complete -C foo bar
+        autoload bashcompinit && bashcompinit
+        autoload -Uz compinit && compinit
 
         ${shellFunctions}
       '';
