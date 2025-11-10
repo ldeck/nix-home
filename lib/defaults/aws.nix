@@ -16,6 +16,14 @@ in {
         default = false;
         description = "Whether to enable aws integration";
       };
+
+      completions = mkOption {
+        type = lib.types.str;
+        default = ''
+          complete -C aws_completer aws
+        '';
+        description = "Shell completions for aws cli";
+      };
     };
   };
 
@@ -25,5 +33,8 @@ in {
       saml2aws
       ssm-session-manager-plugin
     ];
+
+    programs.zsh.initExtra = lib.mkAfter cfg.completions;
+    programs.bash.bashrcExtra = lib.mkAfter cfg.completions;
   };
 }
