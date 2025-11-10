@@ -1404,7 +1404,7 @@ in
           (setq lsp-completion-provider :capf
                 lsp-idle-delay 0.1
 
-                (setq lsp-lens-enable t) ;; Ensure LSP lenses are enabled globally
+                lsp-lens-enable t ;; Ensure LSP lenses are enabled globally
 
                 ;; lsp-enable-snippet nil
                 ;; lsp-prefer-flymake nil
@@ -1476,7 +1476,7 @@ in
         defer = true;
         hook = [
           "(java-mode . rah-lsp)"
-          "(java-mode . lsp-lens-mode)"
+          # "(java-mode . lsp-lens-mode)"
           ''
           (java-mode
            . (lambda ()
@@ -1484,15 +1484,11 @@ in
         ''
         ];
         config = ''
-          (setq lsp-java-lens-enabled t) ;; Ensure lenses are enabled
-          (setq lsp-java-lens-mode t) ;; Enable lens mode
-          (setq lsp-java-lens-test t) ;; Enable test lenses
-          (setq lsp-java-lens-boot t) ;; Enable Spring Boot lenses
-          (setq lsp-java-lens-references t) ;; Enable reference lenses
-          (setq lsp-java-lens-implementations t) ;; Enable implementation lenses
-          (setq lsp-java-lens-dependencies t) ;; Enable dependency lenses
-          (setq lsp-java-lens-run t) ;; Enable run/debug lenses
-          (setq lsp-java-lens-debug t) ;; Enable debug lenses
+          (setq
+            lsp-java-references-code-lens-enabled t
+            lsp-java-implementations-code-lens-enabled t
+            lsp-java-signature-help-enabled t
+          )
         '';
         bindLocal = {
           java-mode-map = {
@@ -1711,8 +1707,7 @@ in
       lsp-java-boot = {
         enable = true;
         hook = [
-          "(java-mode . lsp-java-boot-lens-mode)"
-          "(java-mode . lsp-lens-mode)"
+          # "(java-mode . lsp-java-boot-lens-mode)"
         ];
       };
 
