@@ -43,6 +43,7 @@
       libiconv
       lnav
       mermaid-cli
+      nix-direnv
       nox
       nodejs_24
       nushell
