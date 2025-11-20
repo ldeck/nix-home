@@ -7,6 +7,10 @@ with lib;
   programs.direnv.use_java.enable = mkOverride 100 true;
   programs.direnv.nix-direnv.enable = mkOverride 100 true;
   programs.direnv.stdlib = mkBefore ''
+    export DIRENV_WARN_TIMEOUT=10s
+    # export NIX_DIR_ENV_CACHE=0
+    # export NIX_DIRENV_DISABLE_CACHE=1
+
     LIB=$HOME/.config/direnv/lib
     if [ -d "$LIB" ]; then
       for f in "$LIB/*.sh"; do
