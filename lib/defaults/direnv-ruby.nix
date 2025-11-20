@@ -53,7 +53,7 @@ in
   };
 
   config = mkIf (cfg.use_chruby.enable) {
-    programs.direnv.stdlib = mkDefault ''
+    programs.direnv.stdlib = mkAfter ''
       ${if cfg.use_chruby.enable then cfg.use_chruby.script else ""}
     '';
   };

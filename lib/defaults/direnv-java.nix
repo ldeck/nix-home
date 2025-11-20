@@ -75,7 +75,7 @@ in
   };
 
   config = mkIf (cfg.use_java.enable) {
-    programs.direnv.stdlib = mkDefault ''
+    programs.direnv.stdlib = mkAfter ''
       ${if cfg.use_java.enable then cfg.use_java.script else ""}
     '';
 
