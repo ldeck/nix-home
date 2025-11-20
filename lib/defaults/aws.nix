@@ -34,7 +34,7 @@ in {
       ssm-session-manager-plugin
     ];
 
-    programs.zsh.initExtra = lib.mkAfter cfg.completions;
+    programs.zsh.initContent = lib.mkAfter cfg.completions;
     programs.bash.bashrcExtra = lib.mkAfter cfg.completions;
   };
 }
