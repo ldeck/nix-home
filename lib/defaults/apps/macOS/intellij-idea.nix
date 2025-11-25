@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "2025.2.4";
-      revision = "252.27397.103";
+      version = "2025.2.5";
+      revision = "252.28238.7";
       date = "";
       arch = "amd64";
       url = "https://download.jetbrains.com/idea/ideaIU-${cfg.version}-aarch64.dmg";
-      sha256 = "2b5504f86c6969ed0564483b6886390cfc1bb1b3ab99e658881d60edf57c481f";
+      sha256 = "6ec8cf520556c75e91a3cae1c54f464dee3609c4d7efef3bb307b129c7d9cb63";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "2025.2.4";
-      revision = "252.27397.103";
+      version = "2025.2.5";
+      revision = "252.28238.7";
       date = "";
       arch = "arm64";
       url = "https://download.jetbrains.com/idea/ideaIU-${cfg.version}-aarch64.dmg";
-      sha256 = "2b5504f86c6969ed0564483b6886390cfc1bb1b3ab99e658881d60edf57c481f";
+      sha256 = "6ec8cf520556c75e91a3cae1c54f464dee3609c4d7efef3bb307b129c7d9cb63";
       imagetype = "dmg";
     };
   };
