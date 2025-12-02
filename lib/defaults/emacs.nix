@@ -1705,7 +1705,7 @@ in
       };
 
       lsp-java-boot = {
-        enable = true;
+        enable = false;
         hook = [
           # "(java-mode . lsp-java-boot-lens-mode)"
         ];
