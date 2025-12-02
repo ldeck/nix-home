@@ -36,6 +36,18 @@
       (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
       httpie
       #iconv
+
+      jdt-language-server
+      # vscode-extensions.vscjava.vscode-java-test
+      # vscode-extensions.vscjava.vscode-java-pack
+      # vscode-extensions.vscjava.vscode-java-dependency
+      # vscode-extensions.vscjava.vscode-java-debug
+
+      kotlin
+      kotlin-interactive-shell
+      kotlin-language-server
+      ktfmt
+
       jq
       jsonnet
       k9s
