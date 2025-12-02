@@ -2953,12 +2953,13 @@ in
             "Keymap for Aidermacs commands under the C-c a prefix.")
 
           ;; Define sub-bindings under the prefix map
-          (define-key aidermacs-prefix-map (kbd "C-c") #'aidermacs-send-block-or-region)
-          (define-key aidermacs-prefix-map (kbd "C-n") #'aidermacs-send-line-or-region)
           (define-key aidermacs-prefix-map (kbd "a")   #'aidermacs-transient-menu)
 
           ;; Bind the whole prefix map to C-c a
           (define-key aidermacs-minor-mode-map (kbd "C-c a") aidermacs-prefix-map)
+
+          ;;(with-eval-after-load 'aidermacs
+          ;;  (define-key aidermacs-minor-mode-map (kbd "C-c C-c") nil))
         '';
         hook = [
           "(prog-mode . aidermacs-minor-mode)"
@@ -2980,6 +2981,8 @@ in
           (setq aidermacs-comint-multiline-newline-key "S-<return>")
           ;; Vterm backend:
           (setq aidermacs-vterm-multiline-newline-key "S-<return>")
+
+          (define-key aidermacs-minor-mode-map (kbd "C-c C-c") nil)
 
           (autoload 'aidermacs-mode "aidermacs" nil t)
         '';
