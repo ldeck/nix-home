@@ -342,20 +342,6 @@ in
 
       (setq cua-rectangle-mark-key (kbd "C-M-<return>"))
 
-      ;; ensure directory listings work
-      ;; https://github.com/d12frosted/homebrew-emacs-plus/issues/383#issuecomment-899157143
-      (defun ld/use-directories-listing-with-gls ()
-        (setq
-            insert-directory-program "gls" dired-use-ls-dired t
-            dired-listing-switches "-al --group-directories-first")
-      )
-
-      (ld/use-directories-listing-with-gls)
-      (defun ld/fix-directories-listing-with-gls ()
-        (interactive)
-        (ld/use-directories-listing-with-gls)
-      )
-
       ;; copy filename and line to clipboard
       (defun copy-current-line-position-to-clipboard ()
         "Copy current line in file to clipboard as '<project/path/to/file>:<line-number>'."
@@ -2657,10 +2643,13 @@ in
           ;; Be smart about choosing file targets.
           (setq dired-dwim-target t)
 
-          ;; Use the system trash can.
-          (setq delete-by-moving-to-trash t)
-          (setq insert-directory-program "ls" dired-use-ls-dired t)
-          (setq dired-listing-switches "-alvh --group-directories-first")
+          (setq
+                ;; Use the system trash can.
+                delete-by-moving-to-trash t
+                insert-directory-program "${pkgs.coreutils}/bin/ls"
+                dired-use-ls-dired t
+                dired-listing-switches "-alvh --group-directories-first"
+          )
         '';
       };
 
