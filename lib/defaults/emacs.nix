@@ -5,6 +5,8 @@ with lib;
 let
   sources = import ../../nix/sources.nix;
 
+  lspJavaServerUrlJdtls = "https://www.eclipse.org/downloads/download.php?file=/jdtls/milestones/1.54.0/jdt-language-server-1.54.0-202511261751.tar.gz";
+
   nur = import sources.nur { };
 
   pcfg = config.programs.emacs.init.usePackage;
@@ -1485,6 +1487,7 @@ in
         ];
         config = ''
           (setq
+            lsp-java-jdtls-download-url ${lspJavaServerUrlJdtls}
             lsp-java-references-code-lens-enabled t
             lsp-java-implementations-code-lens-enabled t
             lsp-java-signature-help-enabled t
