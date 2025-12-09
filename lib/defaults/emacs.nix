@@ -1473,7 +1473,7 @@ in
         ];
         config = ''
           (setq
-            lsp-java-jdtls-download-url ${lspJavaServerUrlJdtls}
+            lsp-java-jdtls-download-url "${lspJavaServerUrlJdtls}"
             lsp-java-references-code-lens-enabled t
             lsp-java-implementations-code-lens-enabled t
             lsp-java-signature-help-enabled t
