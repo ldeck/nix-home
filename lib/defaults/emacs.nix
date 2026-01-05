@@ -1464,17 +1464,20 @@ in
         enable = true;
         defer = true;
         hook = [
-          "(java-mode . rah-lsp)"
-          # "(java-mode . lsp-lens-mode)"
-          ''
-          (java-mode
-           . (lambda ()
-               (ld/enable-lsp-java-lombok-annotation-processing)))
-        ''
+          "(java-mode . lsp-with-envrc-and-company-prefix)"
+          "(java-mode . ld/enable-lsp-java-lombok-annotation-processing)"
+          #"(java-mode . lsp-lens-mode)"
+          #"(java-mode . lsp-java-lens-mode)"
+          # ''
+          # (java-mode
+          #  . (lambda ()
+          #      (ld/enable-lsp-java-lombok-annotation-processing)))
+          # ''
         ];
         config = ''
           (setq
-            lsp-java-jdtls-download-url "${lspJavaServerUrlJdtls}"
+            lsp-java-jdt-download-url "${lspJavaServerUrlJdtls}"
+            lsp-java-completion-enabled t
             lsp-java-references-code-lens-enabled t
             lsp-java-implementations-code-lens-enabled t
             lsp-java-signature-help-enabled t
@@ -1489,6 +1492,13 @@ in
             "C-c j b r" = "lsp-java-update-project-configuration";
             "C-c j b l" = "ld/enable-lsp-java-lombok-annotation-processing";
             "C-c j b u" = "lsp-java-update-server";
+            # dap
+            "C-c j d t c" = "dap-java-run-test-class";
+            "C-c j d t m" = "dap-java-run-test-method";
+            "C-c j d t l" = "dap-java-run-last-test";
+            "C-c j d d c" = "dap-java-debug-test-class";
+            "C-c j d d m" = "dap-java-debug-test-method";
+            "C-c j d d d" = "dap-java-debug";
             # find
             "C-c j f i" = "lsp-find-implementation";
             "C-c j f r" = "lsp-find-references";
