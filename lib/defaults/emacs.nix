@@ -5,6 +5,7 @@ with lib;
 let
   sources = import ../../nix/sources.nix;
 
+  # https://download.eclipse.org/jdtls/milestones/1.54.0/
   lspJavaServerUrlJdtls = "https://www.eclipse.org/downloads/download.php?file=/jdtls/milestones/1.54.0/jdt-language-server-1.54.0-202511261751.tar.gz";
 
   nur = import sources.nur { };
