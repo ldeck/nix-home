@@ -268,11 +268,11 @@ in
           (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
       )
 
-      (defun rah-lsp ()
+      (cl-defun lsp-with-envrc-and-company-prefix (&optional (company-prefix 1))
         (interactive)
         (envrc-mode)
-        (setq-local company-minimum-prefix-length 0)
-        (lsp-deferred))
+        (setq-local company-minimum-prefix-length company-prefix)
+        (lsp))
 
       ;(defun rah-sort-lines-ignore-case ()
       ;  (interactive)
@@ -804,7 +804,7 @@ in
       lsp-dhall = {
         enable = true;
         defer = true;
-        hook = [ "(dhall-mode . rah-lsp)" ];
+        hook = [ "(dhall-mode . lsp-with-envrc-and-company-prefix)" ];
       };
 
       docker = {
@@ -1290,7 +1290,7 @@ in
       lsp-elm = {
         enable = true;
         defer = true;
-        hook = [ "(elm-mode . rah-lsp)" ];
+        hook = [ "(elm-mode . lsp-with-envrc-and-company-prefix)" ];
         config = ''
           (setq lsp-elm-elm-language-server-path
                   "${pkgs.elmPackages.elm-language-server}/bin/elm-language-server")
@@ -1300,13 +1300,13 @@ in
       lsp-haskell = {
         enable = true;
         defer = true;
-        hook = [ "(haskell-mode . rah-lsp)" ];
+        hook = [ "(haskell-mode . lsp-with-envrc-and-company-prefix)" ];
       };
 
       lsp-purescript = {
         enable = true;
         defer = true;
-        hook = [ "(purescript-mode . rah-lsp) " ];
+        hook = [ "(purescript-mode . lsp-with-envrc-and-company-prefix) " ];
       };
 
       lsp-ui = {
@@ -1694,15 +1694,15 @@ in
       };
 
       lsp-java-boot = {
-        enable = false;
+        enable = true;
         hook = [
-          # "(java-mode . lsp-java-boot-lens-mode)"
+          "(java-mode . lsp-java-boot-lens-mode)"
         ];
       };
 
       lsp-metals = {
         enable = true;
-        hook = [ "(scala-mode . rah-lsp)" ];
+        hook = [ "(scala-mode . lsp-with-envrc-and-company-prefix)" ];
         config = ''
           ;; Metals claims to support range formatting by default, but it supports range
           ;; formatting of multiline strings only. By disabling it emacs can use the
@@ -1714,7 +1714,7 @@ in
       lsp-python-ms = {
         enable = true;
         defer = true;
-        hook = [ "(python-mode . rah-lsp)" ];
+        hook = [ "(python-mode . lsp-with-envrc-and-company-prefix)" ];
         config = ''
           (setq lsp-python-ms-executable (executable-find "python-language-server"))
         '';
@@ -1723,7 +1723,7 @@ in
       lsp-rust = {
         enable = true;
         defer = true;
-        hook = [ "(rust-mode . rah-lsp)" ];
+        hook = [ "(rust-mode . lsp-with-envrc-and-company-prefix)" ];
       };
 
       lsp-treemacs = {
@@ -2599,7 +2599,7 @@ in
       typescript-mode = {
         enable = true;
         mode = [ ''"\\.ts\\'"'' ];
-        hook = [ "(typescript-mode . rah-lsp)" ];
+        hook = [ "(typescript-mode . lsp-with-envrc-and-company-prefix)" ];
         config = ''
           (setq typescript-indent-level 2)
           (require 'dap-node)
@@ -2619,7 +2619,7 @@ in
 
       web-mode = {
         enable = true;
-        hook = [ "(web-mode . rah-lsp)" ];
+        hook = [ "(web-mode . lsp-with-envrc-and-company-prefix)" ];
         mode = [
           ''"\\.html\\'"'' # \
           ''"\\.jsx?\\'"'' # \
