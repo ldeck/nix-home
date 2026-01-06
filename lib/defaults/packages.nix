@@ -20,7 +20,6 @@
       aspellDicts.en
       bat
       bc
-      clang_13
       #coreutils
       coreutils-prefixed
       croc
@@ -48,12 +47,15 @@
       kotlin-language-server
       ktfmt
 
+      libiconv # rustc
+      clang # libiconv; previously clang_13 used.
+      rustup
+
       jq
       jsonnet
       k9s
       lazygit
       libgccjit
-      libiconv
       lnav
       mermaid-cli
       nix-direnv
@@ -63,7 +65,6 @@
       perl
       python312Packages.playwright
       ripgrep
-      rustup
       # semgrep # used by lsp
       emacs-lsp-booster
       silver-searcher

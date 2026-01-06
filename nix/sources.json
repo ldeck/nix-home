@@ -5,10 +5,10 @@
         "homepage": "",
         "owner": "MatthewZMD",
         "repo": "aidermacs",
-        "rev": "7719001b57618aa06d0f31b3ff52406f2f7494ef",
-        "sha256": "0j36anxxcxji4f2a342fd7z77mhx4smszhjjgc8a165kar8dap7d",
+        "rev": "6d0c41d1cfd24821fb32933edf8c0c2a9bb8c847",
+        "sha256": "0mwh2ikw3kkbphm2f8grgygmib51azwisp5s7nljb17aq7ncdk3h",
         "type": "tarball",
-        "url": "https://github.com/MatthewZMD/aidermacs/archive/7719001b57618aa06d0f31b3ff52406f2f7494ef.tar.gz",
+        "url": "https://github.com/MatthewZMD/aidermacs/archive/6d0c41d1cfd24821fb32933edf8c0c2a9bb8c847.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "emacs-overlay": {
@@ -17,22 +17,22 @@
         "homepage": "",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "4c310087af2403d31fc5ca355e890345c5a52503",
-        "sha256": "19rlhsx901v2i1v83hv7wf65256w0q3202qlx8zxmvnf9yp59m93",
+        "rev": "58695d86a60dffa069e445d4c8caffccef668a49",
+        "sha256": "0d8gf9n6ahgapdxv0a94hz8wh78in0rw8hgrnf6wmfqp2wxcfjx1",
         "type": "tarball",
-        "url": "https://github.com/nix-community/emacs-overlay/archive/4c310087af2403d31fc5ca355e890345c5a52503.tar.gz",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/58695d86a60dffa069e445d4c8caffccef668a49.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "home-manager": {
-        "branch": "release-25.05",
+        "branch": "release-25.11",
         "description": "Manage a user environment using Nix",
         "homepage": "https://rycee.gitlab.io/home-manager/",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "366f00797b1efb70f2882d3da485e3c10fd3d557",
-        "sha256": "0kl0iw1n466h74ijc689a5l9k4wixpx29046cqzdc39wj2ids79f",
+        "rev": "6bd04da47cfb48dfd15eabf08364b78ad894f5b2",
+        "sha256": "1wvysqiybcyf2hzvvpja2522fqhk45554j0b07h3s7zhzc2056ia",
         "type": "tarball",
-        "url": "https://github.com/nix-community/home-manager/archive/366f00797b1efb70f2882d3da485e3c10fd3d557.tar.gz",
+        "url": "https://github.com/nix-community/home-manager/archive/6bd04da47cfb48dfd15eabf08364b78ad894f5b2.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "ligature.el": {
@@ -60,15 +60,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
-        "branch": "nixpkgs-25.05-darwin",
+        "branch": "nixpkgs-25.11-darwin",
         "description": "Nix Packages collection",
         "homepage": "",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ca5542ac5290cdfe15e36f82fb5de02764ade1f0",
-        "sha256": "0b7jw57xgbnk401mlhcyc9p7gpdcja2q5w2r8m2ca6r3d5phwwpb",
+        "rev": "044f759a4f4629f2be41e59b859753a091e3c089",
+        "sha256": "0w6zks77jv7igfwf362rdhab4ag7yg1zb63wjfvvciwfjl78z30q",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs/archive/ca5542ac5290cdfe15e36f82fb5de02764ade1f0.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs/archive/044f759a4f4629f2be41e59b859753a091e3c089.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nur": {
@@ -77,10 +77,10 @@
         "homepage": "https://nur.nix-community.org/",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b30c245e2c44c7352a27485bfd5bc483df660f0e",
-        "sha256": "1vkjm7wbvazfdbi7xhb92046cx48xg85mdxx9larkmxsmaxkr3fz",
+        "rev": "c30a53a5947bcc874b3f8842e6fe5c34bc81d8dd",
+        "sha256": "0xn6gnr91mvckpm1lmlnzkn3f3fv5qjn79cppfnq2mm0m60gkxdz",
         "type": "tarball",
-        "url": "https://github.com/nix-community/NUR/archive/b30c245e2c44c7352a27485bfd5bc483df660f0e.tar.gz",
+        "url": "https://github.com/nix-community/NUR/archive/c30a53a5947bcc874b3f8842e6fe5c34bc81d8dd.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "ob-duckdb": {
