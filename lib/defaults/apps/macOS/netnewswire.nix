@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "6.2";
+      version = "6.2.1";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://github.com/Ranchero-Software/NetNewsWire/releases/download/mac-${cfg.version}/NetNewsWire${cfg.version}.zip";
-      sha256 = "0d7a42d9b5e015129850b5e5ae40e4c31b54efb882861e522130081100b97b14";
+      sha256 = "16dd22ef68104ac4f885c61c0a6a944bc2cdce6c5b95cb8ab29ee1c894c86729";
       imagetype = "zip";
     };
     aarch64-darwin = {
-      version = "6.2";
+      version = "6.2.1";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://github.com/Ranchero-Software/NetNewsWire/releases/download/mac-${cfg.version}/NetNewsWire${cfg.version}.zip";
-      sha256 = "0d7a42d9b5e015129850b5e5ae40e4c31b54efb882861e522130081100b97b14";
+      sha256 = "16dd22ef68104ac4f885c61c0a6a944bc2cdce6c5b95cb8ab29ee1c894c86729";
       imagetype = "zip";
     };
   };

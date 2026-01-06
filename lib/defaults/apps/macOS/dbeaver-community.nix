@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "25.2.5";
+      version = "25.3.2";
       revision = "";
       date = "";
       arch = "amd64";
-      url = "https://dbeaver.io/files/${cfg.version}/dbeaver-ce-${cfg.version}-macos-aarch64.dmg";
-      sha256 = "62157bd1eba106ece9c0fc9bd4212d0ec68066a04337527faf0e684ce5b8facb";
+      url = "https://dbeaver.io/files/${cfg.version}/dbeaver-ce-${cfg.version}-macos-x86_64.dmg";
+      sha256 = "7a29914bde8ca5e8f70545393b55cf4bfa337b4986c37fb8415d83ad1432ebc5";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "25.2.5";
+      version = "25.3.2";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://dbeaver.io/files/${cfg.version}/dbeaver-ce-${cfg.version}-macos-aarch64.dmg";
-      sha256 = "62157bd1eba106ece9c0fc9bd4212d0ec68066a04337527faf0e684ce5b8facb";
+      sha256 = "4bbb1d5c67cbd7a4398485e690cdb675b99f65e487284bf732d86840e60eea7d";
       imagetype = "dmg";
     };
   };

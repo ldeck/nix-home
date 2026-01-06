@@ -47,7 +47,7 @@ fi
 MACOS_VERSION=$(/usr/bin/sw_vers -productVersion | cut -d. -f1)
 echo "macOS version: ${MACOS_VERSION}"
 
-declare -A macoses=( ["14"]="sonoma" ["13"]="ventura" ["12"]="monterey" ["11"]="big_sur" ["10"]="catalina")
+declare -A macoses=( ["16"]="tahoe" ["15"]="sequoia" ["14"]="sonoma" ["13"]="ventura" ["12"]="monterey" ["11"]="big_sur" ["10"]="catalina")
 
 MACOS_NAME="${macoses[${MACOS_VERSION}]}"
 echo "macOS: ${MACOS_NAME}"

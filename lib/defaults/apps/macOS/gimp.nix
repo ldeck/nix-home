@@ -14,8 +14,8 @@ let
       revision = "";
       date = "";
       arch = "amd64";
-      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-arm64.dmg";
-      sha256 = "6f4e7f8ed7ebfa80dcb6e0c05f9b1d6bd3d5a991e99abc2f3391cf37bfd97d70";
+      url = "https://download.gimp.org/gimp/v${lib.versions.majorMinor cfg.version}/macos/gimp-${cfg.version}-x86_64.dmg";
+      sha256 = "0267ae09d88e1d4b121810fbdcb91f333944201b0b02e2afdbbfabd1a046a551";
       imagetype = "dmg";
     };
     aarch64-darwin = {

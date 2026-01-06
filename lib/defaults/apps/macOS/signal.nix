@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "7.80.1";
+      version = "7.83.0";
       revision = "";
       date = "";
       arch = "amd64";
-      url = "https://updates.signal.org/desktop/signal-desktop-mac-arm64-${cfg.version}.zip";
-      sha256 = "faed7fa2850da3136fecf09ddf17c8dc3cde04337151cba1e1d55032c84c9189";
+      url = "https://updates.signal.org/desktop/signal-desktop-mac-x64-${cfg.version}.zip";
+      sha256 = "0a7e8ff003531887ffb1c9eedee25afac8f2a15b6fe7ea1d6cbc8e0b607ab1aa";
       imagetype = "zip";
     };
     aarch64-darwin = {
-      version = "7.80.1";
+      version = "7.83.0";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://updates.signal.org/desktop/signal-desktop-mac-arm64-${cfg.version}.zip";
-      sha256 = "faed7fa2850da3136fecf09ddf17c8dc3cde04337151cba1e1d55032c84c9189";
+      sha256 = "a64032e5f55b676d5d7c98db4c80ef7fae83467f2bdb9880e569e83214911765";
       imagetype = "zip";
     };
   };

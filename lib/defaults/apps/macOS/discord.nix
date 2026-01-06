@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "0.0.368";
+      version = "0.0.371";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
-      sha256 = "1b48d2b94817d397ea9387668894eaa5bb0887b9674d1c5cae89fdf3dfdd8b0d";
+      sha256 = "3a31d824d66533f70e2cceb5aafa1abb3365ddffc654f74932c9ccfa4c5cff7f";
       imagetype = "dmg";
     };
     aarch64-darwin = {
-      version = "0.0.368";
+      version = "0.0.371";
       revision = "";
       date = "";
       arch = "arm64";
       url = "https://dl.discordapp.net/apps/osx/${cfg.version}/Discord.dmg";
-      sha256 = "1b48d2b94817d397ea9387668894eaa5bb0887b9674d1c5cae89fdf3dfdd8b0d";
+      sha256 = "3a31d824d66533f70e2cceb5aafa1abb3365ddffc654f74932c9ccfa4c5cff7f";
       imagetype = "dmg";
     };
   };

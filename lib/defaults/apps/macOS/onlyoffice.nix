@@ -10,21 +10,21 @@ let
 
   archSpecs = {
     x86_64-darwin = {
-      version = "9.1.0";
+      version = "9.2.1";
       revision = "";
       date = "";
       arch = "amd64";
       url = "https://download.onlyoffice.com/install/desktop/editors/mac/arm/updates/ONLYOFFICE-arm-${cfg.version}.zip";
-      sha256 = "1c5b25ee657f879b11c00861e0f00ae03370745036a0f103004009d892208630";
+      sha256 = "e7422f1d0350be547eb5f72145d44becc290d6bfbf80747ac70f09fab2314f57";
       imagetype = "zip";
     };
     aarch64-darwin = {
-      version = "9.1.0";
+      version = "9.2.1";
       revision = "";
       date = "";
       arch = "arm64";
-      url = "https://download.onlyoffice.com/install/desktop/editors/mac/arm/updates/ONLYOFFICE-arm-${cfg.version}.zip";
-      sha256 = "1c5b25ee657f879b11c00861e0f00ae03370745036a0f103004009d892208630";
+      url = "https://download.onlyoffice.com/install/desktop/editors/mac/x86_64/updates/ONLYOFFICE-x86_64-${cfg.version}.zip";
+      sha256 = "617626aeb620f897f57372d8a3e7d611f45ac009a2d627d9506ec27b73bf5194";
       imagetype = "zip";
     };
   };
